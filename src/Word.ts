@@ -15,6 +15,6 @@ export class Word {
     getRandomWord():string {
         const min = 0;
         const max = this._words.length-1;
-        return this._words[Math.trunc(Math.random() * (max - min + 1))]
+        return this._words[Math.floor(Math.random() * (max - min + 1))]
     }
 }
