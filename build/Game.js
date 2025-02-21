@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+import { CheckCorrectLetters } from "./CheckCorrectLetters.js";
 import { Interface } from "./Interface.js";
 import { ValidateLetter } from "./ValidateLetter.js";
 import { MAX_WORD_SIZE } from "./env.js";
@@ -21,13 +22,6 @@ var Game = /** @class */ (function (_super) {
     __extends(Game, _super);
     function Game(pickedWord) {
         var _this = _super.call(this) || this;
-        _this.checkRightLetters = function () {
-            for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                if (_this._pickedWord[i] == _this._actualWord[i]) {
-                    _this.changeBackgroundPosition(_this._turn, i, "rightLetter");
-                }
-            }
-        };
         _this.checkMisplacedLetters = function () {
             var actualLetter = "";
             var pattern;
@@ -57,7 +51,8 @@ var Game = /** @class */ (function (_super) {
             }
         };
         _this.updateAfterANewWord = function () {
-            _this.checkRightLetters();
+            var check = new CheckCorrectLetters();
+            check.check(_this._actualWord, _this._pickedWord, _this._turn);
             _this.checkMisplacedLetters();
             _this.checkWrongLetters();
             _this._turn = _this._turn + 1;

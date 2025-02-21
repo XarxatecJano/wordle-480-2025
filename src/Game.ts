@@ -1,3 +1,5 @@
+import { CheckCorrectLetters } from "./CheckCorrectLetters.js";
+import { ICheck } from "./ICheck.js";
 import {Interface} from "./Interface.js";
 import { ValidateLetter } from "./ValidateLetter.js";
 import {MAX_WORD_SIZE} from "./env.js";
@@ -8,6 +10,7 @@ export class Game extends Interface {
     private _actualWord: string
     private _turn: number
     private _actualPosition: number
+
     constructor(pickedWord: string){
         super();
         this._pickedWord = pickedWord;
@@ -57,13 +60,7 @@ export class Game extends Interface {
             location.assign("/winner");
         }
     }
-    checkRightLetters = ():void=>{
-        for(let i=0; i<MAX_WORD_SIZE; i++){
-            if (this._pickedWord[i]==this._actualWord[i]){
-                this.changeBackgroundPosition(this._turn, i, "rightLetter");
-            }
-        }
-    }
+
 
     
     checkMisplacedLetters = ():void=> {
@@ -96,7 +93,8 @@ export class Game extends Interface {
     }
 
     updateAfterANewWord = ():void=>{
-        this.checkRightLetters();
+        let check:ICheck = new CheckCorrectLetters();
+        check.check(this._actualWord, this._pickedWord, this._turn)
         this.checkMisplacedLetters();
         this.checkWrongLetters();
         this._turn = this._turn + 1;
