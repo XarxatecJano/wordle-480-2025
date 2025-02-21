@@ -1,5 +1,6 @@
 
 import {Interface} from "./Interface.js";
+import { LetterValidator } from "./LetterValidator.js";
 
 
 const MAX_WORD_SIZE:number = 5;
@@ -13,16 +14,16 @@ export class Game extends Interface {
     private _actualWord: string
     private _turn: number
     private _actualPosition: number
-    private _validLetterCodes: string[]
-    private _interface: Interface
+    private _interface: Interface;
+    private _letterValidator: LetterValidator;
     constructor(pickedWord: string){
         super()
         this._pickedWord = pickedWord;
         this._actualWord = "";
         this._turn = 1;
         this._actualPosition = 0;
-        this._validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
         this._interface = new Interface();
+        this._letterValidator = new LetterValidator();
     }
 
     get pickedWord(){
@@ -53,12 +54,6 @@ export class Game extends Interface {
         this._actualPosition = num;
     }
 
-    get validLetterCodes() {
-        return this._validLetterCodes
-    }
-    set validLetterCodes(letters) {
-        this._validLetterCodes = letters;
-    }
 
     get interface() {
         return this._interface;
@@ -66,29 +61,10 @@ export class Game extends Interface {
     set interface(i) {
         this._interface = i;
     }
-    
-    isValidLetter(code: string):boolean {
-        
-        return  this._validLetterCodes.includes(code) && this._actualPosition < MAX_WORD_SIZE;
-     }
 
-    isEnterKey(code: string):boolean {
-        return code=="Enter";
-    }
-
-    isBackspaceKey(code: string):boolean{
-        return code=="Backspace";
-    }
-
-    transformCodeToLetter(code: string):string{
-        let letter: string = "";
-        if (code=="Semicolon") letter = "Ñ";
-        else letter = code.split("y")[1];
-        return letter;
-    }
 
     newLetter(code: string):void{
-        let letter: string = this.transformCodeToLetter(code);
+        let letter: string = this._letterValidator.transformCodeToLetter(code);
         this._interface.setNewLetter(this.turn, this.actualPosition, letter);
         this._actualPosition = this._actualPosition + 1;
         this._actualWord += letter;
@@ -167,9 +143,14 @@ export class Game extends Interface {
     }
 
     newKeyPressed(code: string):void{ 
-        if (this.isValidLetter(code)) this.newLetter(code);
-        if (this.isEnterKey(code)) this.enterPressed();
-        if (this.isBackspaceKey(code)) this.backspacePressed();
+        console.log("Tecla presionada:", code);
+
+        if (this._letterValidator.isValidLetter(code, this.actualPosition)) {
+        this.newLetter(code);
+        }
+
+        if (this._letterValidator.isEnterKey(code)) this.enterPressed();
+        if (this._letterValidator.isBackspaceKey(code)) this.backspacePressed();
         this._interface.changeBackgroundKey(code);
     }
 

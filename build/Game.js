@@ -70,7 +70,6 @@ var Game = /** @class */ (function (_super) {
         _this._actualWord = "";
         _this._turn = 1;
         _this._actualPosition = 0;
-        _this._validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
         _this._interface = new Interface();
         return _this;
     }
@@ -114,16 +113,6 @@ var Game = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Game.prototype, "validLetterCodes", {
-        get: function () {
-            return this._validLetterCodes;
-        },
-        set: function (letters) {
-            this._validLetterCodes = letters;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Game.prototype, "interface", {
         get: function () {
             return this._interface;
@@ -134,8 +123,15 @@ var Game = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Game.prototype.isLetterInRange = function (asciiNumber) {
+        return (LETTER_A <= asciiNumber && asciiNumber <= LETTER_Z) || (asciiNumber == LETTER_Ñ);
+    };
+    Game.prototype.isPositionInRange = function () {
+        return this._actualPosition < MAX_WORD_SIZE;
+    };
     Game.prototype.isValidLetter = function (code) {
-        return this._validLetterCodes.includes(code) && this._actualPosition < MAX_WORD_SIZE;
+        var asciiNumber = code.charCodeAt(3);
+        return this.isLetterInRange(asciiNumber) && this.isPositionInRange();
     };
     Game.prototype.isEnterKey = function (code) {
         return code == "Enter";
@@ -143,12 +139,12 @@ var Game = /** @class */ (function (_super) {
     Game.prototype.isBackspaceKey = function (code) {
         return code == "Backspace";
     };
+    Game.prototype.transformAsciiToLetter = function (asciiNumber) {
+        return String.fromCharCode(asciiNumber);
+    };
     Game.prototype.transformCodeToLetter = function (code) {
-        var letter = "";
-        if (code == "Semicolon")
-            letter = "Ñ";
-        else
-            letter = code.split("y")[1];
+        var asciiNumber = code.charCodeAt(3);
+        var letter = this.transformAsciiToLetter(asciiNumber);
         return letter;
     };
     Game.prototype.newLetter = function (code) {
@@ -181,8 +177,11 @@ var Game = /** @class */ (function (_super) {
         }
     };
     Game.prototype.newKeyPressed = function (code) {
-        if (this.isValidLetter(code))
+        console.log("Tecla presionada:", code);
+        if (this.isValidLetter(code)) {
+            console.log("Letra válida:", this.transformCodeToLetter(code));
             this.newLetter(code);
+        }
         if (this.isEnterKey(code))
             this.enterPressed();
         if (this.isBackspaceKey(code))
