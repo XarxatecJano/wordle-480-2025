@@ -1,9 +1,6 @@
-import { MAX_WORD_SIZE } from "./env";
-
 export class Letter {
     private code: string = "";
     private _validLetterCodes: string[] = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
-
 
     constructor(code: string) {
         this.code = code;
@@ -20,8 +17,12 @@ export class Letter {
         return this.transformCodeToLetter(this.code);
     }
 
-    isValidLetter(position: number): boolean {
-        return this._validLetterCodes.includes(this.code) && position < MAX_WORD_SIZE;
+    public getCode(): string {
+        return this.code;
+    }
+
+    isValidLetter(): boolean {
+        return this._validLetterCodes.includes(this.code);
     }
 
     isEnterKey(): boolean {

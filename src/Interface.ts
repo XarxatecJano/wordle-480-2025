@@ -1,5 +1,7 @@
 export class Interface {
-    setNewLetter(turn: number,position: number, letter: string) {
+    keys: any = document.getElementsByClassName("key");
+
+    setNewLetter(turn: number, position: number, letter: string) {
         Array.from(document.getElementById(`row_${turn}`)!.children)[position].textContent = letter;
     }
     deleteLetter(turn: number, position: number) {
@@ -12,8 +14,7 @@ export class Interface {
         Array.from(document.getElementById(`row_${turn}`)!.children)[position].classList.add(positionClass);
     }
     changeBackgroundKey(code: string){
-       const keys: any = document.getElementsByClassName("key");
-       for (let key of keys) {
+       for (let key of this.keys) {
             if (key.value == code && code !== "Enter" && code !=="Backspace"){
                 key.classList.add("keyPressed");
             }

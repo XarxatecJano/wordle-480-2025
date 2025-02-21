@@ -34,6 +34,10 @@ export class Word {
         return wordString
     }
 
+    getLetters(): Letter[] {
+        return this.word;
+    }
+
     public numberOfCoincidences(pattern: RegExp): number {
         return (this.getWordString().match(pattern) || []).length;
     }

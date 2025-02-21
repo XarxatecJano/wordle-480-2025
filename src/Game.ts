@@ -40,9 +40,6 @@ export class Game {
     get actualPosition(){
         return this.actualWord.getPosition();
     }
-    /*set actualPosition(num){
-        this._actualPosition = num;
-    }*/
 
     get interface() {
         return this._interface;
@@ -51,10 +48,15 @@ export class Game {
         this._interface = i;
     }
 
-    newLetter(code: string):void{
-        let letter: Letter = new Letter(code);
-        this._interface.setNewLetter(this.turn, this.actualPosition, letter.getChar());
-        this._actualWord.addLetter(letter);
+    newLetter(letter: Letter){
+        this.interface.setNewLetter(this.turn, this.actualPosition, letter.getChar());
+        this.actualWord.addLetter(letter);
+    }
+
+    highlightLetters(){
+        for (let letter of this.actualWord.getLetters()){
+            this.interface.changeBackgroundKey(letter.getCode());
+        }
     }
 
     checkWordIsRight():void{
@@ -129,6 +131,7 @@ export class Game {
 
     enterPressed():void{
         if (this._actualWord.getWordString().length == MAX_WORD_SIZE){
+            this.highlightLetters();
             this.checkWordIsRight();
             this.checkGameIsOver();
             this.updateAfterANewWord();
@@ -144,11 +147,10 @@ export class Game {
 
     newKeyPressed(code: string):void{ 
         const letter = new Letter(code);
-        if (letter.isValidLetter(this.actualPosition)) this.newLetter(code);
-        if (letter.isEnterKey()) this.enterPressed();
-        if (letter.isBackspaceKey()) this.backspacePressed();
-        this._interface.changeBackgroundKey(code);
+        if (this.actualPosition<MAX_WORD_SIZE){
+            if (letter.isValidLetter()) this.newLetter(letter);
+        }
+        else if (letter.isEnterKey()) this.enterPressed();
+        else if (letter.isBackspaceKey()) this.backspacePressed();
     }
-
-    
 }
