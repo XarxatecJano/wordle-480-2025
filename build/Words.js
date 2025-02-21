@@ -1,8 +1,8 @@
-var Word = /** @class */ (function () {
-    function Word(wordsArray) {
+var Words = /** @class */ (function () {
+    function Words(wordsArray) {
         this._words = wordsArray;
     }
-    Object.defineProperty(Word.prototype, "Words", {
+    Object.defineProperty(Words.prototype, "Words", {
         get: function () {
             return this._words;
         },
@@ -12,11 +12,11 @@ var Word = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Word.prototype.getRandomWord = function () {
+    Words.prototype.getRandomWord = function () {
         var min = 0;
         var max = this._words.length - 1;
-        return this._words[Math.trunc(Math.random() * (max - min + 1))];
+        return this._words[Math.floor(Math.random() * (max - min + 1))];
     };
-    return Word;
+    return Words;
 }());
-export { Word };
+export { Words };
