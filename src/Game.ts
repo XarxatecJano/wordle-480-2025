@@ -1,7 +1,14 @@
-import {MAX_WORD_SIZE, MAX_ATTEMPTS} from "./env.js";
+
 import {Interface} from "./Interface.js";
 
-export class Game {
+
+const MAX_WORD_SIZE:number = 5;
+const MAX_ATTEMPTS:number = 6;
+const LETTER_A: number = 65;
+const LETTER_Z: number = 90;
+const LETTER_Ñ: number = 165;
+
+export class Game extends Interface {
     private _pickedWord: string
     private _actualWord: string
     private _turn: number
@@ -9,6 +16,7 @@ export class Game {
     private _validLetterCodes: string[]
     private _interface: Interface
     constructor(pickedWord: string){
+        super()
         this._pickedWord = pickedWord;
         this._actualWord = "";
         this._turn = 1;
