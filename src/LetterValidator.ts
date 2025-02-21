@@ -1,23 +1,14 @@
 const MAX_WORD_SIZE:number = 5;
-const LETTER_A: number = 65;
-const LETTER_Z: number = 90;
-const LETTER_Ñ: number = 165;
+const LETTER = {A:65, Z:90}
+const LETTER_CODE_POSITION_VALUE: number = 3;
 
 export class LetterValidator {
 
-    private validLetterCodes: string[];
 
-    constructor() {
-        this.validLetterCodes = [
-            "KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO",
-            "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK",
-            "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "KeyÑ"
-        ];
-    }
+    constructor() {}
 
     isLetterInRange(asciiNumber: number): boolean {
-        return (LETTER_A <= asciiNumber && asciiNumber <= LETTER_Z) ||
-               (asciiNumber === LETTER_Ñ);
+        return (LETTER.A <= asciiNumber && asciiNumber <= LETTER.Z);
     }
 
     isPositionInRange(actualPosition: number): boolean {
@@ -25,7 +16,12 @@ export class LetterValidator {
     }
 
     isValidLetter(code: string, actualPosition: number): boolean {
-        let asciiNumber = code.charCodeAt(3);
+        let asciiNumber = 0;
+        if (code == "Semicolon"){
+            return this.isPositionInRange(actualPosition);
+        }
+        asciiNumber = code.charCodeAt(LETTER_CODE_POSITION_VALUE);
+    
         return this.isLetterInRange(asciiNumber) && this.isPositionInRange(actualPosition);
     }
 
@@ -42,7 +38,8 @@ export class LetterValidator {
     }
 
     transformCodeToLetter(code: string): string {
-        let asciiNumber = code.charCodeAt(3);
+        if (code == 'Semicolon') return 'Ñ';
+        let asciiNumber = code.charCodeAt(LETTER_CODE_POSITION_VALUE);
         return this.transformAsciiToLetter(asciiNumber);
     }
 }

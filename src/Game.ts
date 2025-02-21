@@ -1,29 +1,26 @@
 
-import {Interface} from "./Interface.js";
+import { Interface } from "./Interface.js";
 import { LetterValidator } from "./LetterValidator.js";
+import { CheckRightLetters } from "./CheckRightLetters.js";
 
 
 const MAX_WORD_SIZE:number = 5;
 const MAX_ATTEMPTS:number = 6;
-const LETTER_A: number = 65;
-const LETTER_Z: number = 90;
-const LETTER_Ñ: number = 165;
 
 export class Game extends Interface {
     private _pickedWord: string
     private _actualWord: string
     private _turn: number
     private _actualPosition: number
-    private _interface: Interface;
-    private _letterValidator: LetterValidator;
+    private _checkRightLetters: CheckRightLetters;
     constructor(pickedWord: string){
         super()
         this._pickedWord = pickedWord;
         this._actualWord = "";
         this._turn = 1;
         this._actualPosition = 0;
-        this._interface = new Interface();
-        this._letterValidator = new LetterValidator();
+        this._checkRightLetters = new CheckRightLetters(this);
+
     }
 
     get pickedWord(){
@@ -54,18 +51,10 @@ export class Game extends Interface {
         this._actualPosition = num;
     }
 
-
-    get interface() {
-        return this._interface;
-    }
-    set interface(i) {
-        this._interface = i;
-    }
-
-
     newLetter(code: string):void{
-        let letter: string = this._letterValidator.transformCodeToLetter(code);
-        this._interface.setNewLetter(this.turn, this.actualPosition, letter);
+        let letterValidator = new LetterValidator();
+        let letter: string = letterValidator.transformCodeToLetter(code);
+        this.setNewLetter(this.turn, this.actualPosition, letter);
         this._actualPosition = this._actualPosition + 1;
         this._actualWord += letter;
     }
@@ -76,13 +65,6 @@ export class Game extends Interface {
         }
     }
 
-    checkRightLetters = ():void=>{
-        for(let i=0; i<MAX_WORD_SIZE; i++){
-            if (this._pickedWord[i]==this._actualWord[i]){
-                this._interface.changeBackgroundPosition(this._turn, i, "rightLetter");
-            }
-        }
-    }
 
     checkMisplacedLetters = ():void=> {
         let actualLetter: string = "";
@@ -95,7 +77,7 @@ export class Game extends Interface {
             pattern = new RegExp(actualLetter,"g");
             numberOfCoincidences = (this._pickedWord.match(pattern)||[]).length;
             if (this._pickedWord[i]==this._actualWord[i]) isMisplacedLetter=false;
-            if (numberOfCoincidences>0 && isMisplacedLetter) this._interface.changeBackgroundPosition(this._turn, i, "misplacedLetter");
+            if (numberOfCoincidences>0 && isMisplacedLetter) this.changeBackgroundPosition(this._turn, i, "misplacedLetter");
             
         }
     }
@@ -108,12 +90,12 @@ export class Game extends Interface {
             actualLetter = this._actualWord[i];
             pattern = new RegExp(actualLetter,"g");
             numberOfCoincidences = (this._pickedWord.match(pattern)||[]).length;
-            if (numberOfCoincidences==0) this._interface.changeBackgroundPosition(this._turn, i, "wrongLetter");
+            if (numberOfCoincidences==0) this.changeBackgroundPosition(this._turn, i, "wrongLetter");
         }
     }
 
     updateAfterANewWord = ():void=>{
-        this.checkRightLetters();
+        this._checkRightLetters.check(this.actualWord, this._pickedWord, this.turn)
         this.checkMisplacedLetters();
         this.checkWrongLetters();
         this._turn = this._turn + 1;
@@ -138,20 +120,18 @@ export class Game extends Interface {
     backspacePressed():void{
         if (this._actualPosition > 0) {
             this._actualPosition -= 1;
-            this._interface.deleteLetter(this._turn, this._actualPosition);
+            this.deleteLetter(this._turn, this._actualPosition);
         }
     }
 
     newKeyPressed(code: string):void{ 
-        console.log("Tecla presionada:", code);
+        let letterValidator = new LetterValidator();
+        if (letterValidator.isValidLetter(code, this.actualPosition)) {
+        this.newLetter(code);}
 
-        if (this._letterValidator.isValidLetter(code, this.actualPosition)) {
-        this.newLetter(code);
-        }
-
-        if (this._letterValidator.isEnterKey(code)) this.enterPressed();
-        if (this._letterValidator.isBackspaceKey(code)) this.backspacePressed();
-        this._interface.changeBackgroundKey(code);
+        if (letterValidator.isEnterKey(code)) this.enterPressed();
+        if (letterValidator.isBackspaceKey(code)) this.backspacePressed();
+        this.changeBackgroundKey(code);
     }
 
     

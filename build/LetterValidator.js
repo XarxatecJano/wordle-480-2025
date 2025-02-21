@@ -1,25 +1,21 @@
 var MAX_WORD_SIZE = 5;
-var MAX_ATTEMPTS = 6;
-var LETTER_A = 65;
-var LETTER_Z = 90;
-var LETTER_Ñ = 165;
+var LETTER = { A: 65, Z: 90 };
+var LETTER_CODE_POSITION_VALUE = 3;
 var LetterValidator = /** @class */ (function () {
     function LetterValidator() {
-        this.validLetterCodes = [
-            "KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO",
-            "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK",
-            "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "KeyÑ"
-        ];
     }
     LetterValidator.prototype.isLetterInRange = function (asciiNumber) {
-        return (LETTER_A <= asciiNumber && asciiNumber <= LETTER_Z) ||
-            (asciiNumber === LETTER_Ñ);
+        return (LETTER.A <= asciiNumber && asciiNumber <= LETTER.Z);
     };
     LetterValidator.prototype.isPositionInRange = function (actualPosition) {
         return actualPosition < MAX_WORD_SIZE;
     };
     LetterValidator.prototype.isValidLetter = function (code, actualPosition) {
-        var asciiNumber = code.charCodeAt(3);
+        var asciiNumber = 0;
+        if (code == "Semicolon") {
+            return this.isPositionInRange(actualPosition);
+        }
+        asciiNumber = code.charCodeAt(LETTER_CODE_POSITION_VALUE);
         return this.isLetterInRange(asciiNumber) && this.isPositionInRange(actualPosition);
     };
     LetterValidator.prototype.isEnterKey = function (code) {
@@ -32,7 +28,9 @@ var LetterValidator = /** @class */ (function () {
         return String.fromCharCode(asciiNumber);
     };
     LetterValidator.prototype.transformCodeToLetter = function (code) {
-        var asciiNumber = code.charCodeAt(3);
+        if (code == 'Semicolon')
+            return 'Ñ';
+        var asciiNumber = code.charCodeAt(LETTER_CODE_POSITION_VALUE);
         return this.transformAsciiToLetter(asciiNumber);
     };
     return LetterValidator;

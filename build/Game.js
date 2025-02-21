@@ -14,22 +14,14 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { Interface } from "./Interface.js";
+import { LetterValidator } from "./LetterValidator.js";
+import { CheckRightLetters } from "./CheckRightLetters.js";
 var MAX_WORD_SIZE = 5;
 var MAX_ATTEMPTS = 6;
-var LETTER_A = 65;
-var LETTER_Z = 90;
-var LETTER_Ñ = 165;
 var Game = /** @class */ (function (_super) {
     __extends(Game, _super);
     function Game(pickedWord) {
         var _this = _super.call(this) || this;
-        _this.checkRightLetters = function () {
-            for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                if (_this._pickedWord[i] == _this._actualWord[i]) {
-                    _this._interface.changeBackgroundPosition(_this._turn, i, "rightLetter");
-                }
-            }
-        };
         _this.checkMisplacedLetters = function () {
             var actualLetter = "";
             var pattern;
@@ -43,7 +35,7 @@ var Game = /** @class */ (function (_super) {
                 if (_this._pickedWord[i] == _this._actualWord[i])
                     isMisplacedLetter = false;
                 if (numberOfCoincidences > 0 && isMisplacedLetter)
-                    _this._interface.changeBackgroundPosition(_this._turn, i, "misplacedLetter");
+                    _this.changeBackgroundPosition(_this._turn, i, "misplacedLetter");
             }
         };
         _this.checkWrongLetters = function () {
@@ -55,11 +47,11 @@ var Game = /** @class */ (function (_super) {
                 pattern = new RegExp(actualLetter, "g");
                 numberOfCoincidences = (_this._pickedWord.match(pattern) || []).length;
                 if (numberOfCoincidences == 0)
-                    _this._interface.changeBackgroundPosition(_this._turn, i, "wrongLetter");
+                    _this.changeBackgroundPosition(_this._turn, i, "wrongLetter");
             }
         };
         _this.updateAfterANewWord = function () {
-            _this.checkRightLetters();
+            _this._checkRightLetters.check(_this.actualWord, _this._pickedWord, _this.turn);
             _this.checkMisplacedLetters();
             _this.checkWrongLetters();
             _this._turn = _this._turn + 1;
@@ -70,7 +62,7 @@ var Game = /** @class */ (function (_super) {
         _this._actualWord = "";
         _this._turn = 1;
         _this._actualPosition = 0;
-        _this._interface = new Interface();
+        _this._checkRightLetters = new CheckRightLetters(_this);
         return _this;
     }
     Object.defineProperty(Game.prototype, "pickedWord", {
@@ -113,43 +105,10 @@ var Game = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Game.prototype, "interface", {
-        get: function () {
-            return this._interface;
-        },
-        set: function (i) {
-            this._interface = i;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Game.prototype.isLetterInRange = function (asciiNumber) {
-        return (LETTER_A <= asciiNumber && asciiNumber <= LETTER_Z) || (asciiNumber == LETTER_Ñ);
-    };
-    Game.prototype.isPositionInRange = function () {
-        return this._actualPosition < MAX_WORD_SIZE;
-    };
-    Game.prototype.isValidLetter = function (code) {
-        var asciiNumber = code.charCodeAt(3);
-        return this.isLetterInRange(asciiNumber) && this.isPositionInRange();
-    };
-    Game.prototype.isEnterKey = function (code) {
-        return code == "Enter";
-    };
-    Game.prototype.isBackspaceKey = function (code) {
-        return code == "Backspace";
-    };
-    Game.prototype.transformAsciiToLetter = function (asciiNumber) {
-        return String.fromCharCode(asciiNumber);
-    };
-    Game.prototype.transformCodeToLetter = function (code) {
-        var asciiNumber = code.charCodeAt(3);
-        var letter = this.transformAsciiToLetter(asciiNumber);
-        return letter;
-    };
     Game.prototype.newLetter = function (code) {
-        var letter = this.transformCodeToLetter(code);
-        this._interface.setNewLetter(this.turn, this.actualPosition, letter);
+        var letterValidator = new LetterValidator();
+        var letter = letterValidator.transformCodeToLetter(code);
+        this.setNewLetter(this.turn, this.actualPosition, letter);
         this._actualPosition = this._actualPosition + 1;
         this._actualWord += letter;
     };
@@ -173,20 +132,19 @@ var Game = /** @class */ (function (_super) {
     Game.prototype.backspacePressed = function () {
         if (this._actualPosition > 0) {
             this._actualPosition -= 1;
-            this._interface.deleteLetter(this._turn, this._actualPosition);
+            this.deleteLetter(this._turn, this._actualPosition);
         }
     };
     Game.prototype.newKeyPressed = function (code) {
-        console.log("Tecla presionada:", code);
-        if (this.isValidLetter(code)) {
-            console.log("Letra válida:", this.transformCodeToLetter(code));
+        var letterValidator = new LetterValidator();
+        if (letterValidator.isValidLetter(code, this.actualPosition)) {
             this.newLetter(code);
         }
-        if (this.isEnterKey(code))
+        if (letterValidator.isEnterKey(code))
             this.enterPressed();
-        if (this.isBackspaceKey(code))
+        if (letterValidator.isBackspaceKey(code))
             this.backspacePressed();
-        this._interface.changeBackgroundKey(code);
+        this.changeBackgroundKey(code);
     };
     return Game;
 }(Interface));
