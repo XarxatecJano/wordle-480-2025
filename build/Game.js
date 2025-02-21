@@ -1,5 +1,6 @@
-import { MAX_WORD_SIZE, MAX_ATTEMPTS } from "./env.js";
+import { MAX_WORD_SIZE, MAX_ATTEMPTS, } from "./env.js";
 import { Interface } from "./Interface.js";
+import { Letter } from "./Letter.js";
 var Game = /** @class */ (function () {
     function Game(pickedWord) {
         var _this = this;
@@ -50,7 +51,7 @@ var Game = /** @class */ (function () {
         this._actualWord = "";
         this._turn = 1;
         this._actualPosition = 0;
-        this._validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
+        this._validLetterCodes = new Letter();
         this._interface = new Interface();
     }
     Object.defineProperty(Game.prototype, "pickedWord", {
@@ -93,16 +94,6 @@ var Game = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Game.prototype, "validLetterCodes", {
-        get: function () {
-            return this._validLetterCodes;
-        },
-        set: function (letters) {
-            this._validLetterCodes = letters;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Game.prototype, "interface", {
         get: function () {
             return this._interface;
@@ -122,16 +113,8 @@ var Game = /** @class */ (function () {
     Game.prototype.isBackspaceKey = function (code) {
         return code == "Backspace";
     };
-    Game.prototype.transformCodeToLetter = function (code) {
-        var letter = "";
-        if (code == "Semicolon")
-            letter = "Ñ";
-        else
-            letter = code.split("y")[1];
-        return letter;
-    };
     Game.prototype.newLetter = function (code) {
-        var letter = this.transformCodeToLetter(code);
+        var letter = this._validLetterCodes.transformCodeToLetter(code);
         this._interface.setNewLetter(this.turn, this.actualPosition, letter);
         this._actualPosition = this._actualPosition + 1;
         this._actualWord += letter;
@@ -156,6 +139,8 @@ var Game = /** @class */ (function () {
     Game.prototype.backspacePressed = function () {
         if (this._actualPosition > 0) {
             this._actualPosition -= 1;
+            this._interface.resetBackgroundKeys(this._actualWord);
+            this._actualWord = this._actualWord.slice(0, this._actualWord.length - 1);
             this._interface.deleteLetter(this._turn, this._actualPosition);
         }
     };

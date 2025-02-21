@@ -24,6 +24,19 @@ var Interface = /** @class */ (function () {
             }
         }
     };
+    Interface.prototype.resetBackgroundKeys = function (word) {
+        var lastLetter = word[word.length - 1];
+        var oldWord = word.slice(0, word.length - 1);
+        if (!oldWord.includes(lastLetter)) {
+            var keys = document.getElementsByClassName("key");
+            for (var _i = 0, keys_2 = keys; _i < keys_2.length; _i++) {
+                var key = keys_2[_i];
+                if (key.value == lastLetter) {
+                    key.classList.remove("keyPressed");
+                }
+            }
+        }
+    };
     return Interface;
 }());
 export { Interface };

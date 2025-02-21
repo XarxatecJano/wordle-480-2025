@@ -1,19 +1,20 @@
-import {MAX_WORD_SIZE, MAX_ATTEMPTS} from "./env.js";
+import {MAX_WORD_SIZE, MAX_ATTEMPTS, } from "./env.js";
 import {Interface} from "./Interface.js";
+import { Letter } from "./Letter.js";
 
 export class Game {
     private _pickedWord: string
     private _actualWord: string
     private _turn: number
     private _actualPosition: number
-    private _validLetterCodes: string[]
+    private _validLetterCodes: Letter
     private _interface: Interface
     constructor(pickedWord: string){
         this._pickedWord = pickedWord;
         this._actualWord = "";
         this._turn = 1;
         this._actualPosition = 0;
-        this._validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
+        this._validLetterCodes = new Letter();
         this._interface = new Interface();
     }
 
@@ -45,13 +46,6 @@ export class Game {
         this._actualPosition = num;
     }
 
-    get validLetterCodes() {
-        return this._validLetterCodes
-    }
-    set validLetterCodes(letters) {
-        this._validLetterCodes = letters;
-    }
-
     get interface() {
         return this._interface;
     }
@@ -60,10 +54,9 @@ export class Game {
     }
     
     isValidLetter(code: string):boolean {
-        
         return  this._validLetterCodes.includes(code) && this._actualPosition < MAX_WORD_SIZE;
      }
-
+    
     isEnterKey(code: string):boolean {
         return code=="Enter";
     }
@@ -72,15 +65,9 @@ export class Game {
         return code=="Backspace";
     }
 
-    transformCodeToLetter(code: string):string{
-        let letter: string = "";
-        if (code=="Semicolon") letter = "Ñ";
-        else letter = code.split("y")[1];
-        return letter;
-    }
 
     newLetter(code: string):void{
-        let letter: string = this.transformCodeToLetter(code);
+        let letter: string = this._validLetterCodes.transformCodeToLetter(code);
         this._interface.setNewLetter(this.turn, this.actualPosition, letter);
         this._actualPosition = this._actualPosition + 1;
         this._actualWord += letter;
@@ -112,7 +99,6 @@ export class Game {
             numberOfCoincidences = (this._pickedWord.match(pattern)||[]).length;
             if (this._pickedWord[i]==this._actualWord[i]) isMisplacedLetter=false;
             if (numberOfCoincidences>0 && isMisplacedLetter) this._interface.changeBackgroundPosition(this._turn, i, "misplacedLetter");
-            
         }
     }
 
@@ -154,6 +140,8 @@ export class Game {
     backspacePressed():void{
         if (this._actualPosition > 0) {
             this._actualPosition -= 1;
+            this._interface.resetBackgroundKeys(this._actualWord);
+            this._actualWord=this._actualWord.slice(0, this._actualWord.length-1);
             this._interface.deleteLetter(this._turn, this._actualPosition);
         }
     }
