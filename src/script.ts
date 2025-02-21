@@ -1,9 +1,9 @@
+import {Words} from "./Words.js";
 import {Word} from "./Word.js";
 import {Game} from "./Game.js";
 
-
-const wordsCollection: Word = new Word(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
-const pickedWord: string = wordsCollection.getRandomWord();
+const wordsCollection: Words = new Words(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
+const pickedWord: Word = wordsCollection.getRandomWord();
 console.log(pickedWord);
 
 const game: Game = new Game(pickedWord);
