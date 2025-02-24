@@ -1,60 +1,31 @@
 import {MAX_WORD_SIZE, MAX_ATTEMPTS, } from "./env.js";
 import {Interface} from "./Interface.js";
 import { Letter } from "./Letter.js";
+import {Checker} from "./Checker.js";
 
 export class Game {
-    private _pickedWord: string
-    private _actualWord: string
-    private _turn: number
-    private _actualPosition: number
+    //private _turn: number
+   // private _actualPosition: number
     private _validLetterCodes: Letter
+    private _checker: Checker
     private _interface: Interface
     constructor(pickedWord: string){
-        this._pickedWord = pickedWord;
-        this._actualWord = "";
-        this._turn = 1;
-        this._actualPosition = 0;
+        this._checker = new Checker(pickedWord);
+     //   this._actualPosition = 0;
         this._validLetterCodes = new Letter();
         this._interface = new Interface();
-    }
 
-    get pickedWord(){
-        return this._pickedWord;
     }
-    set pickedWord(word){
-        this._pickedWord = word;
+    get checker(){
+        return this._checker;
     }
-
-    get actualWord(){
-        return this._actualWord;
-    }
-    set actualWord(word){
-        this._actualWord = word;
-    }
-
-    get turn(){
-        return this._turn;
-    }
-    set turn(num){
-        this._turn = num;
-    }
-
-    get actualPosition(){
-        return this._actualPosition;
-    }
-    set actualPosition(num){
-        this._actualPosition = num;
-    }
-
-    get interface() {
-        return this._interface;
-    }
-    set interface(i) {
-        this._interface = i;
-    }
+    set checker(checker){
+        this._checker = checker;
+    }   
+    
     
     isValidLetter(code: string):boolean {
-        return  this._validLetterCodes.includes(code) && this._actualPosition < MAX_WORD_SIZE;
+        return  this._validLetterCodes.includes(code) && this.checker.actualPosition < MAX_WORD_SIZE;
      }
     
     isEnterKey(code: string):boolean {
@@ -68,17 +39,18 @@ export class Game {
 
     newLetter(code: string):void{
         let letter: string = this._validLetterCodes.transformCodeToLetter(code);
-        this._interface.setNewLetter(this.turn, this.actualPosition, letter);
-        this._actualPosition = this._actualPosition + 1;
-        this._actualWord += letter;
+        this._interface.setNewLetter(this.checker.turn, this._checker.actualPosition, letter);
+        this.checker.aumentarPosicion();
+        this.checker.actualWord += letter;
     }
-
+    /*
+//Checker
     checkWordIsRight():void{
         if (this._actualWord == this._pickedWord){
             location.assign("/winner");
         }
     }
-
+//Checker
     checkRightLetters = ():void=>{
         for(let i=0; i<MAX_WORD_SIZE; i++){
             if (this._pickedWord[i]==this._actualWord[i]){
@@ -86,7 +58,7 @@ export class Game {
             }
         }
     }
-
+//Checker
     checkMisplacedLetters = ():void=> {
         let actualLetter: string = "";
         let pattern: RegExp;
@@ -101,7 +73,7 @@ export class Game {
             if (numberOfCoincidences>0 && isMisplacedLetter) this._interface.changeBackgroundPosition(this._turn, i, "misplacedLetter");
         }
     }
-
+//Checker
     checkWrongLetters = ():void=>{
         let actualLetter = "";
         let pattern:RegExp;
@@ -113,7 +85,7 @@ export class Game {
             if (numberOfCoincidences==0) this._interface.changeBackgroundPosition(this._turn, i, "wrongLetter");
         }
     }
-
+//Checker
     updateAfterANewWord = ():void=>{
         this.checkRightLetters();
         this.checkMisplacedLetters();
@@ -122,27 +94,27 @@ export class Game {
         this._actualPosition = 0;
         this._actualWord = "";
     }
-
+//Checker
     checkGameIsOver():void{
         if (this.turn == MAX_ATTEMPTS){
             location.assign("/loser");
         }
     }
-
+*/
     enterPressed():void{
-        if (this._actualWord.length == MAX_WORD_SIZE){
-            this.checkWordIsRight();
-            this.checkGameIsOver();
-            this.updateAfterANewWord();
+        if (this.checker.actualWord.length == MAX_WORD_SIZE){
+            this.checker.checkWordIsRight();
+            this.checker.checkGameIsOver();
+            this.checker.updateAfterANewWord();
         }
     }
 
     backspacePressed():void{
-        if (this._actualPosition > 0) {
-            this._actualPosition -= 1;
-            this._interface.resetBackgroundKeys(this._actualWord);
-            this._actualWord=this._actualWord.slice(0, this._actualWord.length-1);
-            this._interface.deleteLetter(this._turn, this._actualPosition);
+        if (this.checker.actualPosition > 0) {
+            this.checker.actualPosition -= 1;
+            this._interface.resetBackgroundKeys(this.checker.actualWord);
+            this.checker.actualWord=this.checker.actualWord.slice(0, this.checker.actualWord.length-1);
+            this._interface.deleteLetter(this.checker.turn, this.checker.actualPosition);
         }
     }
 
@@ -150,7 +122,7 @@ export class Game {
         if (this.isValidLetter(code)) this.newLetter(code);
         if (this.isEnterKey(code)) this.enterPressed();
         if (this.isBackspaceKey(code)) this.backspacePressed();
-        if (this._actualPosition < MAX_WORD_SIZE) this._interface.changeBackgroundKey(code);
+        if (this.checker.actualPosition <= MAX_WORD_SIZE) this._interface.changeBackgroundKey(code);
     }
 
     

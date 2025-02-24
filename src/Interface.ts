@@ -22,7 +22,6 @@ export class Interface {
     resetBackgroundKeys(word: string) {
         const lastLetter = word[word.length - 1];
         const oldWord = word.slice(0, word.length - 1);
-
         if (!oldWord.includes(lastLetter)) {
             const keys: any = document.getElementsByClassName("keyPressed");
             for (let key of keys) {

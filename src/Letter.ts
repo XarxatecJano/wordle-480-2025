@@ -1,11 +1,11 @@
 export class Letter{
     private _validLetterCodes: string[]
-    private _actualPosition: number
+    //private _actualPosition: number
 
 
         constructor(){
             this._validLetterCodes=["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
-            this._actualPosition = 0;
+  //          this._actualPosition = 0;
         }
         get validLetterCodes() {
             return this._validLetterCodes
@@ -20,8 +20,6 @@ export class Letter{
             let letter: string = "";
             if (code=="Semicolon") letter = "Ñ";
             else letter = code.split("y")[1];
-            console.log("letra actual:");
-            console.log(letter);
             return letter;
         }
       /*  newLetter(code: string):void{
