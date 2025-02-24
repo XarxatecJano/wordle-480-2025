@@ -14,6 +14,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { CheckCorrectLetters } from "./CheckCorrectLetters.js";
+import { CheckMisplacedLetters } from "./CheckMisplacedLetters.js";
+import { CheckWrongLetters } from "./CheckWrongLetters.js";
 import { Interface } from "./Interface.js";
 import { ValidateLetter } from "./ValidateLetter.js";
 import { MAX_WORD_SIZE } from "./env.js";
@@ -22,40 +24,14 @@ var Game = /** @class */ (function (_super) {
     __extends(Game, _super);
     function Game(pickedWord) {
         var _this = _super.call(this) || this;
-        _this.checkMisplacedLetters = function () {
-            var actualLetter = "";
-            var pattern;
-            var numberOfCoincidences = 0;
-            var isMisplacedLetter;
-            for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                isMisplacedLetter = true;
-                actualLetter = _this._actualWord[i];
-                pattern = new RegExp(actualLetter, "g");
-                numberOfCoincidences = (_this._pickedWord.match(pattern) || []).length;
-                if (_this._pickedWord[i] == _this._actualWord[i])
-                    isMisplacedLetter = false;
-                if (numberOfCoincidences > 0 && isMisplacedLetter)
-                    _this.changeBackgroundPosition(_this._turn, i, "misplacedLetter");
-            }
-        };
-        _this.checkWrongLetters = function () {
-            var actualLetter = "";
-            var pattern;
-            var numberOfCoincidences = 0;
-            for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                actualLetter = _this._actualWord[i];
-                pattern = new RegExp(actualLetter, "g");
-                numberOfCoincidences = (_this._pickedWord.match(pattern) || []).length;
-                if (numberOfCoincidences == 0)
-                    _this.changeBackgroundPosition(_this._turn, i, "wrongLetter");
-            }
-        };
         _this.updateAfterANewWord = function () {
-            var check = new CheckCorrectLetters();
-            check.check(_this._actualWord, _this._pickedWord, _this._turn);
-            _this.checkMisplacedLetters();
-            _this.checkWrongLetters();
-            _this._turn = _this._turn + 1;
+            var strategies = [
+                new CheckCorrectLetters(_this),
+                new CheckMisplacedLetters(_this),
+                new CheckWrongLetters(_this)
+            ];
+            strategies.forEach(function (strategy) { return strategy.check(_this._actualWord, _this._pickedWord, _this._turn); });
+            _this._turn += 1;
             _this._actualPosition = 0;
             _this._actualWord = "";
         };

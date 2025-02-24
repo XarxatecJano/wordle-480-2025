@@ -1,4 +1,6 @@
 import { CheckCorrectLetters } from "./CheckCorrectLetters.js";
+import { CheckMisplacedLetters} from "./CheckMisplacedLetters.js";
+import { CheckWrongLetters} from "./CheckWrongLetters.js";
 import { ICheck } from "./ICheck.js";
 import {Interface} from "./Interface.js";
 import { ValidateLetter } from "./ValidateLetter.js";
@@ -10,13 +12,13 @@ export class Game extends Interface {
     private _actualWord: string
     private _turn: number
     private _actualPosition: number
-
     constructor(pickedWord: string){
         super();
         this._pickedWord = pickedWord;
         this._actualWord = "";
         this._turn = 1;
         this._actualPosition = 0;
+        
     }
 
     get pickedWord(){
@@ -62,42 +64,14 @@ export class Game extends Interface {
     }
 
 
-    
-    checkMisplacedLetters = ():void=> {
-        let actualLetter: string = "";
-        let pattern: RegExp;
-        let numberOfCoincidences: number = 0;
-        let isMisplacedLetter: boolean;
-        for (let i=0; i<MAX_WORD_SIZE; i++){
-            isMisplacedLetter = true;
-            actualLetter = this._actualWord[i];
-            pattern = new RegExp(actualLetter,"g");
-            numberOfCoincidences = (this._pickedWord.match(pattern)||[]).length;
-            if (this._pickedWord[i]==this._actualWord[i]) isMisplacedLetter=false;
-            if (numberOfCoincidences>0 && isMisplacedLetter) this.changeBackgroundPosition(this._turn, i, "misplacedLetter");
-            
-        }
-    }
-
-    
-    checkWrongLetters = ():void=>{
-        let actualLetter = "";
-        let pattern:RegExp;
-        let numberOfCoincidences = 0;
-        for (let i=0; i<MAX_WORD_SIZE; i++){
-            actualLetter = this._actualWord[i];
-            pattern = new RegExp(actualLetter,"g");
-            numberOfCoincidences = (this._pickedWord.match(pattern)||[]).length;
-            if (numberOfCoincidences==0) this.changeBackgroundPosition(this._turn, i, "wrongLetter");
-        }
-    }
-
     updateAfterANewWord = ():void=>{
-        let check:ICheck = new CheckCorrectLetters();
-        check.check(this._actualWord, this._pickedWord, this._turn)
-        this.checkMisplacedLetters();
-        this.checkWrongLetters();
-        this._turn = this._turn + 1;
+        let strategies:ICheck[] = [
+            new CheckCorrectLetters(this),
+            new CheckMisplacedLetters(this),
+            new CheckWrongLetters(this)
+        ];
+        strategies.forEach(strategy => strategy.check(this._actualWord, this._pickedWord, this._turn))
+        this._turn +=1;
         this._actualPosition = 0;
         this._actualWord = "";
     }
