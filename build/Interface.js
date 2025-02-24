@@ -28,10 +28,10 @@ var Interface = /** @class */ (function () {
         var lastLetter = word[word.length - 1];
         var oldWord = word.slice(0, word.length - 1);
         if (!oldWord.includes(lastLetter)) {
-            var keys = document.getElementsByClassName("key");
+            var keys = document.getElementsByClassName("keyPressed");
             for (var _i = 0, keys_2 = keys; _i < keys_2.length; _i++) {
                 var key = keys_2[_i];
-                if (key.value == lastLetter) {
+                if (key.value == "Key" + lastLetter) {
                     key.classList.remove("keyPressed");
                 }
             }

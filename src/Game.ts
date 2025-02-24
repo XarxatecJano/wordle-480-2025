@@ -150,7 +150,7 @@ export class Game {
         if (this.isValidLetter(code)) this.newLetter(code);
         if (this.isEnterKey(code)) this.enterPressed();
         if (this.isBackspaceKey(code)) this.backspacePressed();
-        this._interface.changeBackgroundKey(code);
+        if (this._actualPosition < MAX_WORD_SIZE) this._interface.changeBackgroundKey(code);
     }
 
     

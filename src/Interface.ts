@@ -24,9 +24,9 @@ export class Interface {
         const oldWord = word.slice(0, word.length - 1);
 
         if (!oldWord.includes(lastLetter)) {
-            const keys: any = document.getElementsByClassName("key");
+            const keys: any = document.getElementsByClassName("keyPressed");
             for (let key of keys) {
-                if (key.value == lastLetter) {
+                if (key.value == "Key"+lastLetter) {
                     key.classList.remove("keyPressed");
                 }
             }

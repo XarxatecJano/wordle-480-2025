@@ -151,7 +151,8 @@ var Game = /** @class */ (function () {
             this.enterPressed();
         if (this.isBackspaceKey(code))
             this.backspacePressed();
-        this._interface.changeBackgroundKey(code);
+        if (this._actualPosition < MAX_WORD_SIZE)
+            this._interface.changeBackgroundKey(code);
     };
     return Game;
 }());
