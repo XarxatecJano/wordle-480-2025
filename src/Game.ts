@@ -1,10 +1,12 @@
+import { BackspacePressed } from "./BackspacePressed.js";
 import { CheckCorrectLetters } from "./CheckCorrectLetters.js";
 import { CheckMisplacedLetters} from "./CheckMisplacedLetters.js";
 import { CheckWrongLetters} from "./CheckWrongLetters.js";
+import { EnterPressed } from "./EnterPressed.js";
 import { ICheck } from "./ICheck.js";
+import { IKeyPressed } from "./IKeyPressed.js";
 import {Interface} from "./Interface.js";
 import { ValidateLetter } from "./ValidateLetter.js";
-import {MAX_WORD_SIZE} from "./env.js";
 export const MAX_ATTEMPTS:number = 6;
 
 export class Game extends Interface {
@@ -12,6 +14,7 @@ export class Game extends Interface {
     private _actualWord: string
     private _turn: number
     private _actualPosition: number
+    private _specialKey!: IKeyPressed
     constructor(pickedWord: string){
         super();
         this._pickedWord = pickedWord;
@@ -74,6 +77,7 @@ export class Game extends Interface {
         this._turn +=1;
         this._actualPosition = 0;
         this._actualWord = "";
+        this.changeBackgroundKey(this._actualWord);
     }
 
     checkGameIsOver():void{
@@ -82,27 +86,19 @@ export class Game extends Interface {
         }
     }
 
-    enterPressed():void{
-        if (this._actualWord.length == MAX_WORD_SIZE){
-            this.checkWordIsRight();
-            this.checkGameIsOver();
-            this.updateAfterANewWord();
-        }
-    }
-
-    backspacePressed():void{
-        if (this._actualPosition > 0) {
-            this._actualPosition -= 1;
-            this.deleteLetter(this._turn, this._actualPosition);
-        }
-    }
 
     newKeyPressed(code: string):void{ 
         let letter:ValidateLetter = ValidateLetter.getInstance(code, this._actualPosition)
         if (letter.isValidLetter()) this.newLetter(letter);
-        if (letter.isEnterKey()) this.enterPressed();
-        if (letter.isBackspaceKey()) this.backspacePressed();
-        this.changeBackgroundKey(code);
+        if (letter.isEnterKey()) {
+            this._specialKey = new EnterPressed(this)
+            this._specialKey.execute();
+        }
+        if (letter.isBackspaceKey()){
+            this._specialKey = new BackspacePressed(this)
+            this._specialKey.execute();
+        } 
+       
     }
 
     

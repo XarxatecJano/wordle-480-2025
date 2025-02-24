@@ -2,10 +2,10 @@ var Interface = /** @class */ (function () {
     function Interface() {
     }
     Interface.prototype.setNewLetter = function (turn, position, letter) {
-        Array.from(document.getElementById("row_".concat(turn)).children)[position].textContent = letter;
+        this.getCell(turn, position).textContent = letter;
     };
     Interface.prototype.deleteLetter = function (turn, position) {
-        Array.from(document.getElementById("row_".concat(turn)).children)[position].textContent = "";
+        this.getCell(turn, position).textContent = "";
     };
     Interface.prototype.changeBackgroundPosition = function (turn, position, state) {
         var positionClass = "cell-grey";
@@ -13,7 +13,7 @@ var Interface = /** @class */ (function () {
             positionClass = "cell-green";
         if (state == "misplacedLetter")
             positionClass = "cell-orange";
-        Array.from(document.getElementById("row_".concat(turn)).children)[position].classList.add(positionClass);
+        this.getCell(turn, position).classList.add(positionClass);
     };
     Interface.prototype.changeBackgroundKey = function (code) {
         var keys = document.getElementsByClassName("key");
@@ -23,6 +23,9 @@ var Interface = /** @class */ (function () {
                 key.classList.add("keyPressed");
             }
         }
+    };
+    Interface.prototype.getCell = function (turn, position) {
+        return Array.from(document.getElementById("row_".concat(turn)).children)[position];
     };
     return Interface;
 }());

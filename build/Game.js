@@ -13,12 +13,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+import { BackspacePressed } from "./BackspacePressed.js";
 import { CheckCorrectLetters } from "./CheckCorrectLetters.js";
 import { CheckMisplacedLetters } from "./CheckMisplacedLetters.js";
 import { CheckWrongLetters } from "./CheckWrongLetters.js";
+import { EnterPressed } from "./EnterPressed.js";
 import { Interface } from "./Interface.js";
 import { ValidateLetter } from "./ValidateLetter.js";
-import { MAX_WORD_SIZE } from "./env.js";
 export var MAX_ATTEMPTS = 6;
 var Game = /** @class */ (function (_super) {
     __extends(Game, _super);
@@ -34,6 +35,7 @@ var Game = /** @class */ (function (_super) {
             _this._turn += 1;
             _this._actualPosition = 0;
             _this._actualWord = "";
+            _this.changeBackgroundKey(_this._actualWord);
         };
         _this._pickedWord = pickedWord;
         _this._actualWord = "";
@@ -97,28 +99,18 @@ var Game = /** @class */ (function (_super) {
             location.assign("/loser");
         }
     };
-    Game.prototype.enterPressed = function () {
-        if (this._actualWord.length == MAX_WORD_SIZE) {
-            this.checkWordIsRight();
-            this.checkGameIsOver();
-            this.updateAfterANewWord();
-        }
-    };
-    Game.prototype.backspacePressed = function () {
-        if (this._actualPosition > 0) {
-            this._actualPosition -= 1;
-            this.deleteLetter(this._turn, this._actualPosition);
-        }
-    };
     Game.prototype.newKeyPressed = function (code) {
         var letter = ValidateLetter.getInstance(code, this._actualPosition);
         if (letter.isValidLetter())
             this.newLetter(letter);
-        if (letter.isEnterKey())
-            this.enterPressed();
-        if (letter.isBackspaceKey())
-            this.backspacePressed();
-        this.changeBackgroundKey(code);
+        if (letter.isEnterKey()) {
+            this._specialKey = new EnterPressed(this);
+            this._specialKey.execute();
+        }
+        if (letter.isBackspaceKey()) {
+            this._specialKey = new BackspacePressed(this);
+            this._specialKey.execute();
+        }
     };
     return Game;
 }(Interface));
