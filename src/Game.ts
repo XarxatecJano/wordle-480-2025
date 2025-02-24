@@ -1,25 +1,23 @@
 
 import { Interface } from "./Interface.js";
 import { LetterValidator } from "./LetterValidator.js";
-import { CheckRightLetters } from "./CheckRightLetters.js";
+import { CheckRightLetters } from "./LetterCheckers/CheckRightLetters.js";
+import { CheckWrongLetters } from "./LetterCheckers/CheckWrongLetters.js";
+import { CheckMisplacedLetters } from "./LetterCheckers/CheckMisplacedLetters.js";
+import { MAX_WORD_SIZE, MAX_ATTEMPTS } from "./env.js";
 
-
-const MAX_WORD_SIZE:number = 5;
-const MAX_ATTEMPTS:number = 6;
 
 export class Game extends Interface {
     private _pickedWord: string
     private _actualWord: string
     private _turn: number
     private _actualPosition: number
-    private _checkRightLetters: CheckRightLetters;
     constructor(pickedWord: string){
         super()
         this._pickedWord = pickedWord;
         this._actualWord = "";
         this._turn = 1;
         this._actualPosition = 0;
-        this._checkRightLetters = new CheckRightLetters(this);
 
     }
 
@@ -65,39 +63,9 @@ export class Game extends Interface {
         }
     }
 
-
-    checkMisplacedLetters = ():void=> {
-        let actualLetter: string = "";
-        let pattern: RegExp;
-        let numberOfCoincidences: number = 0;
-        let isMisplacedLetter: boolean;
-        for (let i=0; i<MAX_WORD_SIZE; i++){
-            isMisplacedLetter = true;
-            actualLetter = this._actualWord[i];
-            pattern = new RegExp(actualLetter,"g");
-            numberOfCoincidences = (this._pickedWord.match(pattern)||[]).length;
-            if (this._pickedWord[i]==this._actualWord[i]) isMisplacedLetter=false;
-            if (numberOfCoincidences>0 && isMisplacedLetter) this.changeBackgroundPosition(this._turn, i, "misplacedLetter");
-            
-        }
-    }
-
-    checkWrongLetters = ():void=>{
-        let actualLetter = "";
-        let pattern:RegExp;
-        let numberOfCoincidences = 0;
-        for (let i=0; i<MAX_WORD_SIZE; i++){
-            actualLetter = this._actualWord[i];
-            pattern = new RegExp(actualLetter,"g");
-            numberOfCoincidences = (this._pickedWord.match(pattern)||[]).length;
-            if (numberOfCoincidences==0) this.changeBackgroundPosition(this._turn, i, "wrongLetter");
-        }
-    }
-
     updateAfterANewWord = ():void=>{
-        this._checkRightLetters.check(this.actualWord, this._pickedWord, this.turn)
-        this.checkMisplacedLetters();
-        this.checkWrongLetters();
+        let checkLetters = [new CheckRightLetters(this), new CheckWrongLetters(this), new CheckMisplacedLetters(this)];
+        checkLetters.forEach(checkLetters => checkLetters.check(this.actualWord, this.pickedWord, this.turn));
         this._turn = this._turn + 1;
         this._actualPosition = 0;
         this._actualWord = "";

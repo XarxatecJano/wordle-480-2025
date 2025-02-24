@@ -1,4 +1,4 @@
-var MAX_WORD_SIZE = 5;
+import { MAX_WORD_SIZE } from "../env.js";
 var CheckRightLetters = /** @class */ (function () {
     function CheckRightLetters(interfaceInstance) {
         this.interface = interfaceInstance;
