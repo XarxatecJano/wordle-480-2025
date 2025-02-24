@@ -2,18 +2,25 @@ var Interface = /** @class */ (function () {
     function Interface() {
     }
     Interface.prototype.setNewLetter = function (turn, position, letter) {
-        Array.from(document.getElementById("row_".concat(turn)).children)[position].textContent = letter;
+        var cell = this.getCell(turn, position);
+        if (cell)
+            cell.textContent = letter;
     };
     Interface.prototype.deleteLetter = function (turn, position) {
-        Array.from(document.getElementById("row_".concat(turn)).children)[position].textContent = "";
+        var cell = this.getCell(turn, position);
+        if (cell)
+            cell.textContent = "";
     };
     Interface.prototype.changeBackgroundPosition = function (turn, position, state) {
-        var positionClass = "cell-grey";
-        if (state == "rightLetter")
-            positionClass = "cell-green";
-        if (state == "misplacedLetter")
-            positionClass = "cell-orange";
-        Array.from(document.getElementById("row_".concat(turn)).children)[position].classList.add(positionClass);
+        var cell = this.getCell(turn, position);
+        if (!cell)
+            return;
+        var stateClasses = {
+            rightLetter: "cell-green",
+            misplacedLetter: "cell-orange",
+            default: "cell-grey",
+        };
+        cell.classList.add(stateClasses[state] || stateClasses.default);
     };
     Interface.prototype.changeBackgroundKey = function (code) {
         var keys = document.getElementsByClassName("key");
@@ -23,6 +30,10 @@ var Interface = /** @class */ (function () {
                 key.classList.add("keyPressed");
             }
         }
+    };
+    Interface.prototype.getCell = function (turn, position) {
+        var _a;
+        return (_a = document.getElementById("row_".concat(turn))) === null || _a === void 0 ? void 0 : _a.children[position];
     };
     return Interface;
 }());
