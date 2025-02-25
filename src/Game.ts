@@ -1,12 +1,12 @@
 
 import { Interface } from "./Interface.js";
-import { MAX_ATTEMPTS } from "./env.js";
 import { LetterCheckerFactory } from "./LetterCheckerFactory.js";
 import { LetterValidatorFactory } from "./LetterValidatorFactory.js";
 import { IKeyPressed } from "./SpecialKeyPressedStrategy/IKeyPressed.js";
 import { EnterPressed } from "./SpecialKeyPressedStrategy/EnterPressed.js";
 import { BackspacePressed } from "./SpecialKeyPressedStrategy/BackspacePressed.js";
 
+const MAX_ATTEMPTS:number = 6;
 
 export class Game extends Interface {
     private static instance: Game;
