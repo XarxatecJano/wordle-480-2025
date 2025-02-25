@@ -1,4 +1,4 @@
-import { MAX_WORD_SIZE, } from "./env.js";
+import { MAX_WORD_SIZE } from "./env.js";
 import { Interface } from "./Interface.js";
 import { Letter } from "./Letter.js";
 import { Checker } from "./Checker.js";
@@ -9,6 +9,12 @@ var Game = /** @class */ (function () {
         this._validLetterCodes = new Letter();
         this._interface = new Interface();
     }
+    Game.getInstance = function (pickedWord) {
+        if (!Game._instance) {
+            Game._instance = new Game(pickedWord);
+        }
+        return Game._instance;
+    };
     Object.defineProperty(Game.prototype, "checker", {
         get: function () {
             return this._checker;
