@@ -14,8 +14,10 @@ var CheckMisplacedLetters = /** @class */ (function () {
                 numberOfCoincidences = (pickedWord.match(pattern) || []).length;
                 if (pickedWord[i] == actualWord[i])
                     isMisplacedLetter = false;
-                if (numberOfCoincidences > 0 && isMisplacedLetter)
+                if (numberOfCoincidences > 0 && isMisplacedLetter) {
                     _this._interface.changeBackgroundPosition(turn, i, "misplacedLetter");
+                    _this._interface.changeBackgroundKey(actualLetter, "misplacedLetter");
+                }
             }
         };
         this._interface = interf;

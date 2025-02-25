@@ -35,7 +35,6 @@ var Game = /** @class */ (function (_super) {
             _this._turn += 1;
             _this._actualPosition = 0;
             _this._actualWord = "";
-            _this.changeBackgroundKey(_this._actualWord);
         };
         _this._pickedWord = pickedWord;
         _this._actualWord = "";
@@ -101,8 +100,9 @@ var Game = /** @class */ (function (_super) {
     };
     Game.prototype.newKeyPressed = function (code) {
         var letter = ValidateLetter.getInstance(code, this._actualPosition);
-        if (letter.isValidLetter())
+        if (letter.isValidLetter()) {
             this.newLetter(letter);
+        }
         if (letter.isEnterKey()) {
             this._specialKey = new EnterPressed(this);
             this._specialKey.execute();

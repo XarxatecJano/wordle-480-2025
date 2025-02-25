@@ -21,8 +21,10 @@ export class CheckMisplacedLetters implements ICheck{
             pattern = new RegExp(actualLetter,"g");
             numberOfCoincidences = (pickedWord.match(pattern)||[]).length;
             if (pickedWord[i]==actualWord[i]) isMisplacedLetter=false;
-            if (numberOfCoincidences>0 && isMisplacedLetter) this._interface.changeBackgroundPosition(turn, i, "misplacedLetter");
-            
+            if (numberOfCoincidences>0 && isMisplacedLetter){
+                this._interface.changeBackgroundPosition(turn, i, "misplacedLetter");
+                this._interface.changeBackgroundKey(actualLetter, "misplacedLetter");
+            } 
         }
     }
 }

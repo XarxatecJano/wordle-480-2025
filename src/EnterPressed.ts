@@ -16,4 +16,6 @@ export class EnterPressed implements IKeyPressed{
                     this._game.updateAfterANewWord();
                 }
     }
+
+
 }

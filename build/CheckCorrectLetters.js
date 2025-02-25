@@ -6,6 +6,7 @@ var CheckCorrectLetters = /** @class */ (function () {
             for (var i = 0; i < MAX_WORD_SIZE; i++) {
                 if (pickedWord[i] == actualWord[i]) {
                     _this._interface.changeBackgroundPosition(turn, i, "rightLetter");
+                    _this._interface.changeBackgroundKey(pickedWord[i], "rightLetter");
                 }
             }
         };

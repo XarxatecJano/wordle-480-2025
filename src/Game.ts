@@ -74,10 +74,10 @@ export class Game extends Interface {
             new CheckWrongLetters(this)
         ];
         strategies.forEach(strategy => strategy.check(this._actualWord, this._pickedWord, this._turn))
-        this._turn +=1;
+        this._turn += 1;
         this._actualPosition = 0;
         this._actualWord = "";
-        this.changeBackgroundKey(this._actualWord);
+
     }
 
     checkGameIsOver():void{
@@ -89,7 +89,9 @@ export class Game extends Interface {
 
     newKeyPressed(code: string):void{ 
         let letter:ValidateLetter = ValidateLetter.getInstance(code, this._actualPosition)
-        if (letter.isValidLetter()) this.newLetter(letter);
+        if (letter.isValidLetter()){
+            this.newLetter(letter);
+        } 
         if (letter.isEnterKey()) {
             this._specialKey = new EnterPressed(this)
             this._specialKey.execute();

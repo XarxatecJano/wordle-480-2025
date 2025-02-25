@@ -13,6 +13,7 @@ export class CheckCorrectLetters implements ICheck{
         for(let i=0; i<MAX_WORD_SIZE; i++){
             if (pickedWord[i]==actualWord[i]){
                 this._interface.changeBackgroundPosition(turn, i, "rightLetter");
+                this._interface.changeBackgroundKey(pickedWord[i], "rightLetter");
             }
         }
     }

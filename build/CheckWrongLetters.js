@@ -10,8 +10,10 @@ var CheckWrongLetters = /** @class */ (function () {
                 actualLetter = actualWord[i];
                 pattern = new RegExp(actualLetter, "g");
                 numberOfCoincidences = (pickedWord.match(pattern) || []).length;
-                if (numberOfCoincidences == 0)
+                if (numberOfCoincidences == 0) {
                     _this._interface.changeBackgroundPosition(turn, i, "wrongLetter");
+                    _this._interface.changeBackgroundKey(actualLetter, "wrongLetter");
+                }
             }
         };
         this._interface = interf;

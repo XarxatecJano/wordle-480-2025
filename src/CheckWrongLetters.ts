@@ -15,7 +15,10 @@ export class CheckWrongLetters implements ICheck{
                 actualLetter = actualWord[i];
                 pattern = new RegExp(actualLetter,"g");
                 numberOfCoincidences = (pickedWord.match(pattern)||[]).length;
-                if (numberOfCoincidences==0) this._interface.changeBackgroundPosition(turn, i, "wrongLetter");
+                if (numberOfCoincidences==0){
+                     this._interface.changeBackgroundPosition(turn, i, "wrongLetter");
+                     this._interface.changeBackgroundKey(actualLetter, "wrongLetter");
+                }
             }
         }
 }

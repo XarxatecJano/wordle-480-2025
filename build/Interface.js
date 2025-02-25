@@ -15,12 +15,18 @@ var Interface = /** @class */ (function () {
             positionClass = "cell-orange";
         this.getCell(turn, position).classList.add(positionClass);
     };
-    Interface.prototype.changeBackgroundKey = function (code) {
+    Interface.prototype.changeBackgroundKey = function (letter, state) {
         var keys = document.getElementsByClassName("key");
+        var code = "Key" + letter;
         for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
             var key = keys_1[_i];
             if (key.value == code && code !== "Enter" && code !== "Backspace") {
-                key.classList.add("keyPressed");
+                var positionClass = "cell-grey";
+                if (state == "rightLetter")
+                    positionClass = "cell-green";
+                if (state == "misplacedLetter")
+                    positionClass = "cell-orange";
+                key.classList.add(positionClass);
             }
         }
     };

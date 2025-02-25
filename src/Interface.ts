@@ -11,11 +11,15 @@ export class Interface {
         if (state=="misplacedLetter") positionClass = "cell-orange";
         this.getCell(turn, position).classList.add(positionClass);
     }
-    changeBackgroundKey(code: string){
-       const keys: any = document.getElementsByClassName("key");
-       for (let key of keys) {
+    changeBackgroundKey(letter: string, state: string){
+        const keys: any = document.getElementsByClassName("key");
+        let code = "Key" + letter;
+        for (let key of keys) {
             if (key.value == code && code !== "Enter" && code !=="Backspace"){
-                key.classList.add("keyPressed");
+                let positionClass = "cell-grey";
+                if (state=="rightLetter") positionClass = "cell-green";
+                if (state=="misplacedLetter") positionClass = "cell-orange";
+                key.classList.add(positionClass);
             }
        }
     }
