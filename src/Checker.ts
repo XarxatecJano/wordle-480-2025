@@ -1,7 +1,9 @@
 import { MAX_WORD_SIZE, MAX_ATTEMPTS, } from "./env.js";
 import { Letter } from "./Letter.js";
 import { Interface } from "./Interface.js";
-export class Checker {
+import { IGameChecker } from "./IGameChecker.js";
+
+export class Checker implements IGameChecker {
     private _pickedWord: string
     private _validLetterCodes: Letter
     private _actualLetters: string
@@ -69,14 +71,14 @@ export class Checker {
         }
     }
 
-    checkRightLetters = (): void => {
+    checkRightLetters(): void  {
         for (let i = 0; i < MAX_WORD_SIZE; i++) {
             if (this._pickedWord[i] == this._actualWord[i]) {
                 this._interface.changeBackgroundPosition(this._turn, i, "rightLetter");
             }
         }
     }
-    checkMisplacedLetters = (): void => {
+    checkMisplacedLetters(): void {
         let actualLetter: string = "";
         let pattern: RegExp;
         let numberOfCoincidences: number = 0;
@@ -90,7 +92,7 @@ export class Checker {
             if (numberOfCoincidences > 0 && isMisplacedLetter) this._interface.changeBackgroundPosition(this._turn, i, "misplacedLetter");
         }
     }
-    checkWrongLetters = (): void => {
+    checkWrongLetters(): void{
         let actualLetter = "";
         let pattern: RegExp;
         let numberOfCoincidences = 0;
@@ -101,16 +103,15 @@ export class Checker {
             if (numberOfCoincidences == 0) this._interface.changeBackgroundPosition(this._turn, i, "wrongLetter");
         }
     }
-    
-
     checkGameIsOver(): void {
-        if (this._turn == MAX_ATTEMPTS) {
+        if (this._turn == MAX_ATTEMPTS &&
+             this._actualWord != this._pickedWord) {
             location.assign("/loser");
         }
     }
 
 
-    updateAfterANewWord = (): void => {
+   /* updateAfterANewWord(): void{
         this.checkRightLetters();
         this.checkMisplacedLetters();
         this.checkWrongLetters();
@@ -133,7 +134,7 @@ export class Checker {
             }
         }
         }
-    }
+    }*/
 
    
 }

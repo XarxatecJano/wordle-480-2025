@@ -3,51 +3,6 @@ import { Letter } from "./Letter.js";
 import { Interface } from "./Interface.js";
 var Checker = /** @class */ (function () {
     function Checker(pickedWord) {
-        var _this = this;
-        this.checkRightLetters = function () {
-            for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                if (_this._pickedWord[i] == _this._actualWord[i]) {
-                    _this._interface.changeBackgroundPosition(_this._turn, i, "rightLetter");
-                }
-            }
-        };
-        this.checkMisplacedLetters = function () {
-            var actualLetter = "";
-            var pattern;
-            var numberOfCoincidences = 0;
-            var isMisplacedLetter;
-            for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                isMisplacedLetter = true;
-                actualLetter = _this._actualWord[i];
-                pattern = new RegExp(actualLetter, "g");
-                numberOfCoincidences = (_this._pickedWord.match(pattern) || []).length;
-                if (_this._pickedWord[i] == _this._actualWord[i])
-                    isMisplacedLetter = false;
-                if (numberOfCoincidences > 0 && isMisplacedLetter)
-                    _this._interface.changeBackgroundPosition(_this._turn, i, "misplacedLetter");
-            }
-        };
-        this.checkWrongLetters = function () {
-            var actualLetter = "";
-            var pattern;
-            var numberOfCoincidences = 0;
-            for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                actualLetter = _this._actualWord[i];
-                pattern = new RegExp(actualLetter, "g");
-                numberOfCoincidences = (_this._pickedWord.match(pattern) || []).length;
-                if (numberOfCoincidences == 0)
-                    _this._interface.changeBackgroundPosition(_this._turn, i, "wrongLetter");
-            }
-        };
-        this.updateAfterANewWord = function () {
-            _this.checkRightLetters();
-            _this.checkMisplacedLetters();
-            _this.checkWrongLetters();
-            _this.updateActualLetters();
-            _this.turn = _this.turn + 1;
-            _this.actualPosition = 0;
-            _this.actualWord = "";
-        };
         this._validLetterCodes = new Letter();
         this._actualLetters = "";
         this._pickedWord = pickedWord;
@@ -124,25 +79,45 @@ var Checker = /** @class */ (function () {
             location.assign("/winner");
         }
     };
-    Checker.prototype.checkGameIsOver = function () {
-        if (this._turn == MAX_ATTEMPTS) {
-            location.assign("/loser");
-        }
-    };
-    Checker.prototype.aumentarPosicion = function () {
-        this.actualPosition = this.actualPosition + 1;
-        console.log(this.actualPosition);
-    };
-    Checker.prototype.updateActualLetters = function () {
-        if (this.turn == 1) {
-            this.actualLetters = this.actualWord;
-        }
-        else {
-            for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                if (!this.actualLetters[i].includes(this.actualWord[i])) {
-                    this.actualLetters += this.actualWord[i];
-                }
+    Checker.prototype.checkRightLetters = function () {
+        for (var i = 0; i < MAX_WORD_SIZE; i++) {
+            if (this._pickedWord[i] == this._actualWord[i]) {
+                this._interface.changeBackgroundPosition(this._turn, i, "rightLetter");
             }
+        }
+    };
+    Checker.prototype.checkMisplacedLetters = function () {
+        var actualLetter = "";
+        var pattern;
+        var numberOfCoincidences = 0;
+        var isMisplacedLetter;
+        for (var i = 0; i < MAX_WORD_SIZE; i++) {
+            isMisplacedLetter = true;
+            actualLetter = this._actualWord[i];
+            pattern = new RegExp(actualLetter, "g");
+            numberOfCoincidences = (this._pickedWord.match(pattern) || []).length;
+            if (this._pickedWord[i] == this._actualWord[i])
+                isMisplacedLetter = false;
+            if (numberOfCoincidences > 0 && isMisplacedLetter)
+                this._interface.changeBackgroundPosition(this._turn, i, "misplacedLetter");
+        }
+    };
+    Checker.prototype.checkWrongLetters = function () {
+        var actualLetter = "";
+        var pattern;
+        var numberOfCoincidences = 0;
+        for (var i = 0; i < MAX_WORD_SIZE; i++) {
+            actualLetter = this._actualWord[i];
+            pattern = new RegExp(actualLetter, "g");
+            numberOfCoincidences = (this._pickedWord.match(pattern) || []).length;
+            if (numberOfCoincidences == 0)
+                this._interface.changeBackgroundPosition(this._turn, i, "wrongLetter");
+        }
+    };
+    Checker.prototype.checkGameIsOver = function () {
+        if (this._turn == MAX_ATTEMPTS &&
+            this._actualWord != this._pickedWord) {
+            location.assign("/loser");
         }
     };
     return Checker;

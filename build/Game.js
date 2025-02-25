@@ -2,12 +2,13 @@ import { MAX_WORD_SIZE } from "./env.js";
 import { Interface } from "./Interface.js";
 import { Letter } from "./Letter.js";
 import { Checker } from "./Checker.js";
-//import { Updater } from "./Updater.js";
+import { UpdateManager } from "./UpdateManager.js";
 var Game = /** @class */ (function () {
     function Game(pickedWord) {
         this._checker = new Checker(pickedWord);
         this._validLetterCodes = new Letter();
         this._interface = new Interface();
+        this._updateElementsManager = new UpdateManager(this._checker);
     }
     Game.getInstance = function (pickedWord) {
         if (!Game._instance) {
@@ -34,14 +35,14 @@ var Game = /** @class */ (function () {
     Game.prototype.newLetter = function (code) {
         var letter = this._validLetterCodes.transformCodeToLetter(code);
         this._interface.setNewLetter(this.checker.turn, this._checker.actualPosition, letter);
-        this.checker.aumentarPosicion();
+        this._updateElementsManager.aumentarPosicion();
         this.checker.actualWord += letter;
     };
     Game.prototype.enterPressed = function () {
         if (this.checker.actualWord.length == MAX_WORD_SIZE) {
             this.checker.checkWordIsRight();
             this.checker.checkGameIsOver();
-            this.checker.updateAfterANewWord();
+            this._updateElementsManager.updateAfterNewWord();
         }
     };
     Game.prototype.backspacePressed = function () {
@@ -57,12 +58,10 @@ var Game = /** @class */ (function () {
             this.newLetter(code);
             this._interface.changeBackgroundKey(code);
         }
-        //        if (this.isValidLetter(code)) this.newLetter(code);
         if (this.isEnterKey(code))
             this.enterPressed();
         if (this.isBackspaceKey(code))
             this.backspacePressed();
-        //if (this.checker.actualPosition <= MAX_WORD_SIZE) this._interface.changeBackgroundKey(code);
     };
     return Game;
 }());

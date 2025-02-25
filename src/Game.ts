@@ -2,18 +2,20 @@ import { MAX_WORD_SIZE } from "./env.js";
 import { Interface } from "./Interface.js";
 import { Letter } from "./Letter.js";
 import { Checker } from "./Checker.js";
-//import { Updater } from "./Updater.js";
+import { UpdateManager } from "./UpdateManager.js";
 
 export class Game {
     private static _instance: Game;
     private _validLetterCodes: Letter
     private _checker: Checker
     private _interface: Interface
+    private _updateElementsManager: UpdateManager
     constructor(pickedWord: string) {
 
         this._checker = new Checker(pickedWord);
         this._validLetterCodes = new Letter();
         this._interface = new Interface();
+        this._updateElementsManager = new UpdateManager(this._checker);
 
     }
     public static getInstance(pickedWord: string): Game {
@@ -30,9 +32,6 @@ export class Game {
         this._checker = checker;
     }
 
-
-
-
     isEnterKey(code: string): boolean {
         return code == "Enter";
     }
@@ -45,15 +44,15 @@ export class Game {
     newLetter(code: string): void {
         let letter: string = this._validLetterCodes.transformCodeToLetter(code);
         this._interface.setNewLetter(this.checker.turn, this._checker.actualPosition, letter);
-        this.checker.aumentarPosicion();
-
+        this._updateElementsManager.nextPosition();
         this.checker.actualWord += letter;
     }
     enterPressed(): void {
         if (this.checker.actualWord.length == MAX_WORD_SIZE) {
             this.checker.checkWordIsRight();
             this.checker.checkGameIsOver();
-            this.checker.updateAfterANewWord();
+            this._updateElementsManager.updateAfterNewWord();
+           
         }
     }
 
@@ -71,10 +70,8 @@ export class Game {
             this.newLetter(code);
             this._interface.changeBackgroundKey(code);
         }
-        //        if (this.isValidLetter(code)) this.newLetter(code);
         if (this.isEnterKey(code)) this.enterPressed();
         if (this.isBackspaceKey(code)) this.backspacePressed();
-        //if (this.checker.actualPosition <= MAX_WORD_SIZE) this._interface.changeBackgroundKey(code);
     }
 
 
