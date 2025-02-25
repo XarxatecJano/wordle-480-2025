@@ -7,13 +7,13 @@ const pickedWord: Word = wordsCollection.getRandomWord();
 console.log(pickedWord);
 
 const game: Game = new Game(pickedWord);
-const keyboard: InputKeyboard = new InputKeyboard(game);
+const inputKeyboard: InputKeyboard = new InputKeyboard(game);
 
 
 Array.from(document.getElementsByClassName("key")).forEach(element => element.addEventListener("click", (e)=>{
-    keyboard.newKeyPressed((<HTMLButtonElement>e.target).value);
+    inputKeyboard.newKeyPressed((<HTMLButtonElement>e.target).value);
 }));
 
 document.addEventListener("keydown", (e)=>{
-    keyboard.newKeyPressed(e.code);
+    inputKeyboard.newKeyPressed(e.code);
 });

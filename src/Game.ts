@@ -4,23 +4,29 @@ import { Word } from "./Word.js";
 import { Letter } from "./Letter.js";
 import { GameKeyboard } from "./GameKeyboard.js";
 import { KeyState } from "./KeyState.js";
+import { GameGrid } from "./GameGrid.js";
 
 export class Game {
     private pickedWord: Word
     private actualWord: Word
     private turn: number
+
     private interface: UserInterfaceController
-    private keyboard: GameKeyboard
+    private keyboard: GameKeyboard;
+    private grid: GameGrid;
+
     constructor(pickedWord: Word) {
         this.pickedWord = pickedWord;
         this.actualWord = new Word([]);
         this.turn = 1;
+        
         this.interface = new UserInterfaceController();
         this.keyboard = new GameKeyboard(this.interface);
+        this.grid = new GameGrid(this.interface);
     }
 
     setGridLetterState(position: number, state: string) {
-        this.interface.changeGridCellLetter(this.turn, position, state);
+        this.grid.setGridLetterState(this.turn, position, state);
     }
 
     checkWordIsRight(): void {
@@ -116,7 +122,7 @@ export class Game {
     }
 
     setNewLetter(letter: Letter): void {
-        this.interface.setNewLetter(this.turn, this.actualWord.getSize(), letter.getChar());
+        this.grid.setNewLetter(this.turn, this.actualWord.getSize(), letter.getChar());
         this.actualWord.addLetter(letter);
     }
 
@@ -131,6 +137,6 @@ export class Game {
 
     removeLastLetter(): void {
         this.actualWord.removeLastLetter();
-        this.interface.deleteLetter(this.turn, this.actualWord.getSize());
+        this.grid.deleteLetter(this.turn, this.actualWord.getSize());
     }
 }

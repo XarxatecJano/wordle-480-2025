@@ -3,6 +3,7 @@ import { UserInterfaceController } from "./UserInterfaceController.js";
 import { Word } from "./Word.js";
 import { GameKeyboard } from "./GameKeyboard.js";
 import { KeyState } from "./KeyState.js";
+import { GameGrid } from "./GameGrid.js";
 var Game = /** @class */ (function () {
     function Game(pickedWord) {
         var _this = this;
@@ -72,9 +73,10 @@ var Game = /** @class */ (function () {
         this.turn = 1;
         this.interface = new UserInterfaceController();
         this.keyboard = new GameKeyboard(this.interface);
+        this.grid = new GameGrid(this.interface);
     }
     Game.prototype.setGridLetterState = function (position, state) {
-        this.interface.changeGridCellLetter(this.turn, position, state);
+        this.grid.setGridLetterState(this.turn, position, state);
     };
     Game.prototype.checkWordIsRight = function () {
         if (this.actualWord.equals(this.pickedWord)) {
@@ -101,7 +103,7 @@ var Game = /** @class */ (function () {
         return false;
     };
     Game.prototype.setNewLetter = function (letter) {
-        this.interface.setNewLetter(this.turn, this.actualWord.getSize(), letter.getChar());
+        this.grid.setNewLetter(this.turn, this.actualWord.getSize(), letter.getChar());
         this.actualWord.addLetter(letter);
     };
     Game.prototype.wordIsComplete = function () {
@@ -114,7 +116,7 @@ var Game = /** @class */ (function () {
     };
     Game.prototype.removeLastLetter = function () {
         this.actualWord.removeLastLetter();
-        this.interface.deleteLetter(this.turn, this.actualWord.getSize());
+        this.grid.deleteLetter(this.turn, this.actualWord.getSize());
     };
     return Game;
 }());
