@@ -32,4 +32,8 @@ export class Letter {
     isBackspaceKey(): boolean {
         return this.code == "Backspace";
     }
+
+    equals(otherLetter: Letter): boolean {
+        return this.getCode() == otherLetter.getCode();
+    }
 }

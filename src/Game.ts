@@ -1,156 +1,136 @@
-import {MAX_WORD_SIZE, MAX_ATTEMPTS} from "./env.js";
-import {Interface} from "./Interface.js";
-import {Word} from "./Word.js";
-import {Letter} from "Letter.js";
-
+import { MAX_WORD_SIZE, MAX_ATTEMPTS } from "./env.js";
+import { UserInterfaceController } from "./UserInterfaceController.js";
+import { Word } from "./Word.js";
+import { Letter } from "./Letter.js";
+import { GameKeyboard } from "./GameKeyboard.js";
+import { KeyState } from "./KeyState.js";
 
 export class Game {
-    private _pickedWord: Word
-    private _actualWord: Word
-    private _turn: number
-    private _interface: Interface
-    constructor(pickedWord: Word){
-        this._pickedWord = pickedWord;
-        this._actualWord = new Word([]);
-        this._turn = 1;
-        this._interface = new Interface();
+    private pickedWord: Word
+    private actualWord: Word
+    private turn: number
+    private interface: UserInterfaceController
+    private keyboard: GameKeyboard
+    constructor(pickedWord: Word) {
+        this.pickedWord = pickedWord;
+        this.actualWord = new Word([]);
+        this.turn = 1;
+        this.interface = new UserInterfaceController();
+        this.keyboard = new GameKeyboard(this.interface);
     }
 
-    get pickedWord(){
-        return this._pickedWord;
-    }
-    set pickedWord(word){
-        this._pickedWord = word;
+    setGridLetterState(position: number, state: string) {
+        this.interface.changeGridCellLetter(this.turn, position, state);
     }
 
-    get actualWord(){
-        return this._actualWord;
-    }
-    set actualWord(word){
-        this._actualWord = word;
-    }
-
-    get turn(){
-        return this._turn;
-    }
-    set turn(num){
-        this._turn = num;
-    }
-
-    get actualPosition(){
-        return this.actualWord.getPosition();
-    }
-
-    get interface() {
-        return this._interface;
-    }
-    set interface(i) {
-        this._interface = i;
-    }
-
-    newLetter(letter: Letter){
-        this.interface.setNewLetter(this.turn, this.actualPosition, letter.getChar());
-        this.actualWord.addLetter(letter);
-    }
-
-    highlightLetters(){
-        for (let letter of this.actualWord.getLetters()){
-            this.interface.changeBackgroundKey(letter.getCode());
-        }
-    }
-
-    checkWordIsRight():void{
-        if (this._actualWord == this._pickedWord){
+    checkWordIsRight(): void {
+        if (this.actualWord.equals(this.pickedWord)) {
             location.assign("/winner");
         }
     }
 
-    checkRightLetters = ():void=>{
-        for(let i=0; i<MAX_WORD_SIZE; i++){
-            if (this._pickedWord.getLetterAtIndex(i)==this._actualWord.getLetterAtIndex(i)){
-                this._interface.changeBackgroundPosition(this._turn, i, "rightLetter");
+    highlightLetters(): void {
+        for (let letter of this.actualWord.getLetters()){
+            this.keyboard.setKeyboardKeyState(letter.getCode(), KeyState.USED);
+        }
+    }
+
+    checkRightLetters = (): void => {
+        for (let i = 0; i < MAX_WORD_SIZE; i++) {
+            const state = this.pickedWord.checkLetter(this.actualWord.getLetterAtIndex(i), i);
+            if (state == KeyState.RIGHT) {
+                this.setGridLetterState(i, "rightLetter");
+                this.keyboard.setKeyboardKeyState(this.pickedWord.getLetterAtIndex(i).getCode(), KeyState.RIGHT);
             }
         }
     }
 
-    checkMisplacedLetters = ():void=> {
+    checkMisplacedLetters = (): void => {
         let actualLetter: Letter;
         let pattern: RegExp;
         let numberOfCoincidencesPickedWord: number = 0;
         let numberOfCoincidencesActualWord: number = 0;
         let differenceOfCoincidences: number = 0;
         let isMisplacedLetter: boolean = true;
-        for (let i=0; i<MAX_WORD_SIZE; i++){
+        for (let i = 0; i < MAX_WORD_SIZE; i++) {
             isMisplacedLetter = true;
-            actualLetter = this._actualWord.getLetterAtIndex(i);
-            pattern = new RegExp(actualLetter.getChar(),"g");
-            numberOfCoincidencesPickedWord = this._pickedWord.numberOfCoincidences(pattern);
-            numberOfCoincidencesActualWord = this._actualWord.numberOfCoincidences(pattern);
+            actualLetter = this.actualWord.getLetterAtIndex(i);
+            pattern = new RegExp(actualLetter.getChar(), "g");
+            numberOfCoincidencesPickedWord = this.pickedWord.numberOfCoincidences(pattern);
+            numberOfCoincidencesActualWord = this.actualWord.numberOfCoincidences(pattern);
             differenceOfCoincidences = Math.abs(numberOfCoincidencesActualWord - numberOfCoincidencesPickedWord);
-            if (differenceOfCoincidences==1){
-                for (let j=0; j<MAX_WORD_SIZE; j++){
-                    if(this._pickedWord.getLetterAtIndex(j)==actualLetter) {
+            if (differenceOfCoincidences == 1) {
+                for (let j = 0; j < MAX_WORD_SIZE; j++) {
+                    if (this.pickedWord.getLetterAtIndex(j) == actualLetter) {
                         isMisplacedLetter = false;
                         break;
                     }
                 }
             }
-            if (differenceOfCoincidences==0 && this._pickedWord.getLetterAtIndex(i)==this._actualWord.getLetterAtIndex(i)){
-                isMisplacedLetter=false;
+            if (differenceOfCoincidences == 0 && this.pickedWord.getLetterAtIndex(i) == this.actualWord.getLetterAtIndex(i)) {
+                isMisplacedLetter = false;
             }
-            if (numberOfCoincidencesPickedWord>0 && isMisplacedLetter) this._interface.changeBackgroundPosition(this._turn, i, "misplacedLetter");
-            
+            if (numberOfCoincidencesPickedWord > 0 && isMisplacedLetter) {
+                this.setGridLetterState(i, "misplacedLetter");
+                /*this.keyboard.setKeyboardKeyState(this.pickedWord.getLetterAtIndex(i).getCode(), KeyState.MISPLACED);*/
+            }
         }
     }
 
-    checkWrongLetters = ():void=>{
+    checkWrongLetters = (): void => {
         let actualLetter: Letter;
-        let pattern:RegExp;
+        let pattern: RegExp;
         let numberOfCoincidencesPickedWord = 0;
-        for (let i=0; i<MAX_WORD_SIZE; i++){
-            actualLetter = this._actualWord.getLetterAtIndex(i);
-            pattern = new RegExp(actualLetter.getChar(),"g");
-            numberOfCoincidencesPickedWord = this._pickedWord.numberOfCoincidences(pattern);
-            if (numberOfCoincidencesPickedWord==0) this._interface.changeBackgroundPosition(this._turn, i, "wrongLetter");
+        for (let i = 0; i < MAX_WORD_SIZE; i++) {
+            actualLetter = this.actualWord.getLetterAtIndex(i);
+            pattern = new RegExp(actualLetter.getChar(), "g");
+            numberOfCoincidencesPickedWord = this.pickedWord.numberOfCoincidences(pattern);
+            if (numberOfCoincidencesPickedWord == 0) {
+                this.setGridLetterState(i, "wrongLetter");
+            }
         }
     }
 
-    updateAfterANewWord = ():void=>{
-        this.checkRightLetters();
-        this.checkMisplacedLetters();
+    updateAfterANewWord = (): void => {
+        this.highlightLetters();
         this.checkWrongLetters();
-        this._turn = this._turn + 1;
-        this._actualWord = new Word([]);
+        this.checkMisplacedLetters();
+        this.checkRightLetters();
+        this.turn = this.turn + 1;
+        this.actualWord = new Word([]);
     }
 
-    checkGameIsOver():void{
-        if (this.turn == MAX_ATTEMPTS){
+    checkGameIsOver(): void {
+        if (this.turn == MAX_ATTEMPTS) {
             location.assign("/loser");
         }
     }
 
-    enterPressed():void{
-        if (this._actualWord.getWordString().length == MAX_WORD_SIZE){
-            this.highlightLetters();
-            this.checkWordIsRight();
-            this.checkGameIsOver();
-            this.updateAfterANewWord();
+    isValidLetter(letter: Letter): boolean {
+        if (letter.isValidLetter()) {
+            if (this.actualWord.getSize() < MAX_WORD_SIZE) {
+                return true;
+            }
         }
+        return false;
     }
 
-    backspacePressed():void{
-        if (this.actualPosition > 0) {
-            this._actualWord.removeLastLetter();
-            this._interface.deleteLetter(this._turn, this.actualPosition);
-        }
+    setNewLetter(letter: Letter): void {
+        this.interface.setNewLetter(this.turn, this.actualWord.getSize(), letter.getChar());
+        this.actualWord.addLetter(letter);
     }
 
-    newKeyPressed(code: string):void{ 
-        const letter = new Letter(code);
-        if (this.actualPosition<MAX_WORD_SIZE){
-            if (letter.isValidLetter()) this.newLetter(letter);
-        }
-        else if (letter.isEnterKey()) this.enterPressed();
-        else if (letter.isBackspaceKey()) this.backspacePressed();
+    wordIsComplete(): boolean {
+        if (this.actualWord.getSize() == MAX_WORD_SIZE) return true;
+        return false;
+    }
+
+    getWordSize(): number {
+        return this.actualWord.getSize();
+    }
+
+    removeLastLetter(): void {
+        this.actualWord.removeLastLetter();
+        this.interface.deleteLetter(this.turn, this.actualWord.getSize());
     }
 }
