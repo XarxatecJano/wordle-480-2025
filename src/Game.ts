@@ -52,7 +52,6 @@ export class Game extends Interface {
         this._actualPosition = num;
     }
 
-
     newLetter(letter:ValidateLetter):void{
         let letterValue: string = letter.transformCodeToLetter();
         this.setNewLetter(this.turn, this.actualPosition, letterValue);
@@ -81,11 +80,10 @@ export class Game extends Interface {
     }
 
     checkGameIsOver():void{
-        if (this.turn == MAX_ATTEMPTS){
+        if (this.turn == MAX_ATTEMPTS && this._actualWord != this._pickedWord){
             location.assign("/loser");
         }
     }
-
 
     newKeyPressed(code: string):void{ 
         let letter:ValidateLetter = ValidateLetter.getInstance(code, this._actualPosition)
@@ -103,5 +101,4 @@ export class Game extends Interface {
        
     }
 
-    
 }

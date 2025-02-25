@@ -94,7 +94,7 @@ var Game = /** @class */ (function (_super) {
         }
     };
     Game.prototype.checkGameIsOver = function () {
-        if (this.turn == MAX_ATTEMPTS) {
+        if (this.turn == MAX_ATTEMPTS && this._actualWord != this._pickedWord) {
             location.assign("/loser");
         }
     };
