@@ -9,18 +9,17 @@ import { BackspacePressed } from "./SpecialKeyPressedStrategy/BackspacePressed.j
 
 
 export class Game extends Interface {
+    private static instance: Game;
     private _pickedWord: string
     private _actualWord: string
     private _turn: number
     private _actualPosition: number
-    private checkedWord: boolean;
-    constructor(pickedWord: string){
+    private constructor(pickedWord: string){
         super()
         this._pickedWord = pickedWord;
         this._actualWord = "";
         this._turn = 1;
         this._actualPosition = 0;
-        this.checkedWord = false;
 
     }
 
@@ -36,6 +35,12 @@ export class Game extends Interface {
     get actualPosition() { return this._actualPosition; }
     set actualPosition(num) { this._actualPosition = num; }
 
+    public static getInstance (pickedWord: string){
+        if (!Game.instance){
+            Game.instance = new Game(pickedWord);
+        }
+        return Game.instance;
+    }
     
     private resetWordState(): void{
         this.turn = this.turn + 1;
@@ -62,7 +67,6 @@ export class Game extends Interface {
         if (this._actualWord == this._pickedWord){
             location.assign("/winner");
         }
-        this.checkedWord = true;
     }
 
     checkGameIsOver():void{

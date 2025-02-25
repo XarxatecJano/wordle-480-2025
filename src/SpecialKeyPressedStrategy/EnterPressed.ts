@@ -14,12 +14,21 @@ export class EnterPressed implements IKeyPressed{
         if (this._game.actualWord.length == MAX_WORD_SIZE){
                     this._game.checkWordIsRight();
                     this._game.checkGameIsOver();
-
-                    this._game.actualWord.split("").forEach(letter => {
-                        this._game.changeBackgroundKey(letter);
-                    });
-                    
+                    this.updateKeyColors(this._game.actualWord, this._game.pickedWord)
                     this._game.updateAfterANewWord();
+        }
+    }
+
+    updateKeyColors(word: string, correctWord: string) {
+        for (let i = 0; i < word.length; i++) {
+            var letter = word[i];
+            var code = "Key" + letter;
+            var state = "default";
+
+            if (correctWord.includes(letter)) {
+                state = correctWord[i] === letter ? "rightLetter" : "misplacedLetter";
+            }
+            this._game.changeBackgroundKey(code, state);
         }
     }
 

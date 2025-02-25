@@ -1,4 +1,11 @@
+const STATE_CLASSES: Record<string, string> = {
+    rightLetter: "cell-green",
+    misplacedLetter: "cell-orange",
+    default: "cell-grey",
+};
+
 export class Interface {
+
 
     setNewLetter(turn: number,position: number, letter: string) {
         const cell = this.getCell(turn, position);
@@ -14,22 +21,19 @@ export class Interface {
         const cell = this.getCell(turn, position);
         if (!cell) return;
 
-        const stateClasses: Record<string, string> = {
-            rightLetter: "cell-green",
-            misplacedLetter: "cell-orange",
-            default: "cell-grey",
-        };
-        cell.classList.add(stateClasses[state] || stateClasses.default);
+        cell.classList.add(STATE_CLASSES[state] || STATE_CLASSES.default);
     
     }
-    changeBackgroundKey(code: string){
+    changeBackgroundKey(code: string, state: string){
        const keys: any = document.getElementsByClassName("key");
        for (let key of keys) {
-            if (key.value == code && code !== "Enter" && code !=="Backspace"){
-                key.classList.add("keyPressed");
+            if (key.value == code && code !== "Enter" && code !== "Backspace") {
+                key.classList.add(STATE_CLASSES[state]);
             }
        }
     }
+
+   
 
     private getCell(turn: number, position: number): HTMLElement | null {
         return document.getElementById(`row_${turn}`)?.children[position] as HTMLElement | null;

@@ -5,9 +5,11 @@ import { MAX_WORD_SIZE } from "../env.js";
 export class CheckMisplacedLetters implements ICheck{
     
     private interface: Interface;
+    private lettersStates: [];
 
     constructor(interfaceInstance: Interface) {
         this.interface = interfaceInstance;
+        this.lettersStates = []
     }
 
     check(actualWord: string, pickedWord: string, turn: number) {
@@ -24,6 +26,7 @@ export class CheckMisplacedLetters implements ICheck{
             if (pickedWord[i] === actualWord[i]) isMisplacedLetter = false;
             if (numberOfCoincidences > 0 && isMisplacedLetter) {
                 this.interface.changeBackgroundPosition(turn, i, "misplacedLetter");
+                
             }
         }
     }

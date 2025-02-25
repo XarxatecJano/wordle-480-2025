@@ -1,4 +1,4 @@
-const MAX_WORD_SIZE:number = 5;
+import { MAX_WORD_SIZE } from "./env";  
 const LETTER = {A:65, Z:90}
 const LETTER_CODE_POSITION_VALUE: number = 3;
 

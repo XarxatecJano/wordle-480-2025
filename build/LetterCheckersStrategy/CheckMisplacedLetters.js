@@ -2,6 +2,7 @@ import { MAX_WORD_SIZE } from "../env.js";
 var CheckMisplacedLetters = /** @class */ (function () {
     function CheckMisplacedLetters(interfaceInstance) {
         this.interface = interfaceInstance;
+        this.lettersStates = [];
     }
     CheckMisplacedLetters.prototype.check = function (actualWord, pickedWord, turn) {
         var actualLetter = "";

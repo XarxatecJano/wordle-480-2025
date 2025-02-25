@@ -6,7 +6,7 @@ const wordsCollection: Word = new Word(["JUEGO", "TALAR", "BAILE", "ANDAR", "MON
 const pickedWord: string = wordsCollection.getRandomWord();
 console.log(pickedWord);
 
-const game: Game = new Game(pickedWord);
+const game: Game = Game.getInstance(pickedWord);
 
 
 Array.from(document.getElementsByClassName("key")).forEach(element => element.addEventListener("click", (e)=>{

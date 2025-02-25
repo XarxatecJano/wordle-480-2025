@@ -32,7 +32,7 @@ var Game = /** @class */ (function (_super) {
         _this._actualWord = "";
         _this._turn = 1;
         _this._actualPosition = 0;
-        _this.checkedWord = false;
+        _this.letterState = [];
         return _this;
     }
     Object.defineProperty(Game.prototype, "pickedWord", {
@@ -75,7 +75,6 @@ var Game = /** @class */ (function (_super) {
         if (this._actualWord == this._pickedWord) {
             location.assign("/winner");
         }
-        this.checkedWord = true;
     };
     Game.prototype.checkGameIsOver = function () {
         if (this.turn == MAX_ATTEMPTS) {

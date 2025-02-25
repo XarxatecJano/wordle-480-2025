@@ -1,3 +1,8 @@
+var STATE_CLASSES = {
+    rightLetter: "cell-green",
+    misplacedLetter: "cell-orange",
+    default: "cell-grey",
+};
 var Interface = /** @class */ (function () {
     function Interface() {
     }
@@ -15,19 +20,14 @@ var Interface = /** @class */ (function () {
         var cell = this.getCell(turn, position);
         if (!cell)
             return;
-        var stateClasses = {
-            rightLetter: "cell-green",
-            misplacedLetter: "cell-orange",
-            default: "cell-grey",
-        };
-        cell.classList.add(stateClasses[state] || stateClasses.default);
+        cell.classList.add(STATE_CLASSES[state] || STATE_CLASSES.default);
     };
-    Interface.prototype.changeBackgroundKey = function (code) {
+    Interface.prototype.changeBackgroundKey = function (code, state) {
         var keys = document.getElementsByClassName("key");
         for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
             var key = keys_1[_i];
             if (key.value == code && code !== "Enter" && code !== "Backspace") {
-                key.classList.add("keyPressed");
+                key.classList.add(STATE_CLASSES[state]);
             }
         }
     };
