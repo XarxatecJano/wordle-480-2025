@@ -1,6 +1,6 @@
-import { Game } from "./Game.js";
-import { Letter } from "./Letter.js";
-import { GameKeyboard } from "./GameKeyboard.js";
+import { Game } from "../Game.js";
+import { Letter } from "../model/Letter.js";
+import { GameKeyboard } from "../controller/GameKeyboard.js";
 
 export class InputKeyboard {
     game: Game;

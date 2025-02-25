@@ -1,4 +1,4 @@
-import { KeyState } from "./KeyState.js";
+import { KeyType } from "../enum/KeyType.js";
 
 export class UserInterfaceController {
     keys: any = document.getElementsByClassName("key");
@@ -15,10 +15,10 @@ export class UserInterfaceController {
         if (state == "misplacedLetter") positionClass = "cell-orange";
         Array.from(document.getElementById(`row_${turn}`)!.children)[position].classList.add(positionClass);
     }
-    changeKeyboardElementBackground(code: string, state: KeyState) {
+    changeKeyboardElementBackground(code: string, state: KeyType) {
         let positionClass = "cell-grey";
-        if (state == KeyState.RIGHT) positionClass = "cell-green";
-        if (state == KeyState.MISPLACED) positionClass = "cell-orange";
+        if (state == KeyType.RIGHT) positionClass = "cell-green";
+        if (state == KeyType.MISPLACED) positionClass = "cell-orange";
         for (let key of this.keys) {
             if (key.value == code && code !== "Enter" && code !== "Backspace") {
                 key.classList.add(positionClass);

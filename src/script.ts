@@ -1,8 +1,10 @@
-import {Words} from "./Words.js";
-import {Word} from "./Word.js";
+import {WordGenerator} from "./utils/WordGenerator.js";
+import {Word} from "./model/Word.js";
 import {Game} from "./Game.js";
-import {InputKeyboard} from "./InputKeyboard.js"
-const wordsCollection: Words = new Words(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
+import {InputKeyboard} from "./input/InputKeyboard.js";
+import { WORDS_COLLECTION } from "./env.js";
+const wordsCollection: WordGenerator = new WordGenerator(WORDS_COLLECTION);
+
 const pickedWord: Word = wordsCollection.getRandomWord();
 console.log(pickedWord);
 

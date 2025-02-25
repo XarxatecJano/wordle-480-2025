@@ -1,4 +1,4 @@
-export enum KeyState {
+export enum KeyType {
     UNUSED,
     USED,
     MISPLACED,

@@ -1,6 +1,6 @@
-import { Letter } from "Letter.js"
-import { MAX_WORD_SIZE } from "./env.js";
-import { KeyState } from "./KeyState.js";
+import { Letter } from "Letter.js";
+import { MAX_WORD_SIZE } from "../env.js";
+import { KeyType } from "../enum/KeyType.js";
 
 export class Word {
     private word: Letter[];
@@ -61,21 +61,21 @@ export class Word {
         return true;
     }
 
-    public checkLetter(letter: Letter, position: number): KeyState {
+    public checkLetter(letter: Letter, position: number): KeyType {
         if (position < 0 || position >= this.getSize()) {
-            console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyState.UNUSED);
-            return KeyState.UNUSED;
+            console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyType.UNUSED);
+            return KeyType.UNUSED;
         }
         if (this.getLetterAtIndex(position).equals(letter)) {
-            console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyState.RIGHT);
-            return KeyState.RIGHT;
+            console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyType.RIGHT);
+            return KeyType.RIGHT;
         }
         for (let wordLetter of this.word) {
             if (wordLetter.equals(letter)) {
-                console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyState.MISPLACED);
-                return KeyState.MISPLACED;
+                console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyType.MISPLACED);
+                return KeyType.MISPLACED;
             }
         }
-        return KeyState.USED;
+        return KeyType.USED;
     }
 }

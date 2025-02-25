@@ -1,46 +1,46 @@
-import { KeyState } from "./KeyState.js";
+import { KeyType } from "../enum/KeyType.js";
 
 export class Key {
     private code: string;
-    private state: KeyState = KeyState.UNUSED;
+    private state: KeyType = KeyType.UNUSED;
     constructor(code: string) {
         this.code = code
     }
 
     private setUsed() {
-        if (this.state == KeyState.UNUSED) {
-            this.state = KeyState.USED;
+        if (this.state == KeyType.UNUSED) {
+            this.state = KeyType.USED;
         }
     }
 
     private setMisplaced() {
         console.log('Key.ts misplaced');
-        if (this.state == KeyState.UNUSED || this.state == KeyState.USED) {
-            this.state = KeyState.MISPLACED;
+        if (this.state == KeyType.UNUSED || this.state == KeyType.USED) {
+            this.state = KeyType.MISPLACED;
         }
     }
 
     private setRight() {
         console.log('Key.ts right');
-        this.state = KeyState.RIGHT;
+        this.state = KeyType.RIGHT;
     }
 
-    setState(state: KeyState) {
+    setState(state: KeyType) {
         console.log('me setean a: %s', state)
         switch (state) {
-            case KeyState.USED:
+            case KeyType.USED:
                 this.setUsed();
                 break;
-            case KeyState.MISPLACED:
+            case KeyType.MISPLACED:
                 this.setMisplaced();
                 break;
-            case KeyState.RIGHT:
+            case KeyType.RIGHT:
                 this.setRight();
                 break;
         }
     }
 
-    getState(): KeyState {
+    getState(): KeyType {
         return this.state;
     }
 

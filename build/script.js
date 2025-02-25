@@ -1,7 +1,8 @@
-import { Words } from "./Words.js";
+import { WordGenerator } from "./utils/WordGenerator.js";
 import { Game } from "./Game.js";
-import { InputKeyboard } from "./InputKeyboard.js";
-var wordsCollection = new Words(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
+import { InputKeyboard } from "./input/InputKeyboard.js";
+import { WORDS_COLLECTION } from "./env.js";
+var wordsCollection = new WordGenerator(WORDS_COLLECTION);
 var pickedWord = wordsCollection.getRandomWord();
 console.log(pickedWord);
 var game = new Game(pickedWord);

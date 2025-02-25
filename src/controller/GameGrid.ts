@@ -1,5 +1,5 @@
 import { UserInterfaceController } from "./UserInterfaceController"
-import { Word } from "./Word";
+import { Word } from "../model/Word.js";
 
 export class GameGrid {
     private interface: UserInterfaceController;
