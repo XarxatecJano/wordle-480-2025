@@ -2,6 +2,7 @@ import { MAX_WORD_SIZE, } from "./env.js";
 import { Interface } from "./Interface.js";
 import { Letter } from "./Letter.js";
 import { Checker } from "./Checker.js";
+//import { Updater } from "./Updater.js";
 var Game = /** @class */ (function () {
     function Game(pickedWord) {
         this._checker = new Checker(pickedWord);
@@ -18,9 +19,6 @@ var Game = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Game.prototype.isValidLetter = function (code) {
-        return this._validLetterCodes.includes(code) && this.checker.actualPosition < MAX_WORD_SIZE;
-    };
     Game.prototype.isEnterKey = function (code) {
         return code == "Enter";
     };
@@ -49,7 +47,7 @@ var Game = /** @class */ (function () {
         }
     };
     Game.prototype.newKeyPressed = function (code) {
-        if (this.isValidLetter(code) && this.checker.actualPosition < MAX_WORD_SIZE) {
+        if (this._checker.isValidLetter(code) && this.checker.actualPosition < MAX_WORD_SIZE) {
             this.newLetter(code);
             this._interface.changeBackgroundKey(code);
         }

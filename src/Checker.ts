@@ -1,13 +1,16 @@
 import { MAX_WORD_SIZE, MAX_ATTEMPTS, } from "./env.js";
+import { Letter } from "./Letter.js";
 import { Interface } from "./Interface.js";
 export class Checker {
     private _pickedWord: string
+    private _validLetterCodes: Letter
     private _actualLetters: string
     private _actualWord: string
     private _turn: number
     private _actualPosition: number
     private _interface: Interface
     constructor(pickedWord: string) {
+        this._validLetterCodes = new Letter();
         this._actualLetters = "";
         this._pickedWord = pickedWord;
         this._actualWord = "";
@@ -56,6 +59,10 @@ export class Checker {
         this._interface = i;
     }
 
+    isValidLetter(code: string):boolean {
+        return  this._validLetterCodes.includes(code) && this.actualPosition < MAX_WORD_SIZE;
+     }
+
     checkWordIsRight(): void {
         if (this._actualWord == this._pickedWord) {
             location.assign("/winner");
@@ -94,15 +101,7 @@ export class Checker {
             if (numberOfCoincidences == 0) this._interface.changeBackgroundPosition(this._turn, i, "wrongLetter");
         }
     }
-    updateAfterANewWord = (): void => {
-        this.checkRightLetters();
-        this.checkMisplacedLetters();
-        this.checkWrongLetters();
-        this.updateActualLetters();
-        this._turn = this._turn + 1;
-        this._actualPosition = 0;
-        this._actualWord = "";
-    }
+    
 
     checkGameIsOver(): void {
         if (this._turn == MAX_ATTEMPTS) {
@@ -110,19 +109,31 @@ export class Checker {
         }
     }
 
+
+    updateAfterANewWord = (): void => {
+        this.checkRightLetters();
+        this.checkMisplacedLetters();
+        this.checkWrongLetters();
+        this.updateActualLetters();
+        this.turn = this.turn + 1;
+        this.actualPosition = 0;
+        this.actualWord = "";
+    }
     aumentarPosicion(): void {
-        this._actualPosition = this._actualPosition + 1;
-        console.log(this._actualPosition);
+        this.actualPosition = this.actualPosition + 1;
+        console.log(this.actualPosition);
     }
     updateActualLetters(): void {
-        if(this._turn==1){
-            this.actualLetters = this._actualWord;
+        if(this.turn==1){
+            this.actualLetters = this.actualWord;
         }else{
         for (let i = 0; i < MAX_WORD_SIZE; i++) {
-            if (!this._actualLetters[i].includes(this._actualWord[i])) {
-                this._actualLetters += this._actualWord[i];
+            if (!this.actualLetters[i].includes(this.actualWord[i])) {
+                this.actualLetters += this.actualWord[i];
             }
         }
         }
     }
+
+   
 }

@@ -2,17 +2,20 @@ import {MAX_WORD_SIZE, MAX_ATTEMPTS, } from "./env.js";
 import {Interface} from "./Interface.js";
 import { Letter } from "./Letter.js";
 import {Checker} from "./Checker.js";
+//import { Updater } from "./Updater.js";
 
 export class Game {
     private _validLetterCodes: Letter
     private _checker: Checker
     private _interface: Interface
     constructor(pickedWord: string){
+
         this._checker = new Checker(pickedWord);
         this._validLetterCodes = new Letter();
         this._interface = new Interface();
 
     }
+    
     get checker(){
         return this._checker;
     }
@@ -21,9 +24,7 @@ export class Game {
     }   
     
     
-    isValidLetter(code: string):boolean {
-        return  this._validLetterCodes.includes(code) && this.checker.actualPosition < MAX_WORD_SIZE;
-     }
+   
     
     isEnterKey(code: string):boolean {
         return code=="Enter";
@@ -59,7 +60,7 @@ export class Game {
     }
 
     newKeyPressed(code: string):void{ 
-        if (this.isValidLetter(code) && this.checker.actualPosition < MAX_WORD_SIZE) {
+        if (this._checker.isValidLetter(code) && this.checker.actualPosition < MAX_WORD_SIZE) {
             this.newLetter(code);
             this._interface.changeBackgroundKey(code);
         }

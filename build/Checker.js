@@ -1,4 +1,5 @@
 import { MAX_WORD_SIZE, MAX_ATTEMPTS, } from "./env.js";
+import { Letter } from "./Letter.js";
 import { Interface } from "./Interface.js";
 var Checker = /** @class */ (function () {
     function Checker(pickedWord) {
@@ -43,10 +44,11 @@ var Checker = /** @class */ (function () {
             _this.checkMisplacedLetters();
             _this.checkWrongLetters();
             _this.updateActualLetters();
-            _this._turn = _this._turn + 1;
-            _this._actualPosition = 0;
-            _this._actualWord = "";
+            _this.turn = _this.turn + 1;
+            _this.actualPosition = 0;
+            _this.actualWord = "";
         };
+        this._validLetterCodes = new Letter();
         this._actualLetters = "";
         this._pickedWord = pickedWord;
         this._actualWord = "";
@@ -114,6 +116,9 @@ var Checker = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Checker.prototype.isValidLetter = function (code) {
+        return this._validLetterCodes.includes(code) && this.actualPosition < MAX_WORD_SIZE;
+    };
     Checker.prototype.checkWordIsRight = function () {
         if (this._actualWord == this._pickedWord) {
             location.assign("/winner");
@@ -125,18 +130,17 @@ var Checker = /** @class */ (function () {
         }
     };
     Checker.prototype.aumentarPosicion = function () {
-        this._actualPosition = this._actualPosition + 1;
-        console.log(this._actualPosition);
+        this.actualPosition = this.actualPosition + 1;
+        console.log(this.actualPosition);
     };
     Checker.prototype.updateActualLetters = function () {
-        if (this._turn == 1) {
-            this.actualLetters = this._actualWord;
+        if (this.turn == 1) {
+            this.actualLetters = this.actualWord;
         }
         else {
             for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                console.log("Numero" + this._actualWord[i]);
-                if (!this._actualLetters[i].includes(this._actualWord[i])) {
-                    this._actualLetters += this._actualWord[i];
+                if (!this.actualLetters[i].includes(this.actualWord[i])) {
+                    this.actualLetters += this.actualWord[i];
                 }
             }
         }

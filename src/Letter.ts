@@ -1,5 +1,6 @@
 export class Letter{
     private _validLetterCodes: string[]
+
     //private _actualPosition: number
 
 
@@ -22,6 +23,8 @@ export class Letter{
             else letter = code.split("y")[1];
             return letter;
         }
+
+        
       /*  newLetter(code: string):void{
             let letter: string = this._validLetterCodes.transformCodeToLetter(code);
             this._interface.setNewLetter(this.turn, this.actualPosition, letter);
