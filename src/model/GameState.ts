@@ -1,4 +1,5 @@
 import { Word } from "./Word.js"
+import { MAX_ATTEMPTS } from "../env.js"
 
 export class GameState {
     private _pickedWord: Word
@@ -29,5 +30,17 @@ export class GameState {
 
     get actualWord(): Word {
         return this._actualWord;
+    }
+
+    checkWordIsRight(): void {
+        if (this.actualWord.equals(this.pickedWord)) {
+            location.assign("/winner");
+        }
+    }
+
+    checkGameIsOver(): void {
+        if (this.turn == MAX_ATTEMPTS) {
+            location.assign("/loser");
+        }
     }
 }

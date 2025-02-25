@@ -1,4 +1,5 @@
 import { Word } from "./Word.js";
+import { MAX_ATTEMPTS } from "../env.js";
 var GameState = /** @class */ (function () {
     function GameState(pickedWord) {
         this._pickedWord = pickedWord;
@@ -32,6 +33,16 @@ var GameState = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    GameState.prototype.checkWordIsRight = function () {
+        if (this.actualWord.equals(this.pickedWord)) {
+            location.assign("/winner");
+        }
+    };
+    GameState.prototype.checkGameIsOver = function () {
+        if (this.turn == MAX_ATTEMPTS) {
+            location.assign("/loser");
+        }
+    };
     return GameState;
 }());
 export { GameState };

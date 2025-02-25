@@ -9,8 +9,6 @@ var InputKeyboard = /** @class */ (function () {
     };
     InputKeyboard.prototype.enterPressed = function () {
         if (this.game.wordIsComplete()) {
-            this.game.checkWordIsRight();
-            this.game.checkGameIsOver();
             this.game.updateAfterANewWord();
         }
     };

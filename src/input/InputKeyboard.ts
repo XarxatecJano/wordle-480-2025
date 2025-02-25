@@ -14,8 +14,6 @@ export class InputKeyboard {
 
     enterPressed(): void {
         if (this.game.wordIsComplete()) {
-            this.game.checkWordIsRight();
-            this.game.checkGameIsOver();
             this.game.updateAfterANewWord();
         }
     }

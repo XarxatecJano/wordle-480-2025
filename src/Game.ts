@@ -25,12 +25,6 @@ export class Game {
         this.grid.setGridLetterState(this.gameManager.turn, position, state);
     }
 
-    checkWordIsRight(): void {
-        if (this.gameManager.actualWord.equals(this.gameManager.pickedWord)) {
-            location.assign("/winner");
-        }
-    }
-
     highlightLetters(): void {
         for (let letter of this.gameManager.actualWord.getLetters()){
             this.keyboard.setKeyboardKeyState(letter.getCode(), KeyType.USED);
@@ -98,15 +92,10 @@ export class Game {
         this.checkWrongLetters();
         this.checkMisplacedLetters();
         this.checkRightLetters();
-        this.checkWordIsRight();
+        this.gameManager.checkWordIsRight();
+        this.gameManager.checkGameIsOver();
         this.gameManager.nextTurn();
         this.gameManager.actualWord = new Word([]);
-    }
-
-    checkGameIsOver(): void {
-        if (this.gameManager.turn == MAX_ATTEMPTS) {
-            location.assign("/loser");
-        }
     }
 
     isValidLetter(letter: Letter): boolean {

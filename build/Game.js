@@ -1,4 +1,4 @@
-import { MAX_WORD_SIZE, MAX_ATTEMPTS } from "./env.js";
+import { MAX_WORD_SIZE } from "./env.js";
 import { UserInterfaceController } from "./controller/UserInterfaceController.js";
 import { Word } from "./model/Word.js";
 import { GameKeyboard } from "./controller/GameKeyboard.js";
@@ -66,7 +66,8 @@ var Game = /** @class */ (function () {
             _this.checkWrongLetters();
             _this.checkMisplacedLetters();
             _this.checkRightLetters();
-            _this.checkWordIsRight();
+            _this.gameManager.checkWordIsRight();
+            _this.gameManager.checkGameIsOver();
             _this.gameManager.nextTurn();
             _this.gameManager.actualWord = new Word([]);
         };
@@ -78,20 +79,10 @@ var Game = /** @class */ (function () {
     Game.prototype.setGridLetterState = function (position, state) {
         this.grid.setGridLetterState(this.gameManager.turn, position, state);
     };
-    Game.prototype.checkWordIsRight = function () {
-        if (this.gameManager.actualWord.equals(this.gameManager.pickedWord)) {
-            location.assign("/winner");
-        }
-    };
     Game.prototype.highlightLetters = function () {
         for (var _i = 0, _a = this.gameManager.actualWord.getLetters(); _i < _a.length; _i++) {
             var letter = _a[_i];
             this.keyboard.setKeyboardKeyState(letter.getCode(), KeyType.USED);
-        }
-    };
-    Game.prototype.checkGameIsOver = function () {
-        if (this.gameManager.turn == MAX_ATTEMPTS) {
-            location.assign("/loser");
         }
     };
     Game.prototype.isValidLetter = function (letter) {
