@@ -19,10 +19,13 @@ export class Interface {
             }
         }
     }
-    resetBackgroundKeys(word: string) {
+    resetBackgroundKeys(word: string, letters: string) {
         const lastLetter = word[word.length - 1];
         const oldWord = word.slice(0, word.length - 1);
-        if (!oldWord.includes(lastLetter)) {
+        console.log(oldWord);
+        console.log(letters);
+        console.log(lastLetter);
+        if (!oldWord.includes(lastLetter) && !letters.includes(lastLetter)) {
             const keys: any = document.getElementsByClassName("keyPressed");
             for (let key of keys) {
                 if (key.value == "Key"+lastLetter) {

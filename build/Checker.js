@@ -42,16 +42,28 @@ var Checker = /** @class */ (function () {
             _this.checkRightLetters();
             _this.checkMisplacedLetters();
             _this.checkWrongLetters();
+            _this.updateActualLetters();
             _this._turn = _this._turn + 1;
             _this._actualPosition = 0;
             _this._actualWord = "";
         };
+        this._actualLetters = "";
         this._pickedWord = pickedWord;
         this._actualWord = "";
         this._turn = 1;
         this._actualPosition = 0;
         this._interface = new Interface();
     }
+    Object.defineProperty(Checker.prototype, "actualLetters", {
+        get: function () {
+            return this._actualLetters;
+        },
+        set: function (letters) {
+            this._actualLetters = letters;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Checker.prototype, "pickedWord", {
         get: function () {
             return this._pickedWord;
@@ -115,6 +127,19 @@ var Checker = /** @class */ (function () {
     Checker.prototype.aumentarPosicion = function () {
         this._actualPosition = this._actualPosition + 1;
         console.log(this._actualPosition);
+    };
+    Checker.prototype.updateActualLetters = function () {
+        if (this._turn == 1) {
+            this.actualLetters = this._actualWord;
+        }
+        else {
+            for (var i = 0; i < MAX_WORD_SIZE; i++) {
+                console.log("Numero" + this._actualWord[i]);
+                if (!this._actualLetters[i].includes(this._actualWord[i])) {
+                    this._actualLetters += this._actualWord[i];
+                }
+            }
+        }
     };
     return Checker;
 }());
