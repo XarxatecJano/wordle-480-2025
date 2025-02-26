@@ -1,4 +1,4 @@
-import { MAX_WORD_SIZE } from "./env.js";  
+import { MAX_WORD_SIZE } from "../config/env.js";  
 const LETTER = {A:65, Z:90}
 const LETTER_CODE_POSITION_VALUE: number = 3;
 

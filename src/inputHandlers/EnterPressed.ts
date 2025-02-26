@@ -1,6 +1,6 @@
-import { Game } from "../Game";
+import { Game } from "../core/Game";
 import { IKeyPressed } from "./IKeyPressed";
-import { MAX_WORD_SIZE } from "../env.js";
+import { MAX_WORD_SIZE } from "../config/env.js";
 
 export class EnterPressed implements IKeyPressed{
     private _game: Game;

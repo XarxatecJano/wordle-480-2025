@@ -1,9 +1,10 @@
 import { Interface } from "./Interface.js";
-import { LetterCheckerFactory } from "./LetterCheckerFactory.js";
-import { LetterValidatorFactory } from "./LetterValidatorFactory.js";
-import { IKeyPressed } from "./SpecialKeyPressedStrategy/IKeyPressed.js";
-import { EnterPressed } from "./SpecialKeyPressedStrategy/EnterPressed.js";
-import { BackspacePressed } from "./SpecialKeyPressedStrategy/BackspacePressed.js";
+import { LetterCheckerFactory } from "../checkers/LetterCheckerFactory.js";
+import { LetterValidatorFactory } from "../validators/LetterValidatorFactory.js";
+import { IKeyPressed } from "../inputHandlers/IKeyPressed.js";
+import { EnterPressed } from "../inputHandlers/EnterPressed.js";
+import { BackspacePressed } from "../inputHandlers/BackspacePressed.js";
+import { WordState } from "./WordCheckerData.js";
 
 const MAX_ATTEMPTS:number = 6;
 
@@ -35,7 +36,6 @@ export class Game extends Interface {
     set actualPosition(num) { this._actualPosition = num; }
 
 
-
     public static getInstance (pickedWord: string){
         if (!Game.instance){
             Game.instance = new Game(pickedWord);
@@ -60,31 +60,8 @@ export class Game extends Interface {
 
     updateAfterANewWord() {
         let letterCheckerFactory = LetterCheckerFactory.createCheckers(this);
-        let letterCount: Record<string, number> = {};
-        let markedPositions: Record<number, boolean> = {}; 
-
-        for (let letter of this.pickedWord) {
-            letterCount[letter] = (letterCount[letter] || 0) + 1;
-        }
-
-        letterCheckerFactory.forEach(checker => {
-            if (checker.checkType() === "right") {
-                checker.check(this.actualWord, this.pickedWord, this.turn, letterCount, markedPositions);
-            }
-        });
-
-        letterCheckerFactory.forEach(checker => {
-            if (checker.checkType() === "misplaced") {
-                checker.check(this.actualWord, this.pickedWord, this.turn, letterCount, markedPositions);
-            }
-        });
-
-        letterCheckerFactory.forEach(checker => {
-            if (checker.checkType() === "wrong") {
-                checker.check(this.actualWord, this.pickedWord, this.turn, letterCount, markedPositions);
-            }
-        });
-
+        let wordData = new WordState(this._actualWord, this._pickedWord, this.turn);
+        letterCheckerFactory.forEach(checker => checker.check(wordData));
         this.resetWordState();
         
     }

@@ -18,6 +18,7 @@ import { LetterCheckerFactory } from "./LetterCheckerFactory.js";
 import { LetterValidatorFactory } from "./LetterValidatorFactory.js";
 import { EnterPressed } from "./SpecialKeyPressedStrategy/EnterPressed.js";
 import { BackspacePressed } from "./SpecialKeyPressedStrategy/BackspacePressed.js";
+import { WordCheckData } from "./WordCheckerData.js";
 var MAX_ATTEMPTS = 6;
 var Game = /** @class */ (function (_super) {
     __extends(Game, _super);
@@ -72,29 +73,26 @@ var Game = /** @class */ (function (_super) {
         this._actualWord += letter;
     };
     Game.prototype.updateAfterANewWord = function () {
-        var _this = this;
         var letterCheckerFactory = LetterCheckerFactory.createCheckers(this);
-        var letterCount = {};
-        var markedPositions = {};
-        for (var _i = 0, _a = this.pickedWord; _i < _a.length; _i++) {
-            var letter = _a[_i];
-            letterCount[letter] = (letterCount[letter] || 0) + 1;
-        }
-        letterCheckerFactory.forEach(function (checker) {
+        var wordData = new WordCheckData(this._actualWord, this._pickedWord, this.turn);
+        letterCheckerFactory.forEach(function (checker) { return checker.check(wordData); });
+        /*letterCheckerFactory.forEach(checker => {
             if (checker.checkType() === "right") {
-                checker.check(_this.actualWord, _this.pickedWord, _this.turn, letterCount, markedPositions);
+                checker.check(wordData);
             }
         });
-        letterCheckerFactory.forEach(function (checker) {
+
+        letterCheckerFactory.forEach(checker => {
             if (checker.checkType() === "misplaced") {
-                checker.check(_this.actualWord, _this.pickedWord, _this.turn, letterCount, markedPositions);
+                checker.check(wordData);
             }
         });
-        letterCheckerFactory.forEach(function (checker) {
+
+        letterCheckerFactory.forEach(checker => {
             if (checker.checkType() === "wrong") {
-                checker.check(_this.actualWord, _this.pickedWord, _this.turn, letterCount, markedPositions);
+                checker.check(wordData);
             }
-        });
+        });*/
         this.resetWordState();
     };
     Game.prototype.checkWordIsRight = function () {

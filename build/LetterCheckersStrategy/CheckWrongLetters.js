@@ -5,10 +5,10 @@ var CheckWrongLetters = /** @class */ (function () {
     CheckWrongLetters.prototype.checkType = function () {
         return "wrong";
     };
-    CheckWrongLetters.prototype.check = function (actualWord, pickedWord, turn, letterCount, markedPositions) {
-        for (var i = 0; i < pickedWord.length; i++) {
-            if (!(actualWord[i] in letterCount) || (letterCount[actualWord[i]] == 0 && !markedPositions[i])) {
-                this.interface.changeBackgroundPosition(turn, i, "wrongLetter");
+    CheckWrongLetters.prototype.check = function (wordData) {
+        for (var i = 0; i < wordData.pickedWord.length; i++) {
+            if (!(wordData.actualWord[i] in wordData.letterCount) || (wordData.letterCount[wordData.actualWord[i]] == 0 && !wordData.markedPositions[i])) {
+                this.interface.changeBackgroundPosition(wordData.turn, i, "wrongLetter");
             }
         }
     };

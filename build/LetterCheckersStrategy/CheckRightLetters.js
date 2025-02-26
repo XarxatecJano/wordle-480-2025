@@ -5,12 +5,12 @@ var CheckRightLetters = /** @class */ (function () {
     CheckRightLetters.prototype.checkType = function () {
         return "right";
     };
-    CheckRightLetters.prototype.check = function (actualWord, pickedWord, turn, letterCount, markedPositions) {
-        for (var i = 0; i < pickedWord.length; i++) {
-            if (pickedWord[i] === actualWord[i]) {
-                letterCount[actualWord[i]]--;
-                this.interface.changeBackgroundPosition(turn, i, "rightLetter");
-                markedPositions[i] = true;
+    CheckRightLetters.prototype.check = function (wordData) {
+        for (var i = 0; i < wordData.pickedWord.length; i++) {
+            if (wordData.pickedWord[i] === wordData.actualWord[i]) {
+                wordData.letterCount[wordData.actualWord[i]]--;
+                this.interface.changeBackgroundPosition(wordData.turn, i, "rightLetter");
+                wordData.markedPositions[i] = true;
             }
         }
     };

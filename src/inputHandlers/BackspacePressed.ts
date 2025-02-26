@@ -1,4 +1,4 @@
-import { Game } from "../Game";
+import { Game } from "../core/Game";
 import { IKeyPressed } from "./IKeyPressed";
 
 export class BackspacePressed implements IKeyPressed{
