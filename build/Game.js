@@ -5,17 +5,11 @@ import { Checker } from "./Checker.js";
 import { UpdateManager } from "./UpdateManager.js";
 var Game = /** @class */ (function () {
     function Game(pickedWord) {
-        this._checker = new Checker(pickedWord);
-        this._validLetterCodes = new Letter();
+        this._checker = Checker.getInstance(pickedWord);
+        this._letterManager = Letter.getInstance();
         this._interface = new Interface();
-        this._updateElementsManager = new UpdateManager(this._checker);
+        this._updateElementsManager = UpdateManager.getInstance(this._checker);
     }
-    Game.getInstance = function (pickedWord) {
-        if (!Game._instance) {
-            Game._instance = new Game(pickedWord);
-        }
-        return Game._instance;
-    };
     Object.defineProperty(Game.prototype, "checker", {
         get: function () {
             return this._checker;
@@ -26,8 +20,14 @@ var Game = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Game.getInstance = function (pickedWord) {
+        if (!Game._instance) {
+            Game._instance = new Game(pickedWord);
+        }
+        return Game._instance;
+    };
     Game.prototype.newLetter = function (code) {
-        var letter = this._validLetterCodes.transformCodeToLetter(code);
+        var letter = this._letterManager.transformCodeToLetter(code);
         this._interface.setNewLetter(this.checker.turn, this._checker.actualPosition, letter);
         this._updateElementsManager.nextPosition();
         this.checker.actualWord += letter;
@@ -52,9 +52,9 @@ var Game = /** @class */ (function () {
             this.newLetter(code);
             this._interface.changeBackgroundKey(code);
         }
-        if (this._validLetterCodes.isEnterKey(code))
+        if (this._letterManager.isEnterKey(code))
             this.enterPressed();
-        if (this._validLetterCodes.isBackspaceKey(code))
+        if (this._letterManager.isBackspaceKey(code))
             this.backspacePressed();
     };
     return Game;

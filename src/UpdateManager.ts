@@ -1,9 +1,16 @@
 import { MAX_WORD_SIZE } from "./env.js";
 import { IGameChecker } from "./IGameChecker.js";
 export class UpdateManager {
+    private static _instance: UpdateManager;
     private checker: IGameChecker;
     constructor(checker: IGameChecker) {
         this.checker = checker;
+    }
+    public static getInstance(checker: IGameChecker): UpdateManager {
+        if (!UpdateManager._instance) {
+            UpdateManager._instance = new UpdateManager(checker);
+        }
+        return UpdateManager._instance;
     }
 
     updateAfterNewWord(): void {

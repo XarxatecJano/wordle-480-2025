@@ -1,8 +1,16 @@
 export class Letter{
+    private static _instance: Letter
     private _validLetterCodes: string[]
         constructor(){
             this._validLetterCodes=["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
         }
+        public static getInstance(): Letter {
+            if (!Letter._instance) {
+                Letter._instance = new Letter();
+            }
+            return Letter._instance;
+        }
+
         get validLetterCodes() {
             return this._validLetterCodes
         }
@@ -18,7 +26,6 @@ export class Letter{
             else letter = code.split("y")[1];
             return letter;
         }
-
         isEnterKey(code: string): boolean {
             return code == "Enter";
         }

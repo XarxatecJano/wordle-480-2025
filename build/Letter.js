@@ -2,6 +2,12 @@ var Letter = /** @class */ (function () {
     function Letter() {
         this._validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
     }
+    Letter.getInstance = function () {
+        if (!Letter._instance) {
+            Letter._instance = new Letter();
+        }
+        return Letter._instance;
+    };
     Object.defineProperty(Letter.prototype, "validLetterCodes", {
         get: function () {
             return this._validLetterCodes;

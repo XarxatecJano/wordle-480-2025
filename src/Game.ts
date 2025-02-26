@@ -6,24 +6,19 @@ import { UpdateManager } from "./UpdateManager.js";
 
 export class Game {
     private static _instance: Game;
-    private _validLetterCodes: Letter
+    private _letterManager: Letter
     private _checker: Checker
     private _interface: Interface
     private _updateElementsManager: UpdateManager
     constructor(pickedWord: string) {
 
-        this._checker = new Checker(pickedWord);
-        this._validLetterCodes = new Letter();
+        this._checker = Checker.getInstance(pickedWord);
+        this._letterManager = Letter.getInstance();
         this._interface = new Interface();
-        this._updateElementsManager = new UpdateManager(this._checker);
+        this._updateElementsManager = UpdateManager.getInstance(this._checker);
 
     }
-    public static getInstance(pickedWord: string): Game {
-        if (!Game._instance) {
-            Game._instance = new Game(pickedWord);
-        }
-        return Game._instance;
-    }
+
 
     get checker() {
         return this._checker;
@@ -31,12 +26,14 @@ export class Game {
     set checker(checker) {
         this._checker = checker;
     }
-
-    
-
-
+    public static getInstance(pickedWord: string): Game {
+        if (!Game._instance) {
+            Game._instance = new Game(pickedWord);
+        }
+        return Game._instance;
+    }
     newLetter(code: string): void {
-        let letter: string = this._validLetterCodes.transformCodeToLetter(code);
+        let letter: string = this._letterManager.transformCodeToLetter(code);
         this._interface.setNewLetter(this.checker.turn, this._checker.actualPosition, letter);
         this._updateElementsManager.nextPosition();
         this.checker.actualWord += letter;
@@ -46,7 +43,7 @@ export class Game {
             this.checker.checkWordIsRight();
             this.checker.checkGameIsOver();
             this._updateElementsManager.updateAfterNewWord();
-           
+
         }
     }
 
@@ -64,8 +61,8 @@ export class Game {
             this.newLetter(code);
             this._interface.changeBackgroundKey(code);
         }
-        if (this._validLetterCodes.isEnterKey(code)) this.enterPressed();
-        if (this._validLetterCodes.isBackspaceKey(code)) this.backspacePressed();
+        if (this._letterManager.isEnterKey(code)) this.enterPressed();
+        if (this._letterManager.isBackspaceKey(code)) this.backspacePressed();
     }
 
 

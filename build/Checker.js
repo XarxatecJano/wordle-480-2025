@@ -3,11 +3,13 @@ import { Letter } from "./Letter.js";
 import { Interface } from "./Interface.js";
 var Checker = /** @class */ (function () {
     function Checker(pickedWord) {
+        this._INITIAL_TURN = 1;
+        this._INITIAL_POSITION = 0;
         this._actualLetters = "";
         this._actualWord = "";
-        this._turn = 1;
-        this._actualPosition = 0;
-        this._validLetterCodes = new Letter();
+        this._turn = this._INITIAL_TURN;
+        this._actualPosition = this._INITIAL_POSITION;
+        this._letterManager = Letter.getInstance();
         this._pickedWord = pickedWord;
         this._interface = new Interface();
     }
@@ -71,8 +73,14 @@ var Checker = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Checker.getInstance = function (pickedWord) {
+        if (!Checker._instance) {
+            Checker._instance = new Checker(pickedWord);
+        }
+        return Checker._instance;
+    };
     Checker.prototype.isValidLetter = function (code) {
-        return this._validLetterCodes.includes(code) && this.actualPosition < MAX_WORD_SIZE;
+        return this._letterManager.includes(code) && this.actualPosition < MAX_WORD_SIZE;
     };
     Checker.prototype.checkWordIsRight = function () {
         if (this._actualWord == this._pickedWord) {
