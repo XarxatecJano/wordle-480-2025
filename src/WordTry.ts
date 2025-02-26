@@ -7,7 +7,6 @@ import { Key } from "./Key.js";
 export class WordTry {
     private _wordTry: string;
     private _turn: number;
-    //private _actualPosition: number;
     private _interface: Interface;
     private _letterHistory: Set<string>;
     private _pickedWord: string;
@@ -16,7 +15,6 @@ export class WordTry {
         this._wordTry = "";
         this._pickedWord = pickedWord;
         this._turn = turn;
-        //this._actualPosition = 0;
         this._interface = interface0;
         this._letterHistory = letterHistory;
         this._key = new Key();
@@ -57,10 +55,18 @@ export class WordTry {
         if (actualPosition < MAX_WORD_SIZE) {
             const letter: string = this._key.transformCodeToLetter(code);
             this._interface.setNewLetter(this.turn, actualPosition, letter);
-            this._interface.changeBackgroundKey(code);
-            //this._actualPosition += 1;
+            this._interface.pressedBackgroundKey(code);
             this._wordTry += letter;
         }
+    }
+
+    lastLetterIsUnique() {
+        const position = this._wordTry.length - 1;
+        const lastLetter = this._wordTry[position];
+        const oldWord = this._wordTry.slice(0, position);
+        if (!oldWord.includes(lastLetter) && !this._letterHistory.has(lastLetter))
+            return true;
+        return false;
     }
 
     deleteLetterIfPossible():void {
@@ -68,7 +74,8 @@ export class WordTry {
         if (actualPosition > 0) {
             const lastLetterPos = actualPosition - 1;
             this._interface.deleteLetter(this._turn, lastLetterPos);
-            this._interface.resetLastLetterBGColor(this._wordTry, this._letterHistory);
+            if (this.lastLetterIsUnique())
+                this._interface.resetLastLetterBG(this._wordTry[lastLetterPos]);
             this._wordTry = this._wordTry.substring(0, this._wordTry.length - 1);
         }
     }
@@ -95,7 +102,6 @@ export class WordTry {
         wordTryState.updateWordTryStates();
         this.updateLetterHistory()
         this._turn += 1;
-        //this._actualPosition = 0;
         this._wordTry = "";
     }
 

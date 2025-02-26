@@ -9,14 +9,14 @@ export class Interface {
 
     changeBackgroundPosition(turn: number, position: number, state: string){
         let positionClass = "cell-grey";
-        if (state=="rightLetter") 
+        if (state == "rightLetter") 
             positionClass = "cell-green";
-        if (state=="misplacedLetter") 
+        if (state == "misplacedLetter") 
             positionClass = "cell-orange";
         Array.from(document.getElementById(`row_${turn}`)!.children)[position].classList.add(positionClass);
     }
 
-    changeBackgroundKey(code: string){
+    pressedBackgroundKey(code: string){
        const keys: any = document.getElementsByClassName("key");
        for (let key of keys) {
             if (key.value == code && code !== "Enter" && code !== "Backspace"){
@@ -25,16 +25,12 @@ export class Interface {
        }
     }
 
-    resetLastLetterBGColor(word: string, history: Set<string>) {
-        const lastLetter = word[word.length - 1];
-        const oldWord = word.slice(0, word.length - 1);
-        if (!oldWord.includes(lastLetter) && !history.has(lastLetter)) {
-            const keys: any = document.getElementsByClassName("keyPressed");
-            for (let key of keys) {
-                if (key.value == "Key"+lastLetter || key.value == "Semicolon") {
-                    key.classList.remove("keyPressed");
-                    break;
-                }
+    resetLastLetterBG(letter: string) {
+        const keys: any = document.getElementsByClassName("keyPressed");
+        for (let key of keys) {
+            if (key.value == "Key" + letter || key.value == "Semicolon") {
+                key.classList.remove("keyPressed");
+                break;
             }
         }
     }

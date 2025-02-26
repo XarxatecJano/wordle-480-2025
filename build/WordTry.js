@@ -7,7 +7,6 @@ var WordTry = /** @class */ (function () {
         this._wordTry = "";
         this._pickedWord = pickedWord;
         this._turn = turn;
-        //this._actualPosition = 0;
         this._interface = interface0;
         this._letterHistory = letterHistory;
         this._key = new Key();
@@ -53,17 +52,25 @@ var WordTry = /** @class */ (function () {
         if (actualPosition < MAX_WORD_SIZE) {
             var letter = this._key.transformCodeToLetter(code);
             this._interface.setNewLetter(this.turn, actualPosition, letter);
-            this._interface.changeBackgroundKey(code);
-            //this._actualPosition += 1;
+            this._interface.pressedBackgroundKey(code);
             this._wordTry += letter;
         }
+    };
+    WordTry.prototype.lastLetterIsUnique = function () {
+        var position = this._wordTry.length - 1;
+        var lastLetter = this._wordTry[position];
+        var oldWord = this._wordTry.slice(0, position);
+        if (!oldWord.includes(lastLetter) && !this._letterHistory.has(lastLetter))
+            return true;
+        return false;
     };
     WordTry.prototype.deleteLetterIfPossible = function () {
         var actualPosition = this._wordTry.length;
         if (actualPosition > 0) {
             var lastLetterPos = actualPosition - 1;
             this._interface.deleteLetter(this._turn, lastLetterPos);
-            this._interface.resetLastLetterBGColor(this._wordTry, this._letterHistory);
+            if (this.lastLetterIsUnique())
+                this._interface.resetLastLetterBG(this._wordTry[lastLetterPos]);
             this._wordTry = this._wordTry.substring(0, this._wordTry.length - 1);
         }
     };
@@ -88,7 +95,6 @@ var WordTry = /** @class */ (function () {
         wordTryState.updateWordTryStates();
         this.updateLetterHistory();
         this._turn += 1;
-        //this._actualPosition = 0;
         this._wordTry = "";
     };
     return WordTry;

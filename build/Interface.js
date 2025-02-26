@@ -15,7 +15,7 @@ var Interface = /** @class */ (function () {
             positionClass = "cell-orange";
         Array.from(document.getElementById("row_".concat(turn)).children)[position].classList.add(positionClass);
     };
-    Interface.prototype.changeBackgroundKey = function (code) {
+    Interface.prototype.pressedBackgroundKey = function (code) {
         var keys = document.getElementsByClassName("key");
         for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
             var key = keys_1[_i];
@@ -24,17 +24,13 @@ var Interface = /** @class */ (function () {
             }
         }
     };
-    Interface.prototype.resetLastLetterBGColor = function (word, history) {
-        var lastLetter = word[word.length - 1];
-        var oldWord = word.slice(0, word.length - 1);
-        if (!oldWord.includes(lastLetter) && !history.has(lastLetter)) {
-            var keys = document.getElementsByClassName("keyPressed");
-            for (var _i = 0, keys_2 = keys; _i < keys_2.length; _i++) {
-                var key = keys_2[_i];
-                if (key.value == "Key" + lastLetter || key.value == "Semicolon") {
-                    key.classList.remove("keyPressed");
-                    break;
-                }
+    Interface.prototype.resetLastLetterBG = function (letter) {
+        var keys = document.getElementsByClassName("keyPressed");
+        for (var _i = 0, keys_2 = keys; _i < keys_2.length; _i++) {
+            var key = keys_2[_i];
+            if (key.value == "Key" + letter || key.value == "Semicolon") {
+                key.classList.remove("keyPressed");
+                break;
             }
         }
     };
