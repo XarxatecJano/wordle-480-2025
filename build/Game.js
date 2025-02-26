@@ -1,5 +1,5 @@
 import { Interface } from "./Interface.js";
-import { Keyboard } from "./Keyboard.js";
+import { Key } from "./Key.js";
 import { WordTry } from "./WordTry.js";
 var Game = /** @class */ (function () {
     function Game(pickedWord) {
@@ -7,7 +7,7 @@ var Game = /** @class */ (function () {
         this._interface = new Interface();
         var letterHistory = new Set();
         this._actualWord = new WordTry(pickedWord, 1, letterHistory, this._interface);
-        this._keyboard = new Keyboard();
+        this._key = new Key();
     }
     Object.defineProperty(Game.prototype, "pickedWord", {
         get: function () {
@@ -30,11 +30,11 @@ var Game = /** @class */ (function () {
         configurable: true
     });
     Game.prototype.newKeyPressed = function (code) {
-        if (this._keyboard.isValidLetter(code))
+        if (this._key.isValidLetter(code))
             this._actualWord.addLetterIfPossible(code);
-        if (this._keyboard.isEnterKey(code))
+        if (this._key.isEnterKey(code))
             this._actualWord.enterPressed();
-        if (this._keyboard.isBackspaceKey(code))
+        if (this._key.isBackspaceKey(code))
             this._actualWord.deleteLetterIfPossible();
     };
     return Game;

@@ -1,6 +1,7 @@
 import { MAX_WORD_SIZE } from "./env.js";
 import { EndGame } from "./EndGame.js";
 import { WordTryState } from "./WordTryState.js";
+import { Key } from "./Key.js";
 var WordTry = /** @class */ (function () {
     function WordTry(pickedWord, turn, letterHistory, interface0) {
         this._wordTry = "";
@@ -9,6 +10,7 @@ var WordTry = /** @class */ (function () {
         //this._actualPosition = 0;
         this._interface = interface0;
         this._letterHistory = letterHistory;
+        this._key = new Key();
     }
     Object.defineProperty(WordTry.prototype, "guessWord", {
         get: function () {
@@ -31,9 +33,6 @@ var WordTry = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(WordTry.prototype, "letterHistory", {
-        // get actualPosition():number {
-        //  return this._actualPosition;
-        //}
         get: function () {
             return this._letterHistory;
         },
@@ -49,21 +48,10 @@ var WordTry = /** @class */ (function () {
     WordTry.prototype.getTurn = function () {
         return this._turn;
     };
-    // getActualPosition() {
-    //   return this._actualPosition;
-    //}
-    WordTry.prototype.transformCodeToLetter = function (code) {
-        var letter = "";
-        if (code == "Semicolon")
-            letter = "Ñ";
-        else
-            letter = code.split("y")[1];
-        return letter;
-    };
     WordTry.prototype.addLetterIfPossible = function (code) {
         var actualPosition = this._wordTry.length;
         if (actualPosition < MAX_WORD_SIZE) {
-            var letter = this.transformCodeToLetter(code);
+            var letter = this._key.transformCodeToLetter(code);
             this._interface.setNewLetter(this.turn, actualPosition, letter);
             this._interface.changeBackgroundKey(code);
             //this._actualPosition += 1;

@@ -2,6 +2,7 @@ import { Interface } from "./Interface.js";
 import { MAX_WORD_SIZE } from "./env.js";
 import { EndGame } from "./EndGame.js";
 import { WordTryState } from "./WordTryState.js";
+import { Key } from "./Key.js";
 
 export class WordTry {
     private _wordTry: string;
@@ -10,6 +11,7 @@ export class WordTry {
     private _interface: Interface;
     private _letterHistory: Set<string>;
     private _pickedWord: string;
+    private _key: Key;
     constructor(pickedWord: string, turn: number, letterHistory: Set<string>, interface0: Interface) {
         this._wordTry = "";
         this._pickedWord = pickedWord;
@@ -17,6 +19,7 @@ export class WordTry {
         //this._actualPosition = 0;
         this._interface = interface0;
         this._letterHistory = letterHistory;
+        this._key = new Key();
     }
     
     get guessWord():string {
@@ -33,10 +36,6 @@ export class WordTry {
         this._turn = value;
     }
 
-   // get actualPosition():number {
-      //  return this._actualPosition;
-    //}
-
     get letterHistory():Set<string> {
         return this._letterHistory;
     }
@@ -52,23 +51,11 @@ export class WordTry {
         return this._turn;
     }
 
-   // getActualPosition() {
-     //   return this._actualPosition;
-    //}
-
-    transformCodeToLetter(code: string):string {
-        let letter: string = "";
-        if (code == "Semicolon") 
-            letter = "Ñ";
-        else 
-            letter = code.split("y")[1];
-        return letter;
-    }
 
     addLetterIfPossible(code: string):void {
         const actualPosition = this._wordTry.length;
         if (actualPosition < MAX_WORD_SIZE) {
-            const letter: string = this.transformCodeToLetter(code);
+            const letter: string = this._key.transformCodeToLetter(code);
             this._interface.setNewLetter(this.turn, actualPosition, letter);
             this._interface.changeBackgroundKey(code);
             //this._actualPosition += 1;
