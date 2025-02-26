@@ -1,7 +1,7 @@
+import { VALID_LETTERS } from "../env.js";
+
 export class Letter {
     private code: string = "";
-    private _validLetterCodes: string[] = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
-
     constructor(code: string) {
         this.code = code;
     }
@@ -22,7 +22,7 @@ export class Letter {
     }
 
     isValidLetter(): boolean {
-        return this._validLetterCodes.includes(this.code);
+        return VALID_LETTERS.includes(this.code);
     }
 
     isEnterKey(): boolean {

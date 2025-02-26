@@ -2,7 +2,7 @@ var GameGrid = /** @class */ (function () {
     function GameGrid(interfaceController) {
         this.interface = interfaceController;
     }
-    GameGrid.prototype.setGridLetterState = function (turn, position, state) {
+    GameGrid.prototype.setLetterState = function (turn, position, state) {
         this.interface.changeGridCellLetter(turn, position, state);
     };
     GameGrid.prototype.setNewLetter = function (turn, position, char) {

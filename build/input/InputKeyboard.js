@@ -2,13 +2,14 @@ import { Letter } from "../model/Letter.js";
 var InputKeyboard = /** @class */ (function () {
     function InputKeyboard(game) {
         this.game = game;
+        this.gameChecker = game.getGameChecker();
     }
     ;
     InputKeyboard.prototype.addNewLetter = function (letter) {
         this.game.setNewLetter(letter);
     };
     InputKeyboard.prototype.enterPressed = function () {
-        if (this.game.wordIsComplete()) {
+        if (this.game.wordIsMaxLength()) {
             this.game.updateAfterANewWord();
         }
     };
@@ -19,7 +20,7 @@ var InputKeyboard = /** @class */ (function () {
     };
     InputKeyboard.prototype.newKeyPressed = function (code) {
         var letter = new Letter(code);
-        if (this.game.isValidLetter(letter)) {
+        if (letter.isValidLetter()) {
             this.addNewLetter(letter);
         }
         else if (letter.isEnterKey()) {

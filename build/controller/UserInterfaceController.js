@@ -11,9 +11,9 @@ var UserInterfaceController = /** @class */ (function () {
     };
     UserInterfaceController.prototype.changeGridCellLetter = function (turn, position, state) {
         var positionClass = "cell-grey";
-        if (state == "rightLetter")
+        if (state == KeyType.RIGHT)
             positionClass = "cell-green";
-        if (state == "misplacedLetter")
+        if (state == KeyType.MISPLACED)
             positionClass = "cell-orange";
         Array.from(document.getElementById("row_".concat(turn)).children)[position].classList.add(positionClass);
     };
@@ -26,6 +26,7 @@ var UserInterfaceController = /** @class */ (function () {
         for (var _i = 0, _a = this.keys; _i < _a.length; _i++) {
             var key = _a[_i];
             if (key.value == code && code !== "Enter" && code !== "Backspace") {
+                key.classList.remove("cell-grey", "cell-green", "cell-orange");
                 key.classList.add(positionClass);
             }
         }

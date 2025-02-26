@@ -1,7 +1,7 @@
+import { VALID_LETTERS } from "../env.js";
 var Letter = /** @class */ (function () {
     function Letter(code) {
         this.code = "";
-        this._validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
         this.code = code;
     }
     Letter.prototype.transformCodeToLetter = function (code) {
@@ -19,7 +19,7 @@ var Letter = /** @class */ (function () {
         return this.code;
     };
     Letter.prototype.isValidLetter = function () {
-        return this._validLetterCodes.includes(this.code);
+        return VALID_LETTERS.includes(this.code);
     };
     Letter.prototype.isEnterKey = function () {
         return this.code == "Enter";

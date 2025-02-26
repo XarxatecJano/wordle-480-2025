@@ -14,19 +14,17 @@ export class Key {
     }
 
     private setMisplaced() {
-        console.log('Key.ts misplaced');
         if (this.state == KeyType.UNUSED || this.state == KeyType.USED) {
             this.state = KeyType.MISPLACED;
         }
     }
 
     private setRight() {
-        console.log('Key.ts right');
         this.state = KeyType.RIGHT;
     }
 
     setState(state: KeyType) {
-        console.log('me setean a: %s', state)
+        console.log('KEY | setState code: %s | %s to: %s', this.getCode(), this.getState(), state);
         switch (state) {
             case KeyType.USED:
                 this.setUsed();

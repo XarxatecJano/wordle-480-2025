@@ -10,17 +10,15 @@ var Key = /** @class */ (function () {
         }
     };
     Key.prototype.setMisplaced = function () {
-        console.log('Key.ts misplaced');
         if (this.state == KeyType.UNUSED || this.state == KeyType.USED) {
             this.state = KeyType.MISPLACED;
         }
     };
     Key.prototype.setRight = function () {
-        console.log('Key.ts right');
         this.state = KeyType.RIGHT;
     };
     Key.prototype.setState = function (state) {
-        console.log('me setean a: %s', state);
+        console.log('KEY | setState code: %s | %s to: %s', this.getCode(), this.getState(), state);
         switch (state) {
             case KeyType.USED:
                 this.setUsed();

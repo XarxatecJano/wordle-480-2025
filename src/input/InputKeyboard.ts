@@ -1,11 +1,15 @@
 import { Game } from "../Game.js";
 import { Letter } from "../model/Letter.js";
-import { GameKeyboard } from "../controller/GameKeyboard.js";
+import { GameChecker } from "../utils/WordChecker.js";
+import { MAX_WORD_SIZE } from "../env.js";
 
 export class InputKeyboard {
     game: Game;
+    gameChecker: GameChecker;
+
     constructor(game: Game) {
         this.game = game;
+        this.gameChecker = game.getGameChecker();
     };
 
     addNewLetter(letter: Letter) {
@@ -13,7 +17,7 @@ export class InputKeyboard {
     }
 
     enterPressed(): void {
-        if (this.game.wordIsComplete()) {
+        if (this.game.wordIsMaxLength()) {
             this.game.updateAfterANewWord();
         }
     }
@@ -26,7 +30,7 @@ export class InputKeyboard {
 
     newKeyPressed(code: string): void {
         const letter = new Letter(code);
-        if (this.game.isValidLetter(letter)) {
+        if (letter.isValidLetter()) {
             this.addNewLetter(letter);
         }
         else if (letter.isEnterKey()) {

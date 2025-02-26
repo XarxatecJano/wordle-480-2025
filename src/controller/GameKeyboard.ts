@@ -1,22 +1,34 @@
 import { UserInterfaceController } from "./UserInterfaceController.js";
 import { KeyType } from "../enum/KeyType.js";
 import { Key } from "../model/Key.js";
+import { VALID_LETTERS } from "../env.js";
 
 export class GameKeyboard {
     private interface: UserInterfaceController;
-    private codes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
     private keys: Key[] = [];
-    constructor(interfacec: UserInterfaceController){
-        this.interface = interfacec;
+
+    static gameKeyboard: GameKeyboard;
+
+    static getGameKeyboard(interfaceController: UserInterfaceController): GameKeyboard {
+        if (this.gameKeyboard == null) {
+            this.gameKeyboard = new GameKeyboard(interfaceController);
+        }
+        return this.gameKeyboard;
+    }
+    
+    constructor(interfaceController: UserInterfaceController){
+        this.interface = interfaceController;
         let newKeys = [];
-        for (let code of this.codes){
+        for (let code of VALID_LETTERS){
             const newKey = new Key(code);
             newKeys.push(newKey);
         }
         this.keys = newKeys;
     }
-    setKeyboardKeyState(code: string, state: KeyType):void {
+    setKeyState(code: string, state: KeyType):void {
         const key = this.getKeyFromCode(code);
+        console.log(key)
+
         if (key!=null){
             key.setState(state);
             console.log('setkeyboardkeystate code: %s to: %s', key.getCode(), key.getState());

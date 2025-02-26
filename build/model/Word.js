@@ -51,17 +51,14 @@ var Word = /** @class */ (function () {
     };
     Word.prototype.checkLetter = function (letter, position) {
         if (position < 0 || position >= this.getSize()) {
-            console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyType.UNUSED);
             return KeyType.UNUSED;
         }
         if (this.getLetterAtIndex(position).equals(letter)) {
-            console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyType.RIGHT);
             return KeyType.RIGHT;
         }
         for (var _i = 0, _a = this.word; _i < _a.length; _i++) {
             var wordLetter = _a[_i];
             if (wordLetter.equals(letter)) {
-                console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyType.MISPLACED);
                 return KeyType.MISPLACED;
             }
         }

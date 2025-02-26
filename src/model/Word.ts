@@ -63,16 +63,13 @@ export class Word {
 
     public checkLetter(letter: Letter, position: number): KeyType {
         if (position < 0 || position >= this.getSize()) {
-            console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyType.UNUSED);
             return KeyType.UNUSED;
         }
         if (this.getLetterAtIndex(position).equals(letter)) {
-            console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyType.RIGHT);
             return KeyType.RIGHT;
         }
         for (let wordLetter of this.word) {
             if (wordLetter.equals(letter)) {
-                console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyType.MISPLACED);
                 return KeyType.MISPLACED;
             }
         }
