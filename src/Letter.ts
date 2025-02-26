@@ -19,14 +19,13 @@ export class Letter{
             return letter;
         }
 
-        
-      /*  newLetter(code: string):void{
-            let letter: string = this._validLetterCodes.transformCodeToLetter(code);
-            this._interface.setNewLetter(this.turn, this.actualPosition, letter);
-            this._actualPosition = this._actualPosition + 1;
-            this._actualWord += letter;
+        isEnterKey(code: string): boolean {
+            return code == "Enter";
+        }
+    
+        isBackspaceKey(code: string): boolean {
+            return code == "Backspace";
         }
 
-        */
 
 }

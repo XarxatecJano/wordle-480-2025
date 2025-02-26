@@ -23,6 +23,12 @@ var Letter = /** @class */ (function () {
             letter = code.split("y")[1];
         return letter;
     };
+    Letter.prototype.isEnterKey = function (code) {
+        return code == "Enter";
+    };
+    Letter.prototype.isBackspaceKey = function (code) {
+        return code == "Backspace";
+    };
     return Letter;
 }());
 export { Letter };

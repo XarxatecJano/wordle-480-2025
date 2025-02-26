@@ -8,14 +8,14 @@ var UpdateManager = /** @class */ (function () {
         this.checker.checkMisplacedLetters();
         this.checker.checkWrongLetters();
         this.updateActualLettersUsed();
-        this.resetElements();
+        this.resetElementsOfLine();
     };
-    UpdateManager.prototype.resetElements = function () {
+    UpdateManager.prototype.resetElementsOfLine = function () {
         this.checker.turn++;
         this.checker.actualPosition = 0;
         this.checker.actualWord = "";
     };
-    UpdateManager.prototype.aumentarPosicion = function () {
+    UpdateManager.prototype.nextPosition = function () {
         this.checker.actualPosition++;
     };
     UpdateManager.prototype.updateActualLettersUsed = function () {

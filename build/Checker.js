@@ -3,12 +3,12 @@ import { Letter } from "./Letter.js";
 import { Interface } from "./Interface.js";
 var Checker = /** @class */ (function () {
     function Checker(pickedWord) {
-        this._validLetterCodes = new Letter();
         this._actualLetters = "";
-        this._pickedWord = pickedWord;
         this._actualWord = "";
         this._turn = 1;
         this._actualPosition = 0;
+        this._validLetterCodes = new Letter();
+        this._pickedWord = pickedWord;
         this._interface = new Interface();
     }
     Object.defineProperty(Checker.prototype, "actualLetters", {

@@ -32,13 +32,7 @@ export class Game {
         this._checker = checker;
     }
 
-    isEnterKey(code: string): boolean {
-        return code == "Enter";
-    }
-
-    isBackspaceKey(code: string): boolean {
-        return code == "Backspace";
-    }
+    
 
 
     newLetter(code: string): void {
@@ -70,8 +64,8 @@ export class Game {
             this.newLetter(code);
             this._interface.changeBackgroundKey(code);
         }
-        if (this.isEnterKey(code)) this.enterPressed();
-        if (this.isBackspaceKey(code)) this.backspacePressed();
+        if (this._validLetterCodes.isEnterKey(code)) this.enterPressed();
+        if (this._validLetterCodes.isBackspaceKey(code)) this.backspacePressed();
     }
 
 

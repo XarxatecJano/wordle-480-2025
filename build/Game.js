@@ -26,16 +26,10 @@ var Game = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Game.prototype.isEnterKey = function (code) {
-        return code == "Enter";
-    };
-    Game.prototype.isBackspaceKey = function (code) {
-        return code == "Backspace";
-    };
     Game.prototype.newLetter = function (code) {
         var letter = this._validLetterCodes.transformCodeToLetter(code);
         this._interface.setNewLetter(this.checker.turn, this._checker.actualPosition, letter);
-        this._updateElementsManager.aumentarPosicion();
+        this._updateElementsManager.nextPosition();
         this.checker.actualWord += letter;
     };
     Game.prototype.enterPressed = function () {
@@ -58,9 +52,9 @@ var Game = /** @class */ (function () {
             this.newLetter(code);
             this._interface.changeBackgroundKey(code);
         }
-        if (this.isEnterKey(code))
+        if (this._validLetterCodes.isEnterKey(code))
             this.enterPressed();
-        if (this.isBackspaceKey(code))
+        if (this._validLetterCodes.isBackspaceKey(code))
             this.backspacePressed();
     };
     return Game;

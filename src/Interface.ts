@@ -11,7 +11,7 @@ export class Interface {
         if (state == "misplacedLetter") positionClass = "cell-orange";
         Array.from(document.getElementById(`row_${turn}`)!.children)[position].classList.add(positionClass);
     }
-    
+
 
     changeBackgroundKey(code: string) {
         const keys: any = document.getElementsByClassName("key");
@@ -24,9 +24,6 @@ export class Interface {
     resetBackgroundKeys(word: string, letters: string) {
         const lastLetter = word[word.length - 1];
         const oldWord = word.slice(0, word.length - 1);
-        console.log(oldWord);
-        console.log(letters);
-        console.log(lastLetter);
         if (!oldWord.includes(lastLetter) && !letters.includes(lastLetter)) {
             const keys: any = document.getElementsByClassName("keyPressed");
             for (let key of keys) {

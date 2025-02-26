@@ -27,9 +27,6 @@ var Interface = /** @class */ (function () {
     Interface.prototype.resetBackgroundKeys = function (word, letters) {
         var lastLetter = word[word.length - 1];
         var oldWord = word.slice(0, word.length - 1);
-        console.log(oldWord);
-        console.log(letters);
-        console.log(lastLetter);
         if (!oldWord.includes(lastLetter) && !letters.includes(lastLetter)) {
             var keys = document.getElementsByClassName("keyPressed");
             for (var _i = 0, keys_2 = keys; _i < keys_2.length; _i++) {
