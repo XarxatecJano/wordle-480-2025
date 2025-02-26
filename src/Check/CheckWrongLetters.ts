@@ -1,7 +1,7 @@
-import { Game } from "./Game";
+import { Game } from "../Game";
 import { ICheck } from "./ICheck";
-import { Interface } from "./Interface";
-import { MAX_WORD_SIZE } from "./env.js";
+import { Interface } from "../Interface";
+import { MAX_WORD_SIZE } from "../env.js";
 export class CheckWrongLetters implements ICheck{
     _interface: Interface;
     constructor(interf:Interface){

@@ -13,13 +13,10 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { BackspacePressed } from "./BackspacePressed.js";
-import { CheckCorrectLetters } from "./CheckCorrectLetters.js";
-import { CheckMisplacedLetters } from "./CheckMisplacedLetters.js";
-import { CheckWrongLetters } from "./CheckWrongLetters.js";
-import { EnterPressed } from "./EnterPressed.js";
+import { CheckCorrectLetters } from "./Check/CheckCorrectLetters.js";
+import { CheckMisplacedLetters } from "./Check/CheckMisplacedLetters.js";
+import { CheckWrongLetters } from "./Check/CheckWrongLetters.js";
 import { Interface } from "./Interface.js";
-import { ValidateLetter } from "./ValidateLetter.js";
 export var MAX_ATTEMPTS = 6;
 var Game = /** @class */ (function (_super) {
     __extends(Game, _super);
@@ -34,7 +31,7 @@ var Game = /** @class */ (function (_super) {
             strategies.forEach(function (strategy) { return strategy.check(_this); });
             _this.paintBakcgroundCells();
             _this._rightPositionLetters.clear();
-            _this._MisplacedPositionLetters.clear;
+            _this._MisplacedPositionLetters.clear();
             _this._typeCell.clear();
             _this._turn += 1;
             _this._actualPosition = 0;
@@ -110,12 +107,6 @@ var Game = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Game.prototype.newLetter = function (letter) {
-        var letterValue = letter.transformCodeToLetter();
-        this.setNewLetter(this.turn, this.actualPosition, letterValue);
-        this._actualPosition = this._actualPosition + 1;
-        this._actualWord += letterValue;
-    };
     Game.prototype.checkWordIsRight = function () {
         if (this._actualWord == this._pickedWord) {
             location.assign("/winner");
@@ -131,20 +122,6 @@ var Game = /** @class */ (function (_super) {
     Game.prototype.checkGameIsOver = function () {
         if (this.turn == MAX_ATTEMPTS && this._actualWord != this._pickedWord) {
             location.assign("/loser");
-        }
-    };
-    Game.prototype.newKeyPressed = function (code) {
-        var letter = ValidateLetter.getInstance(code, this._actualPosition);
-        if (letter.isValidLetter()) {
-            this.newLetter(letter);
-        }
-        if (letter.isEnterKey()) {
-            this._specialKey = new EnterPressed(this);
-            this._specialKey.execute();
-        }
-        if (letter.isBackspaceKey()) {
-            this._specialKey = new BackspacePressed(this);
-            this._specialKey.execute();
         }
     };
     return Game;

@@ -1,12 +1,12 @@
 import {Words} from "./Words.js";
-import {Game} from "./Game.js";
+import { NewKeyPressed } from "./Keyboard/NewKeyPressed.js";
 
 
 const wordsCollection: Words = new Words(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
 const pickedWord: string = wordsCollection.getRandomWord();
 console.log(pickedWord);
 
-const game: Game = new Game(pickedWord);
+const game: NewKeyPressed = new NewKeyPressed(pickedWord);
 
 
 Array.from(document.getElementsByClassName("key")).forEach(element => element.addEventListener("click", (e)=>{

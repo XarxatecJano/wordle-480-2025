@@ -1,7 +1,7 @@
-import { MAX_WORD_SIZE } from "./env.js";
-import { Game } from "./Game.js";
+import { MAX_WORD_SIZE } from "../env.js";
+import { Game } from "../Game.js";
 import { ICheck } from "./ICheck";
-import { Interface } from "./Interface";
+import { Interface } from "../Interface.js";
 
 
 export class CheckCorrectLetters implements ICheck{

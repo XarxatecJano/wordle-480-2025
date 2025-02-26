@@ -1,5 +1,5 @@
-import { Game } from "./Game";
-import { IKeyPressed } from "./IKeyPressed";
+import { Game } from "../Game";
+import { IKeyPressed } from "../Keyboard/IKeyPressed";
 
 export class BackspacePressed  implements IKeyPressed{
     _game: Game

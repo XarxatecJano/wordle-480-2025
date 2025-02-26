@@ -1,7 +1,7 @@
-import { Game } from "./Game";
+import { Game } from "../Game";
 import { ICheck } from "./ICheck";
-import { Interface } from "./Interface";
-import { MAX_WORD_SIZE } from "./env.js";
+import { Interface } from "../Interface";
+import { MAX_WORD_SIZE } from "../env.js";
 
 
 export class CheckMisplacedLetters implements ICheck{
@@ -17,7 +17,6 @@ export class CheckMisplacedLetters implements ICheck{
         for (let i=0; i<MAX_WORD_SIZE; i++){
             isMisplacedLetter = true;
             actualLetter = game.actualWord[i];
-            console.log(game.rightPositionLetters.get(actualLetter));
             this.changeColorDependingOnCoincidences(i, actualLetter, game); 
         }
     }
@@ -25,7 +24,10 @@ export class CheckMisplacedLetters implements ICheck{
 
     changeColorDependingOnCoincidences(actualPosition:number,actualLetter:string, game: Game):void{
         let numberOfCoincidences = this.getNumberOfCoincidences(game.pickedWord,actualLetter);
-        if((game.rightPositionLetters.get(actualLetter) ?? 0) < numberOfCoincidences && (game.misplacedPositionLetters.get(actualLetter) ?? 0) < numberOfCoincidences ){
+        console.log(game.rightPositionLetters.get(actualLetter) );
+        console.log(game.misplacedPositionLetters.get(actualLetter) );
+
+        if((game.rightPositionLetters.get(actualLetter) ?? 0)  + (game.misplacedPositionLetters.get(actualLetter) ?? 0) <= numberOfCoincidences ){
             for(let i = 0; i < numberOfCoincidences;i++){
                 this._interface.changeBackgroundKey(actualLetter, "misplacedLetter");
                 game.misplacedPositionLetters.set(game.actualWord[i], (game.misplacedPositionLetters.get(actualLetter)?? 0) + 1);
