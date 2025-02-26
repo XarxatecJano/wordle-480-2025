@@ -5,24 +5,13 @@ var Checker = /** @class */ (function () {
     function Checker(pickedWord) {
         this._INITIAL_TURN = 1;
         this._INITIAL_POSITION = 0;
-        this._actualLetters = "";
         this._actualWord = "";
         this._turn = this._INITIAL_TURN;
-        this._actualPosition = this._INITIAL_POSITION;
+        this._currentPosition = this._INITIAL_POSITION;
         this._letterManager = Letter.getInstance();
         this._pickedWord = pickedWord;
         this._interface = new Interface();
     }
-    Object.defineProperty(Checker.prototype, "actualLetters", {
-        get: function () {
-            return this._actualLetters;
-        },
-        set: function (letters) {
-            this._actualLetters = letters;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Checker.prototype, "pickedWord", {
         get: function () {
             return this._pickedWord;
@@ -53,12 +42,12 @@ var Checker = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Checker.prototype, "actualPosition", {
+    Object.defineProperty(Checker.prototype, "currentPosition", {
         get: function () {
-            return this._actualPosition;
+            return this._currentPosition;
         },
         set: function (num) {
-            this._actualPosition = num;
+            this._currentPosition = num;
         },
         enumerable: false,
         configurable: true
@@ -80,7 +69,7 @@ var Checker = /** @class */ (function () {
         return Checker._instance;
     };
     Checker.prototype.isValidLetter = function (code) {
-        return this._letterManager.includes(code) && this.actualPosition < MAX_WORD_SIZE;
+        return this._letterManager.includes(code) && this.currentPosition < MAX_WORD_SIZE;
     };
     Checker.prototype.checkWordIsRight = function () {
         if (this._actualWord == this._pickedWord) {
@@ -90,7 +79,7 @@ var Checker = /** @class */ (function () {
     Checker.prototype.checkRightLetters = function () {
         for (var i = 0; i < MAX_WORD_SIZE; i++) {
             if (this._pickedWord[i] == this._actualWord[i]) {
-                this._interface.changeBackgroundPosition(this._turn, i, "rightLetter");
+                this._interface.changeCheckedBackground(this._turn, i, "rightLetter", this._actualWord[i]);
             }
         }
     };
@@ -106,8 +95,9 @@ var Checker = /** @class */ (function () {
             numberOfCoincidences = (this._pickedWord.match(pattern) || []).length;
             if (this._pickedWord[i] == this._actualWord[i])
                 isMisplacedLetter = false;
-            if (numberOfCoincidences > 0 && isMisplacedLetter)
-                this._interface.changeBackgroundPosition(this._turn, i, "misplacedLetter");
+            if (numberOfCoincidences > 0 && isMisplacedLetter) {
+                this._interface.changeCheckedBackground(this._turn, i, "misplacedLetter", this._actualWord[i]);
+            }
         }
     };
     Checker.prototype.checkWrongLetters = function () {
@@ -118,8 +108,9 @@ var Checker = /** @class */ (function () {
             actualLetter = this._actualWord[i];
             pattern = new RegExp(actualLetter, "g");
             numberOfCoincidences = (this._pickedWord.match(pattern) || []).length;
-            if (numberOfCoincidences == 0)
-                this._interface.changeBackgroundPosition(this._turn, i, "wrongLetter");
+            if (numberOfCoincidences == 0) {
+                this._interface.changeCheckedBackground(this._turn, i, "wrongLetter", this._actualWord[i]);
+            }
         }
     };
     Checker.prototype.checkGameIsOver = function () {

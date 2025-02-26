@@ -1,3 +1,4 @@
+
 export class Interface {
     setNewLetter(turn: number, position: number, letter: string) {
         Array.from(document.getElementById(`row_${turn}`)!.children)[position].textContent = letter;
@@ -5,31 +6,31 @@ export class Interface {
     deleteLetter(turn: number, position: number) {
         Array.from(document.getElementById(`row_${turn}`)!.children)[position].textContent = "";
     }
+
+    changeCheckedBackground(turn: number, letterIndex: number, state: string, actualWord: string): void {
+        this.changeBackgroundPosition(turn, letterIndex, state);
+        this.changeBackgroundKey(actualWord, state);
+    }
+    setElementState(state: string): string {
+        let elementClass = "cell-grey";
+        if (state == "rightLetter") elementClass = "cell-green";
+        if (state == "misplacedLetter") elementClass = "cell-orange";
+        return elementClass;
+    }
+
     changeBackgroundPosition(turn: number, position: number, state: string) {
-        let positionClass = "cell-grey";
-        if (state == "rightLetter") positionClass = "cell-green";
-        if (state == "misplacedLetter") positionClass = "cell-orange";
+        let positionClass = this.setElementState(state);
         Array.from(document.getElementById(`row_${turn}`)!.children)[position].classList.add(positionClass);
     }
 
-
-    changeBackgroundKey(code: string) {
+    changeBackgroundKey(code: string, state: string) {
+        code = "Key" + code;
+        let positionClass = this.setElementState(state);
         const keys: any = document.getElementsByClassName("key");
         for (let key of keys) {
-            if (key.value == code && code !== "Enter" && code !== "Backspace") {
-                key.classList.add("keyPressed");
-            }
-        }
-    }
-    resetBackgroundKeys(word: string, letters: string) {
-        const lastLetter = word[word.length - 1];
-        const oldWord = word.slice(0, word.length - 1);
-        if (!oldWord.includes(lastLetter) && !letters.includes(lastLetter)) {
-            const keys: any = document.getElementsByClassName("keyPressed");
-            for (let key of keys) {
-                if (key.value == "Key"+lastLetter) {
-                    key.classList.remove("keyPressed");
-                }
+            if (key.value == code) {
+                if (state == "rightLetter") key.classList.remove("cell-orange");
+                key.classList.add(positionClass);
             }
         }
     }

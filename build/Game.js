@@ -28,7 +28,7 @@ var Game = /** @class */ (function () {
     };
     Game.prototype.newLetter = function (code) {
         var letter = this._letterManager.transformCodeToLetter(code);
-        this._interface.setNewLetter(this.checker.turn, this._checker.actualPosition, letter);
+        this._interface.setNewLetter(this.checker.turn, this._checker.currentPosition, letter);
         this._updateElementsManager.nextPosition();
         this.checker.actualWord += letter;
     };
@@ -40,17 +40,15 @@ var Game = /** @class */ (function () {
         }
     };
     Game.prototype.backspacePressed = function () {
-        if (this.checker.actualPosition > 0) {
-            this.checker.actualPosition -= 1;
-            this._interface.resetBackgroundKeys(this.checker.actualWord, this.checker.actualLetters);
+        if (this.checker.currentPosition > 0) {
+            this.checker.currentPosition -= 1;
             this.checker.actualWord = this.checker.actualWord.slice(0, this.checker.actualWord.length - 1);
-            this._interface.deleteLetter(this.checker.turn, this.checker.actualPosition);
+            this._interface.deleteLetter(this.checker.turn, this.checker.currentPosition);
         }
     };
     Game.prototype.newKeyPressed = function (code) {
-        if (this._checker.isValidLetter(code) && this.checker.actualPosition < MAX_WORD_SIZE) {
+        if (this._checker.isValidLetter(code) && this.checker.currentPosition < MAX_WORD_SIZE) {
             this.newLetter(code);
-            this._interface.changeBackgroundKey(code);
         }
         if (this._letterManager.isEnterKey(code))
             this.enterPressed();

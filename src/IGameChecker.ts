@@ -1,10 +1,9 @@
 import { Interface } from "./Interface"
 
 export interface IGameChecker {
-    actualLetters: string
     actualWord: string
     turn: number
-    actualPosition: number
+    currentPosition: number
     interface: Interface
     isValidLetter(code: string): boolean;
     checkRightLetters(): void;
