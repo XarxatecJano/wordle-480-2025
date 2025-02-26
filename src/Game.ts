@@ -15,13 +15,18 @@ export class Game extends Interface {
     private _turn: number
     private _actualPosition: number
     private _specialKey!: IKeyPressed
+    private _rightPositionLetters: Map<string, number>;
+    private _MisplacedPositionLetters: Map<string, number>;
+    private _typeCell: Map<number, string>;
     constructor(pickedWord: string){
         super();
         this._pickedWord = pickedWord;
         this._actualWord = "";
         this._turn = 1;
         this._actualPosition = 0;
-        
+        this._rightPositionLetters = new Map()
+        this._MisplacedPositionLetters = new Map();
+        this._typeCell = new Map();
     }
 
     get pickedWord(){
@@ -51,6 +56,18 @@ export class Game extends Interface {
     set actualPosition(num){
         this._actualPosition = num;
     }
+    
+    get rightPositionLetters(){
+        return this._rightPositionLetters;
+    }
+
+    get misplacedPositionLetters(){
+        return this._MisplacedPositionLetters;
+    }
+
+    get typeCell(){
+        return this._typeCell;
+    }
 
     newLetter(letter:ValidateLetter):void{
         let letterValue: string = letter.transformCodeToLetter();
@@ -72,11 +89,23 @@ export class Game extends Interface {
             new CheckMisplacedLetters(this),
             new CheckWrongLetters(this)
         ];
-        strategies.forEach(strategy => strategy.check(this._actualWord, this._pickedWord, this._turn))
+        
+        strategies.forEach(strategy => strategy.check(this))
+        this.paintBakcgroundCells();
+        this._rightPositionLetters.clear();
+        this._MisplacedPositionLetters.clear;
+        this._typeCell.clear();
         this._turn += 1;
         this._actualPosition = 0;
         this._actualWord = "";
 
+    }
+
+    private paintBakcgroundCells():void{
+        this._typeCell.forEach((type, position) =>{
+            console.log("turno " + position + " tipo " + type);
+            this.changeBackgroundPosition(this.turn, position, type);
+        })
     }
 
     checkGameIsOver():void{

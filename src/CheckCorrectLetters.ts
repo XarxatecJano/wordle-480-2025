@@ -1,4 +1,5 @@
 import { MAX_WORD_SIZE } from "./env.js";
+import { Game } from "./Game.js";
 import { ICheck } from "./ICheck";
 import { Interface } from "./Interface";
 
@@ -9,13 +10,16 @@ export class CheckCorrectLetters implements ICheck{
     constructor(interf:Interface){
         this._interface = interf;
     }
-    check = (actualWord:string, pickedWord:string, turn:number ):void=>{
+    check = (game: Game):void=>{
         for(let i=0; i<MAX_WORD_SIZE; i++){
-            if (pickedWord[i]==actualWord[i]){
-                this._interface.changeBackgroundPosition(turn, i, "rightLetter");
-                this._interface.changeBackgroundKey(pickedWord[i], "rightLetter");
+            if (game.pickedWord[i]==game.actualWord[i]){
+                this._interface.changeBackgroundPosition(game.turn, i, "rightLetter");
+                this._interface.changeBackgroundKey(game.pickedWord[i], "rightLetter");
+                game.rightPositionLetters.set(game.actualWord[i], (game.rightPositionLetters.get(game.actualWord[i])?? 0) + 1);
+                game.typeCell.set(i, "rightLetter");
             }
         }
     }
+
 }
     

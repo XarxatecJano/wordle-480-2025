@@ -1,3 +1,5 @@
+import { Game } from "./Game";
+
 export interface ICheck {
-    check: (actualWord:string, pickedWord:string, turn:number ) => void;
+    check: (game: Game ) => void;
 }

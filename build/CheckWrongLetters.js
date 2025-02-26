@@ -2,17 +2,17 @@ import { MAX_WORD_SIZE } from "./env.js";
 var CheckWrongLetters = /** @class */ (function () {
     function CheckWrongLetters(interf) {
         var _this = this;
-        this.check = function (actualWord, pickedWord, turn) {
+        this.check = function (game) {
             var actualLetter = "";
             var pattern;
             var numberOfCoincidences = 0;
             for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                actualLetter = actualWord[i];
+                actualLetter = game.actualWord[i];
                 pattern = new RegExp(actualLetter, "g");
-                numberOfCoincidences = (pickedWord.match(pattern) || []).length;
+                numberOfCoincidences = (game.pickedWord.match(pattern) || []).length;
                 if (numberOfCoincidences == 0) {
-                    _this._interface.changeBackgroundPosition(turn, i, "wrongLetter");
                     _this._interface.changeBackgroundKey(actualLetter, "wrongLetter");
+                    game.typeCell.set(i, "wrongLetter");
                 }
             }
         };

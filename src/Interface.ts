@@ -11,7 +11,12 @@ export class Interface {
     }
     changeBackgroundKey(letter: string, state: string){
         const keys: any = document.getElementsByClassName("key");
-        let code = "Key" + letter;
+        let code:string;
+        if (letter != "Ñ"){
+            code = "Key" + letter;
+        }else{
+            code = "Semicolon";
+        }
         for (let key of keys) {
             if (key.value == code && code !== "Enter" && code !=="Backspace"){
                 let positionClass = this.changeColorWithState(state);

@@ -31,7 +31,11 @@ var Game = /** @class */ (function (_super) {
                 new CheckMisplacedLetters(_this),
                 new CheckWrongLetters(_this)
             ];
-            strategies.forEach(function (strategy) { return strategy.check(_this._actualWord, _this._pickedWord, _this._turn); });
+            strategies.forEach(function (strategy) { return strategy.check(_this); });
+            _this.paintBakcgroundCells();
+            _this._rightPositionLetters.clear();
+            _this._MisplacedPositionLetters.clear;
+            _this._typeCell.clear();
             _this._turn += 1;
             _this._actualPosition = 0;
             _this._actualWord = "";
@@ -40,6 +44,9 @@ var Game = /** @class */ (function (_super) {
         _this._actualWord = "";
         _this._turn = 1;
         _this._actualPosition = 0;
+        _this._rightPositionLetters = new Map();
+        _this._MisplacedPositionLetters = new Map();
+        _this._typeCell = new Map();
         return _this;
     }
     Object.defineProperty(Game.prototype, "pickedWord", {
@@ -82,6 +89,27 @@ var Game = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Game.prototype, "rightPositionLetters", {
+        get: function () {
+            return this._rightPositionLetters;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Game.prototype, "misplacedPositionLetters", {
+        get: function () {
+            return this._MisplacedPositionLetters;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Game.prototype, "typeCell", {
+        get: function () {
+            return this._typeCell;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Game.prototype.newLetter = function (letter) {
         var letterValue = letter.transformCodeToLetter();
         this.setNewLetter(this.turn, this.actualPosition, letterValue);
@@ -92,6 +120,13 @@ var Game = /** @class */ (function (_super) {
         if (this._actualWord == this._pickedWord) {
             location.assign("/winner");
         }
+    };
+    Game.prototype.paintBakcgroundCells = function () {
+        var _this = this;
+        this._typeCell.forEach(function (type, position) {
+            console.log("turno " + position + " tipo " + type);
+            _this.changeBackgroundPosition(_this.turn, position, type);
+        });
     };
     Game.prototype.checkGameIsOver = function () {
         if (this.turn == MAX_ATTEMPTS && this._actualWord != this._pickedWord) {

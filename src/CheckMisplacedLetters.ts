@@ -1,3 +1,4 @@
+import { Game } from "./Game";
 import { ICheck } from "./ICheck";
 import { Interface } from "./Interface";
 import { MAX_WORD_SIZE } from "./env.js";
@@ -10,32 +11,30 @@ export class CheckMisplacedLetters implements ICheck{
         this._interface = interf;
     }
 
-    check = (actualWord:string, pickedWord:string, turn:number ):void=> {
+    check = (game:Game ):void=> {
         let actualLetter: string = "";
         let isMisplacedLetter: boolean;
         for (let i=0; i<MAX_WORD_SIZE; i++){
             isMisplacedLetter = true;
-            actualLetter = actualWord[i];
-            if (pickedWord[i]==actualWord[i]) isMisplacedLetter=false;
-            if(isMisplacedLetter) this.changeColorDependingOnCoincidences(turn, i, actualWord, actualLetter, pickedWord);      
-        }             
+            actualLetter = game.actualWord[i];
+            console.log(game.rightPositionLetters.get(actualLetter));
+            this.changeColorDependingOnCoincidences(i, actualLetter, game); 
+        }
     }
 
 
-    changeColorDependingOnCoincidences(turn:number, actualPosition:number, actualWord:string, actualLetter:string,pickedWord:string):void{
-        let numberOfCoincidences = this.getNumberOfCoincidences(pickedWord, actualLetter);
-        let numberOfCoincidencesActualWord = this.getNumberOfCoincidences(actualWord, actualLetter);
-        numberOfCoincidencesActualWord -= numberOfCoincidences;
-        
-        let j = 0
-        for(j; j < numberOfCoincidences; j ++){
-            this._interface.changeBackgroundPosition(turn, actualPosition, "misplacedLetter");
-            this._interface.changeBackgroundKey(actualLetter, "misplacedLetter");
-        
-        }
-
-        for(j; j < numberOfCoincidencesActualWord; j++){
-            this._interface.changeBackgroundPosition(turn, actualPosition, "wrongLetter");
+    changeColorDependingOnCoincidences(actualPosition:number,actualLetter:string, game: Game):void{
+        let numberOfCoincidences = this.getNumberOfCoincidences(game.pickedWord,actualLetter);
+        if((game.rightPositionLetters.get(actualLetter) ?? 0) < numberOfCoincidences && (game.misplacedPositionLetters.get(actualLetter) ?? 0) < numberOfCoincidences ){
+            for(let i = 0; i < numberOfCoincidences;i++){
+                this._interface.changeBackgroundKey(actualLetter, "misplacedLetter");
+                game.misplacedPositionLetters.set(game.actualWord[i], (game.misplacedPositionLetters.get(actualLetter)?? 0) + 1);
+                game.typeCell.set(actualPosition, "misplacedLetter");
+            }
+        }else{
+            if(!game.typeCell.get(actualPosition)){
+                game.typeCell.set(actualPosition, "wrongLetter");
+            }
         }
     }
 
