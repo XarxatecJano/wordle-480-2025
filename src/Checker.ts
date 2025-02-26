@@ -6,18 +6,14 @@ import { IGameChecker } from "./IGameChecker.js";
 export class Checker implements IGameChecker {
     private _pickedWord: string
     private _validLetterCodes: Letter
-    private _actualLetters: string
-    private _actualWord: string
-    private _turn: number
-    private _actualPosition: number
+    private _actualLetters = "";
+    private _actualWord = "";
+    private _turn =1;
+    private _actualPosition = 0;
     private _interface: Interface
     constructor(pickedWord: string) {
         this._validLetterCodes = new Letter();
-        this._actualLetters = "";
         this._pickedWord = pickedWord;
-        this._actualWord = "";
-        this._turn = 1;
-        this._actualPosition = 0;
         this._interface = new Interface();
     }
     get actualLetters() {
@@ -109,32 +105,4 @@ export class Checker implements IGameChecker {
             location.assign("/loser");
         }
     }
-
-
-   /* updateAfterANewWord(): void{
-        this.checkRightLetters();
-        this.checkMisplacedLetters();
-        this.checkWrongLetters();
-        this.updateActualLetters();
-        this.turn = this.turn + 1;
-        this.actualPosition = 0;
-        this.actualWord = "";
-    }
-    aumentarPosicion(): void {
-        this.actualPosition = this.actualPosition + 1;
-        console.log(this.actualPosition);
-    }
-    updateActualLetters(): void {
-        if(this.turn==1){
-            this.actualLetters = this.actualWord;
-        }else{
-        for (let i = 0; i < MAX_WORD_SIZE; i++) {
-            if (!this.actualLetters[i].includes(this.actualWord[i])) {
-                this.actualLetters += this.actualWord[i];
-            }
-        }
-        }
-    }*/
-
-   
 }
