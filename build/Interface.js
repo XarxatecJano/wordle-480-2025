@@ -24,6 +24,20 @@ var Interface = /** @class */ (function () {
             }
         }
     };
+    Interface.prototype.resetLastLetterBGColor = function (word, history) {
+        var lastLetter = word[word.length - 1];
+        var oldWord = word.slice(0, word.length - 1);
+        if (!oldWord.includes(lastLetter) && !history.has(lastLetter)) {
+            var keys = document.getElementsByClassName("keyPressed");
+            for (var _i = 0, keys_2 = keys; _i < keys_2.length; _i++) {
+                var key = keys_2[_i];
+                if (key.value == "Key" + lastLetter || key.value == "Semicolon") {
+                    key.classList.remove("keyPressed");
+                    break;
+                }
+            }
+        }
+    };
     return Interface;
 }());
 export { Interface };

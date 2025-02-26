@@ -1,8 +1,8 @@
 import {Word} from "./Word.js";
 import {Game} from "./Game.js";
+import { POSSIBLE_WORDS } from "./env.js";
 
-
-const wordsCollection: Word = new Word(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
+const wordsCollection: Word = new Word(POSSIBLE_WORDS);
 const pickedWord: string = wordsCollection.getRandomWord();
 console.log(pickedWord);
 
