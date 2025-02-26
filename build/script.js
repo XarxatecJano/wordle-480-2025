@@ -1,5 +1,5 @@
-import { Word } from "./Word.js";
-import { Game } from "./Game.js";
+import { Word } from "./core/Word.js";
+import { Game } from "./core/Game.js";
 var wordsCollection = new Word(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
 var pickedWord = wordsCollection.getRandomWord();
 console.log(pickedWord);
