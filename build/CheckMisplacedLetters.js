@@ -4,27 +4,35 @@ var CheckMisplacedLetters = /** @class */ (function () {
         var _this = this;
         this.check = function (actualWord, pickedWord, turn) {
             var actualLetter = "";
-            var pattern;
-            var numberOfCoincidences = 0;
             var isMisplacedLetter;
             for (var i = 0; i < MAX_WORD_SIZE; i++) {
                 isMisplacedLetter = true;
                 actualLetter = actualWord[i];
-                pattern = new RegExp(actualLetter, "g");
-                numberOfCoincidences = (pickedWord.match(pattern) || []).length;
                 if (pickedWord[i] == actualWord[i])
                     isMisplacedLetter = false;
-                for (var i_1 = 0; i_1 < numberOfCoincidences; i_1++) {
-                    if (isMisplacedLetter) {
-                        _this._interface.changeBackgroundPosition(turn, i_1, "misplacedLetter");
-                        _this._interface.changeBackgroundKey(actualLetter, "misplacedLetter");
-                    }
-                }
-                _this._interface.changeBackgroundPosition(turn, i, "wrongLetter");
+                if (isMisplacedLetter)
+                    _this.changeColorDependingOnCoincidences(turn, i, actualWord, actualLetter, pickedWord);
             }
         };
         this._interface = interf;
     }
+    CheckMisplacedLetters.prototype.changeColorDependingOnCoincidences = function (turn, actualPosition, actualWord, actualLetter, pickedWord) {
+        var numberOfCoincidences = this.getNumberOfCoincidences(pickedWord, actualLetter);
+        var numberOfCoincidencesActualWord = this.getNumberOfCoincidences(actualWord, actualLetter);
+        numberOfCoincidencesActualWord -= numberOfCoincidences;
+        var j = 0;
+        for (j; j < numberOfCoincidences; j++) {
+            this._interface.changeBackgroundPosition(turn, actualPosition, "misplacedLetter");
+            this._interface.changeBackgroundKey(actualLetter, "misplacedLetter");
+        }
+        for (j; j < numberOfCoincidencesActualWord; j++) {
+            this._interface.changeBackgroundPosition(turn, actualPosition, "wrongLetter");
+        }
+    };
+    CheckMisplacedLetters.prototype.getNumberOfCoincidences = function (word, actualLetter) {
+        var pattern = new RegExp(actualLetter, "g");
+        return (word.match(pattern) || []).length;
+    };
     return CheckMisplacedLetters;
 }());
 export { CheckMisplacedLetters };
