@@ -11,11 +11,17 @@ export class CheckRightLetters implements ICheck{
         this.interface = interfaceInstance;
     }
 
-
-    check(actualWord: string, pickedWord: string, turn: number) {
-        for (let i = 0; i < MAX_WORD_SIZE; i++) {
+    checkType(): string {
+        return "right";
+    }
+    
+    check(actualWord: string, pickedWord: string, turn: number, letterCount: Record<string, number>, markedPositions: Record<number, boolean>)  {
+        for (let i = 0; i < pickedWord.length; i++) {
             if (pickedWord[i] === actualWord[i]) {
+                letterCount[actualWord[i]]--; 
                 this.interface.changeBackgroundPosition(turn, i, "rightLetter");
+                markedPositions[i] = true;
+
             }
         }
     }

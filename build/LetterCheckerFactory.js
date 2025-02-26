@@ -7,8 +7,8 @@ var LetterCheckerFactory = /** @class */ (function () {
     LetterCheckerFactory.createCheckers = function (game) {
         return [
             new CheckRightLetters(game),
-            new CheckWrongLetters(game),
-            new CheckMisplacedLetters(game)
+            new CheckMisplacedLetters(game),
+            new CheckWrongLetters(game)
         ];
     };
     return LetterCheckerFactory;

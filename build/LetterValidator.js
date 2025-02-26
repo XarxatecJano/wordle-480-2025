@@ -1,4 +1,4 @@
-var MAX_WORD_SIZE = 5;
+import { MAX_WORD_SIZE } from "./env.js";
 var LETTER = { A: 65, Z: 90 };
 var LETTER_CODE_POSITION_VALUE = 3;
 var LetterValidator = /** @class */ (function () {

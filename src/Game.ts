@@ -1,4 +1,3 @@
-
 import { Interface } from "./Interface.js";
 import { LetterCheckerFactory } from "./LetterCheckerFactory.js";
 import { LetterValidatorFactory } from "./LetterValidatorFactory.js";
@@ -35,6 +34,8 @@ export class Game extends Interface {
     get actualPosition() { return this._actualPosition; }
     set actualPosition(num) { this._actualPosition = num; }
 
+
+
     public static getInstance (pickedWord: string){
         if (!Game.instance){
             Game.instance = new Game(pickedWord);
@@ -57,11 +58,37 @@ export class Game extends Interface {
         this._actualWord += letter;
     }
 
-    updateAfterANewWord = ():void=>{
+    updateAfterANewWord() {
         let letterCheckerFactory = LetterCheckerFactory.createCheckers(this);
-        letterCheckerFactory.forEach(checkLetters => checkLetters.check(this.actualWord, this.pickedWord, this.turn));
+        let letterCount: Record<string, number> = {};
+        let markedPositions: Record<number, boolean> = {}; 
+
+        for (let letter of this.pickedWord) {
+            letterCount[letter] = (letterCount[letter] || 0) + 1;
+        }
+
+        letterCheckerFactory.forEach(checker => {
+            if (checker.checkType() === "right") {
+                checker.check(this.actualWord, this.pickedWord, this.turn, letterCount, markedPositions);
+            }
+        });
+
+        letterCheckerFactory.forEach(checker => {
+            if (checker.checkType() === "misplaced") {
+                checker.check(this.actualWord, this.pickedWord, this.turn, letterCount, markedPositions);
+            }
+        });
+
+        letterCheckerFactory.forEach(checker => {
+            if (checker.checkType() === "wrong") {
+                checker.check(this.actualWord, this.pickedWord, this.turn, letterCount, markedPositions);
+            }
+        });
+
         this.resetWordState();
+        
     }
+    
 
     checkWordIsRight():void{
         if (this._actualWord == this._pickedWord){
@@ -70,7 +97,7 @@ export class Game extends Interface {
     }
 
     checkGameIsOver():void{
-        if (this.turn == MAX_ATTEMPTS){
+        if (this._actualWord != this._pickedWord && this.turn == MAX_ATTEMPTS){
             location.assign("/loser");
         }
     }
@@ -78,11 +105,9 @@ export class Game extends Interface {
     newKeyPressed(code: string):void{ 
         var specialKeyPressed!: IKeyPressed;
         let letterValidator = LetterValidatorFactory.createValidator();
-            if (letterValidator.isValidLetter(code, this.actualPosition)) 
-                {
+            if (letterValidator.isValidLetter(code, this.actualPosition)) {
                     this.newLetter(code);
-                }
-
+            }
             if (letterValidator.isEnterKey(code)) {
                 specialKeyPressed = new EnterPressed(this);
                 specialKeyPressed.execute();

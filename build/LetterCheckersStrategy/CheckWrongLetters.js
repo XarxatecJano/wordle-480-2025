@@ -1,17 +1,13 @@
-import { MAX_WORD_SIZE } from "../env.js";
 var CheckWrongLetters = /** @class */ (function () {
     function CheckWrongLetters(interfaceInstance) {
         this.interface = interfaceInstance;
     }
-    CheckWrongLetters.prototype.check = function (actualWord, pickedWord, turn) {
-        var actualLetter = "";
-        var pattern;
-        var numberOfCoincidences = 0;
-        for (var i = 0; i < MAX_WORD_SIZE; i++) {
-            actualLetter = actualWord[i];
-            pattern = new RegExp(actualLetter, "g");
-            numberOfCoincidences = (pickedWord.match(pattern) || []).length;
-            if (numberOfCoincidences === 0) {
+    CheckWrongLetters.prototype.checkType = function () {
+        return "wrong";
+    };
+    CheckWrongLetters.prototype.check = function (actualWord, pickedWord, turn, letterCount, markedPositions) {
+        for (var i = 0; i < pickedWord.length; i++) {
+            if (!(actualWord[i] in letterCount) || (letterCount[actualWord[i]] == 0 && !markedPositions[i])) {
                 this.interface.changeBackgroundPosition(turn, i, "wrongLetter");
             }
         }

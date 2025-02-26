@@ -19,10 +19,10 @@ export class EnterPressed implements IKeyPressed{
         }
     }
 
-    updateKeyColors(word: string, correctWord: string) {
+    private updateKeyColors(word: string, correctWord: string) {
         for (let i = 0; i < word.length; i++) {
             var letter = word[i];
-            var code = "Key" + letter;
+            var code = letter != "Ñ"? "Key" + letter : "Semicolon"
             var state = "default";
 
             if (correctWord.includes(letter)) {

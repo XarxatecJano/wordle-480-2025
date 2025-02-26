@@ -1,23 +1,16 @@
-import { MAX_WORD_SIZE } from "../env.js";
 var CheckMisplacedLetters = /** @class */ (function () {
     function CheckMisplacedLetters(interfaceInstance) {
         this.interface = interfaceInstance;
-        this.lettersStates = [];
     }
-    CheckMisplacedLetters.prototype.check = function (actualWord, pickedWord, turn) {
-        var actualLetter = "";
-        var pattern;
-        var numberOfCoincidences = 0;
-        var isMisplacedLetter;
-        for (var i = 0; i < MAX_WORD_SIZE; i++) {
-            isMisplacedLetter = true;
-            actualLetter = actualWord[i];
-            pattern = new RegExp(actualLetter, "g");
-            numberOfCoincidences = (pickedWord.match(pattern) || []).length;
-            if (pickedWord[i] === actualWord[i])
-                isMisplacedLetter = false;
-            if (numberOfCoincidences > 0 && isMisplacedLetter) {
+    CheckMisplacedLetters.prototype.checkType = function () {
+        return "misplaced";
+    };
+    CheckMisplacedLetters.prototype.check = function (actualWord, pickedWord, turn, letterCount, markedPositions) {
+        for (var i = 0; i < pickedWord.length; i++) {
+            if (pickedWord[i] !== actualWord[i] && letterCount[actualWord[i]] > 0) {
+                letterCount[actualWord[i]]--;
                 this.interface.changeBackgroundPosition(turn, i, "misplacedLetter");
+                markedPositions[i] = true;
             }
         }
     };

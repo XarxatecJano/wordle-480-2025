@@ -14,7 +14,7 @@ var EnterPressed = /** @class */ (function () {
     EnterPressed.prototype.updateKeyColors = function (word, correctWord) {
         for (var i = 0; i < word.length; i++) {
             var letter = word[i];
-            var code = "Key" + letter;
+            var code = letter != "Ñ" ? "Key" + letter : "Semicolon";
             var state = "default";
             if (correctWord.includes(letter)) {
                 state = correctWord[i] === letter ? "rightLetter" : "misplacedLetter";
