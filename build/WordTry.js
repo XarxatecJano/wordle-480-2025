@@ -56,7 +56,7 @@ var WordTry = /** @class */ (function () {
             this._wordTry += letter;
         }
     };
-    WordTry.prototype.lastLetterIsUnique = function () {
+    WordTry.prototype.IslastLetterUnique = function () {
         var position = this._wordTry.length - 1;
         var lastLetter = this._wordTry[position];
         var oldWord = this._wordTry.slice(0, position);
@@ -69,7 +69,7 @@ var WordTry = /** @class */ (function () {
         if (actualPosition > 0) {
             var lastLetterPos = actualPosition - 1;
             this._interface.deleteLetter(this._turn, lastLetterPos);
-            if (this.lastLetterIsUnique())
+            if (this.IslastLetterUnique())
                 this._interface.resetLastLetterBG(this._wordTry[lastLetterPos]);
             this._wordTry = this._wordTry.substring(0, this._wordTry.length - 1);
         }

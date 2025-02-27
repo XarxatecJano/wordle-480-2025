@@ -60,7 +60,7 @@ export class WordTry {
         }
     }
 
-    lastLetterIsUnique() {
+    IslastLetterUnique() {
         const position = this._wordTry.length - 1;
         const lastLetter = this._wordTry[position];
         const oldWord = this._wordTry.slice(0, position);
@@ -74,7 +74,7 @@ export class WordTry {
         if (actualPosition > 0) {
             const lastLetterPos = actualPosition - 1;
             this._interface.deleteLetter(this._turn, lastLetterPos);
-            if (this.lastLetterIsUnique())
+            if (this.IslastLetterUnique())
                 this._interface.resetLastLetterBG(this._wordTry[lastLetterPos]);
             this._wordTry = this._wordTry.substring(0, this._wordTry.length - 1);
         }
