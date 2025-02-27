@@ -16,8 +16,6 @@ var CheckMisplacedLetters = /** @class */ (function () {
     CheckMisplacedLetters.prototype.changeColorDependingOnCoincidences = function (actualPosition, actualLetter, game) {
         var _a, _b, _c;
         var numberOfCoincidences = this.getNumberOfCoincidences(game.pickedWord, actualLetter);
-        console.log(game.rightPositionLetters.get(actualLetter));
-        console.log(game.misplacedPositionLetters.get(actualLetter));
         if (((_a = game.rightPositionLetters.get(actualLetter)) !== null && _a !== void 0 ? _a : 0) + ((_b = game.misplacedPositionLetters.get(actualLetter)) !== null && _b !== void 0 ? _b : 0) <= numberOfCoincidences) {
             for (var i = 0; i < numberOfCoincidences; i++) {
                 this._interface.changeBackgroundKey(actualLetter, "misplacedLetter");

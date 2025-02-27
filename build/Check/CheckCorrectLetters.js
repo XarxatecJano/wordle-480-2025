@@ -8,7 +8,7 @@ var CheckCorrectLetters = /** @class */ (function () {
                 if (game.pickedWord[i] == game.actualWord[i]) {
                     _this._interface.changeBackgroundPosition(game.turn, i, "rightLetter");
                     _this._interface.changeBackgroundKey(game.pickedWord[i], "rightLetter");
-                    game.rightPositionLetters.set(game.actualWord[i], ((_a = game.rightPositionLetters.get(game.actualWord[i])) !== null && _a !== void 0 ? _a : 0) + 1);
+                    game.rightPositionLetters.set(game.actualWord[i], ((_a = game.rightPositionLetters.get(game.actualWord[i])) !== null && _a !== void 0 ? _a : 1) + 1);
                     game.typeCell.set(i, "rightLetter");
                 }
             }

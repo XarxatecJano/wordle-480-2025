@@ -13,30 +13,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { CheckCorrectLetters } from "./Check/CheckCorrectLetters.js";
-import { CheckMisplacedLetters } from "./Check/CheckMisplacedLetters.js";
-import { CheckWrongLetters } from "./Check/CheckWrongLetters.js";
 import { Interface } from "./Interface.js";
 export var MAX_ATTEMPTS = 6;
 var Game = /** @class */ (function (_super) {
     __extends(Game, _super);
     function Game(pickedWord) {
         var _this = _super.call(this) || this;
-        _this.updateAfterANewWord = function () {
-            var strategies = [
-                new CheckCorrectLetters(_this),
-                new CheckMisplacedLetters(_this),
-                new CheckWrongLetters(_this)
-            ];
-            strategies.forEach(function (strategy) { return strategy.check(_this); });
-            _this.paintBakcgroundCells();
-            _this._rightPositionLetters.clear();
-            _this._MisplacedPositionLetters.clear();
-            _this._typeCell.clear();
-            _this._turn += 1;
-            _this._actualPosition = 0;
-            _this._actualWord = "";
-        };
         _this._pickedWord = pickedWord;
         _this._actualWord = "";
         _this._turn = 1;
@@ -107,17 +89,15 @@ var Game = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Game.getInstance = function (pickedWord) {
+        if (!Game.instance)
+            Game.instance = new Game(pickedWord);
+        return Game.instance;
+    };
     Game.prototype.checkWordIsRight = function () {
         if (this._actualWord == this._pickedWord) {
             location.assign("/winner");
         }
-    };
-    Game.prototype.paintBakcgroundCells = function () {
-        var _this = this;
-        this._typeCell.forEach(function (type, position) {
-            console.log("turno " + position + " tipo " + type);
-            _this.changeBackgroundPosition(_this.turn, position, type);
-        });
     };
     Game.prototype.checkGameIsOver = function () {
         if (this.turn == MAX_ATTEMPTS && this._actualWord != this._pickedWord) {

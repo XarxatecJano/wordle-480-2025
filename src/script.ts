@@ -1,18 +1,21 @@
-import {Words} from "./Words.js";
+import { Game } from "./Game.js";
 import { NewKeyPressed } from "./Keyboard/NewKeyPressed.js";
+import {Words} from "./Words.js";
+
 
 
 const wordsCollection: Words = new Words(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
 const pickedWord: string = wordsCollection.getRandomWord();
 console.log(pickedWord);
 
-const game: NewKeyPressed = new NewKeyPressed(pickedWord);
+const game:Game = Game.getInstance(pickedWord)
+const newKeys: NewKeyPressed = new NewKeyPressed(game);
 
 
 Array.from(document.getElementsByClassName("key")).forEach(element => element.addEventListener("click", (e)=>{
-    game.newKeyPressed((<HTMLButtonElement>e.target).value);
+    newKeys.newKeyPressed((<HTMLButtonElement>e.target).value);
 }));
 
 document.addEventListener("keydown", (e)=>{
-    game.newKeyPressed(e.code);
+    newKeys.newKeyPressed(e.code);
 });

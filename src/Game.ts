@@ -1,7 +1,3 @@
-import { CheckCorrectLetters } from "./Check/CheckCorrectLetters.js";
-import { CheckMisplacedLetters} from "./Check/CheckMisplacedLetters.js";
-import { CheckWrongLetters} from "./Check/CheckWrongLetters.js";
-import { ICheck } from "./Check/ICheck.js";
 import {Interface} from "./Interface.js";
 export const MAX_ATTEMPTS:number = 6;
 
@@ -13,7 +9,8 @@ export class Game extends Interface {
     private _rightPositionLetters: Map<string, number>;
     private _MisplacedPositionLetters: Map<string, number>;
     private _typeCell: Map<number, string>;
-    constructor(pickedWord: string){
+    private static instance: Game;
+    constructor(pickedWord:string){
         super();
         this._pickedWord = pickedWord;
         this._actualWord = "";
@@ -64,36 +61,18 @@ export class Game extends Interface {
         return this._typeCell;
     }
 
-    
+    static getInstance(pickedWord :string): Game{
+        if(!Game.instance) Game.instance = new Game(pickedWord);
+        return Game.instance
+
+    }
 
     checkWordIsRight():void{
         if (this._actualWord == this._pickedWord){
             location.assign("/winner");
         }
     }
-    updateAfterANewWord = ():void=>{
-        let strategies:ICheck[] = [
-            new CheckCorrectLetters(this),
-            new CheckMisplacedLetters(this),
-            new CheckWrongLetters(this)
-        ];
-        
-        strategies.forEach(strategy => strategy.check(this))
-        this.paintBakcgroundCells();
-        this._rightPositionLetters.clear();
-        this._MisplacedPositionLetters.clear();
-        this._typeCell.clear();
-        this._turn += 1;
-        this._actualPosition = 0;
-        this._actualWord = "";
-    }
-
-    private paintBakcgroundCells():void{
-        this._typeCell.forEach((type, position) =>{
-            console.log("turno " + position + " tipo " + type);
-            this.changeBackgroundPosition(this.turn, position, type);
-        })
-    }
+    
 
     checkGameIsOver():void{
         if (this.turn == MAX_ATTEMPTS && this._actualWord != this._pickedWord){

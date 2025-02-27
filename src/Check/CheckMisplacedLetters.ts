@@ -24,9 +24,6 @@ export class CheckMisplacedLetters implements ICheck{
 
     changeColorDependingOnCoincidences(actualPosition:number,actualLetter:string, game: Game):void{
         let numberOfCoincidences = this.getNumberOfCoincidences(game.pickedWord,actualLetter);
-        console.log(game.rightPositionLetters.get(actualLetter) );
-        console.log(game.misplacedPositionLetters.get(actualLetter) );
-
         if((game.rightPositionLetters.get(actualLetter) ?? 0)  + (game.misplacedPositionLetters.get(actualLetter) ?? 0) <= numberOfCoincidences ){
             for(let i = 0; i < numberOfCoincidences;i++){
                 this._interface.changeBackgroundKey(actualLetter, "misplacedLetter");
