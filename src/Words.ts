@@ -1,4 +1,4 @@
-export class Word {
+export class Words {
 
     private _words: string[];
     constructor(wordsArray: string[]){
@@ -17,4 +17,6 @@ export class Word {
         const max = this._words.length-1;
         return this._words[Math.floor(Math.random() * (max - min + 1))]
     }
+
+    
 }

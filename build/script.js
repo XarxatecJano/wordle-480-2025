@@ -1,12 +1,16 @@
-import { Word } from "./Word.js";
-import { Game } from "./Game.js";
-var wordsCollection = new Word(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
+import { Game } from "./Game/Game.js";
+import { NewKeyPressed } from "./Keyboard/NewKeyPressed.js";
+import { NavigationSerivce } from "./Navigation/WinnerNavigation.js";
+import { Words } from "./Words.js";
+var wordsCollection = new Words(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
 var pickedWord = wordsCollection.getRandomWord();
+var navigation = new NavigationSerivce;
 console.log(pickedWord);
-var game = new Game(pickedWord);
+var game = Game.getInstance(pickedWord, navigation);
+var newKeys = new NewKeyPressed(game);
 Array.from(document.getElementsByClassName("key")).forEach(function (element) { return element.addEventListener("click", function (e) {
-    game.newKeyPressed(e.target.value);
+    newKeys.newKeyPressed(e.target.value);
 }); });
 document.addEventListener("keydown", function (e) {
-    game.newKeyPressed(e.code);
+    newKeys.newKeyPressed(e.code);
 });

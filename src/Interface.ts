@@ -1,22 +1,39 @@
 export class Interface {
     setNewLetter(turn: number,position: number, letter: string) {
-        Array.from(document.getElementById(`row_${turn}`)!.children)[position].textContent = letter;
+        this.getCell(turn, position).textContent = letter;
     }
     deleteLetter(turn: number, position: number) {
-        Array.from(document.getElementById(`row_${turn}`)!.children)[position].textContent = "";
+       this.getCell(turn, position).textContent = "";
     }
     changeBackgroundPosition(turn: number, position: number, state: string){
-        let positionClass = "cell-grey";
-        if (state=="rightLetter") positionClass = "cell-green";
-        if (state=="misplacedLetter") positionClass = "cell-orange";
-        Array.from(document.getElementById(`row_${turn}`)!.children)[position].classList.add(positionClass);
+        let positionClass = this.changeColorWithState(state);
+        this.getCell(turn, position).classList.add(positionClass);
     }
-    changeBackgroundKey(code: string){
-       const keys: any = document.getElementsByClassName("key");
-       for (let key of keys) {
+    changeBackgroundKey(letter: string, state: string){
+        const keys: any = document.getElementsByClassName("key");
+        let code:string;
+        if (letter != "Ñ"){
+            code = "Key" + letter;
+        }else{
+            code = "Semicolon";
+        }
+        for (let key of keys) {
             if (key.value == code && code !== "Enter" && code !=="Backspace"){
-                key.classList.add("keyPressed");
+                let positionClass = this.changeColorWithState(state);
+                key.classList.add(positionClass);
             }
        }
     }
+
+    private getCell(turn: number, position: number ): HTMLElement{
+        return Array.from(document.getElementById(`row_${turn}`)!.children)[position] as HTMLElement;
+    }
+
+    changeColorWithState(state:string):string{
+        let color = "cell-grey";
+        if (state=="rightLetter") color = "cell-green";
+        if (state=="misplacedLetter") color = "cell-orange";
+        return color;
+    }
+
 }
