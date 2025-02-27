@@ -1,6 +1,6 @@
-import { MAX_WORD_SIZE, MAX_ATTEMPTS, } from "./env.js";
-import { Letter } from "./Letter.js";
-import { Interface } from "./Interface.js";
+import { MAX_WORD_SIZE, MAX_ATTEMPTS, } from "../core/env.js";
+import { Letter } from "../controllers/Letter.js";
+import { Interface } from "../core/Interface.js";
 var Checker = /** @class */ (function () {
     function Checker(pickedWord) {
         this._INITIAL_TURN = 1;

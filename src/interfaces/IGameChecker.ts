@@ -1,5 +1,5 @@
-import { ColourSetMaps } from "./ColourSetMaps.js"
-import { Interface } from "./Interface"
+import { ColourSetMaps } from "../controllers/ColourSetMaps.js"
+import { Interface } from "../core/Interface.js"
 
 export interface IGameChecker {
     pickedWord: string

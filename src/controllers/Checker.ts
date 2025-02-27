@@ -1,8 +1,8 @@
-import { MAX_WORD_SIZE, MAX_ATTEMPTS, } from "./env.js";
-import { Letter } from "./Letter.js";
-import { Interface } from "./Interface.js";
-import { IGameChecker } from "./IGameChecker.js";
-import { ColourSetMaps } from "./ColourSetMaps.js";
+import { MAX_WORD_SIZE, MAX_ATTEMPTS, } from "../core/env.js";
+import { Letter } from "../controllers/Letter.js";
+import { Interface } from "../core/Interface.js";
+import { IGameChecker } from "../interfaces/IGameChecker.js";
+import { ColourSetMaps } from "../controllers/ColourSetMaps.js";
 
 export class Checker implements IGameChecker {
     private static _instance: Checker;

@@ -1,4 +1,4 @@
-import { MAX_WORD_SIZE } from "./env.js";
+import { MAX_WORD_SIZE } from "../core/env.js";
 
 export class ColourSetMaps {
     private _colorMap: Map<string, number>;

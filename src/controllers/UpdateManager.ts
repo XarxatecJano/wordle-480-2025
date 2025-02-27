@@ -1,5 +1,5 @@
-import { IGameChecker } from "./IGameChecker.js";
-import {ColourSetMaps} from "./ColourSetMaps.js";
+import { IGameChecker } from "../interfaces/IGameChecker.js";
+import {ColourSetMaps} from "../controllers/ColourSetMaps.js";
 export class UpdateManager {
     private static _instance: UpdateManager;
     private checker: IGameChecker;
