@@ -11,6 +11,7 @@ export class Interface {
         this.changeBackgroundPosition(turn, letterIndex, state);
         this.changeBackgroundKey(actualWord, state);
     }
+
     setElementState(state: string): string {
         let elementClass = "cell-grey";
         if (state == "rightLetter") elementClass = "cell-green";
@@ -31,6 +32,7 @@ export class Interface {
             if (key.value == code) {
                 if (state == "rightLetter") key.classList.remove("cell-orange");
                 key.classList.add(positionClass);
+
             }
         }
     }

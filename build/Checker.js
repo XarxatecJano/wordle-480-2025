@@ -76,42 +76,51 @@ var Checker = /** @class */ (function () {
             location.assign("/winner");
         }
     };
-    Checker.prototype.checkRightLetters = function () {
+    Checker.prototype.checkRightLetters = function (mapController) {
+        var dictNumCoincidences = mapController.ColorMap;
+        var choosenPositions = mapController.ChoosenPositionMap;
         for (var i = 0; i < MAX_WORD_SIZE; i++) {
-            if (this._pickedWord[i] == this._actualWord[i]) {
+            var letter = this._actualWord[i];
+            if (this._pickedWord[i] == letter) {
+                var numCoincidences = dictNumCoincidences.get(letter) || 0;
                 this._interface.changeCheckedBackground(this._turn, i, "rightLetter", this._actualWord[i]);
+                dictNumCoincidences.set(this._actualWord[i], numCoincidences - 1);
+                choosenPositions.set(i, true);
             }
         }
     };
-    Checker.prototype.checkMisplacedLetters = function () {
+    Checker.prototype.checkMisplacedLetters = function (mapController) {
+        var dictNumCoincidences = mapController.ColorMap;
+        var choosenPositions = mapController.ChoosenPositionMap;
         var actualLetter = "";
-        var pattern;
-        var numberOfCoincidences = 0;
         var isMisplacedLetter;
         for (var i = 0; i < MAX_WORD_SIZE; i++) {
             isMisplacedLetter = true;
             actualLetter = this._actualWord[i];
-            pattern = new RegExp(actualLetter, "g");
-            numberOfCoincidences = (this._pickedWord.match(pattern) || []).length;
-            if (this._pickedWord[i] == this._actualWord[i])
+            console.log("Misplaced" + choosenPositions);
+            if (this._pickedWord[i] == actualLetter)
                 isMisplacedLetter = false;
-            if (numberOfCoincidences > 0 && isMisplacedLetter) {
+            if ((dictNumCoincidences.get(actualLetter) || 0) > 0 && isMisplacedLetter) {
                 this._interface.changeCheckedBackground(this._turn, i, "misplacedLetter", this._actualWord[i]);
+                var numCoincidences = dictNumCoincidences.get(actualLetter) || 0;
+                dictNumCoincidences.set(actualLetter, numCoincidences - 1);
+                choosenPositions.set(i, true);
             }
         }
     };
-    Checker.prototype.checkWrongLetters = function () {
+    Checker.prototype.checkWrongLetters = function (mapController) {
+        var dictNumCoincidences = mapController.ColorMap;
+        var choosenPositions = mapController.ChoosenPositionMap;
         var actualLetter = "";
-        var pattern;
-        var numberOfCoincidences = 0;
         for (var i = 0; i < MAX_WORD_SIZE; i++) {
             actualLetter = this._actualWord[i];
-            pattern = new RegExp(actualLetter, "g");
-            numberOfCoincidences = (this._pickedWord.match(pattern) || []).length;
-            if (numberOfCoincidences == 0) {
+            var numCoincidences = dictNumCoincidences.get(actualLetter) || 0;
+            if (numCoincidences == 0 && choosenPositions.get(i) == false) {
                 this._interface.changeCheckedBackground(this._turn, i, "wrongLetter", this._actualWord[i]);
             }
         }
+        console.log(mapController.ColorMap);
+        console.log(mapController.ChoosenPositionMap);
     };
     Checker.prototype.checkGameIsOver = function () {
         if (this._turn == MAX_ATTEMPTS &&

@@ -1,3 +1,4 @@
+import { ColourSetMaps } from "./ColourSetMaps.js";
 var UpdateManager = /** @class */ (function () {
     function UpdateManager(checker) {
         this.checker = checker;
@@ -9,9 +10,11 @@ var UpdateManager = /** @class */ (function () {
         return UpdateManager._instance;
     };
     UpdateManager.prototype.updateAfterNewWord = function () {
-        this.checker.checkRightLetters();
-        this.checker.checkMisplacedLetters();
-        this.checker.checkWrongLetters();
+        var mapController = new ColourSetMaps();
+        mapController.setColourMap(this.checker.pickedWord);
+        this.checker.checkRightLetters(mapController);
+        this.checker.checkMisplacedLetters(mapController);
+        this.checker.checkWrongLetters(mapController);
         this.resetElementsOfLine();
     };
     UpdateManager.prototype.resetElementsOfLine = function () {

@@ -2,6 +2,7 @@ import { MAX_WORD_SIZE, MAX_ATTEMPTS, } from "./env.js";
 import { Letter } from "./Letter.js";
 import { Interface } from "./Interface.js";
 import { IGameChecker } from "./IGameChecker.js";
+import { ColourSetMaps } from "./ColourSetMaps.js";
 
 export class Checker implements IGameChecker {
     private static _instance: Checker;
@@ -14,7 +15,7 @@ export class Checker implements IGameChecker {
     private _currentPosition = this._INITIAL_POSITION;
     private _interface: Interface
     constructor(pickedWord: string) {
-    
+
         this._letterManager = Letter.getInstance();
         this._pickedWord = pickedWord;
         this._interface = new Interface();
@@ -65,49 +66,59 @@ export class Checker implements IGameChecker {
         return this._letterManager.includes(code) && this.currentPosition < MAX_WORD_SIZE;
     }
 
+
+
     checkWordIsRight(): void {
         if (this._actualWord == this._pickedWord) {
             location.assign("/winner");
         }
     }
 
-    checkRightLetters(): void {
+    checkRightLetters(mapController: ColourSetMaps): void {
+        let dictNumCoincidences = mapController.ColorMap;
+        let choosenPositions = mapController.ChoosenPositionMap;
         for (let i = 0; i < MAX_WORD_SIZE; i++) {
-            if (this._pickedWord[i] == this._actualWord[i]) {
+            const letter = this._actualWord[i];
+            if (this._pickedWord[i] == letter) {
+                const numCoincidences = dictNumCoincidences.get(letter) || 0;
                 this._interface.changeCheckedBackground(this._turn,
-                     i, "rightLetter", this._actualWord[i]);
-
+                    i, "rightLetter", this._actualWord[i]);
+                dictNumCoincidences.set(this._actualWord[i], numCoincidences - 1);
+                choosenPositions.set(i, true);
             }
         }
     }
-    checkMisplacedLetters(): void {
+    checkMisplacedLetters(mapController: ColourSetMaps): void {
+        let dictNumCoincidences = mapController.ColorMap;
+        let choosenPositions = mapController.ChoosenPositionMap;
         let actualLetter: string = "";
-        let pattern: RegExp;
-        let numberOfCoincidences: number = 0;
         let isMisplacedLetter: boolean;
         for (let i = 0; i < MAX_WORD_SIZE; i++) {
             isMisplacedLetter = true;
             actualLetter = this._actualWord[i];
-            pattern = new RegExp(actualLetter, "g");
-            numberOfCoincidences = (this._pickedWord.match(pattern) || []).length;
-            if (this._pickedWord[i] == this._actualWord[i]) isMisplacedLetter = false;
-            if (numberOfCoincidences > 0 && isMisplacedLetter) {
+            if (this._pickedWord[i] == actualLetter) isMisplacedLetter = false;
+            if ((dictNumCoincidences.get(actualLetter) || 0) > 0 && isMisplacedLetter) {
                 this._interface.changeCheckedBackground(this._turn,
-                     i, "misplacedLetter", this._actualWord[i]);
+                    i, "misplacedLetter", this._actualWord[i]);
+                const numCoincidences = dictNumCoincidences.get(actualLetter) || 0;
+                dictNumCoincidences.set(actualLetter, numCoincidences - 1);
+                choosenPositions.set(i, true);
             }
         }
+
     }
-    checkWrongLetters(): void {
+
+
+    checkWrongLetters(mapController: ColourSetMaps): void {
+        let dictNumCoincidences = mapController.ColorMap;
+        let choosenPositions = mapController.ChoosenPositionMap;
         let actualLetter = "";
-        let pattern: RegExp;
-        let numberOfCoincidences = 0;
         for (let i = 0; i < MAX_WORD_SIZE; i++) {
             actualLetter = this._actualWord[i];
-            pattern = new RegExp(actualLetter, "g");
-            numberOfCoincidences = (this._pickedWord.match(pattern) || []).length;
-            if (numberOfCoincidences == 0) {
+            const numCoincidences = dictNumCoincidences.get(actualLetter) || 0;
+            if (numCoincidences == 0 && choosenPositions.get(i) == false) {
                 this._interface.changeCheckedBackground(this._turn,
-                     i, "wrongLetter", this._actualWord[i]);
+                    i, "wrongLetter", this._actualWord[i]);
             }
         }
     }

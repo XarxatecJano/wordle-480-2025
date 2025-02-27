@@ -1,5 +1,5 @@
-import { MAX_WORD_SIZE } from "./env.js";
 import { IGameChecker } from "./IGameChecker.js";
+import {ColourSetMaps} from "./ColourSetMaps.js";
 export class UpdateManager {
     private static _instance: UpdateManager;
     private checker: IGameChecker;
@@ -14,9 +14,11 @@ export class UpdateManager {
     }
 
     updateAfterNewWord(): void {
-        this.checker.checkRightLetters();
-        this.checker.checkMisplacedLetters();
-        this.checker.checkWrongLetters();
+        let mapController = new ColourSetMaps();
+        mapController.setColourMap(this.checker.pickedWord);
+        this.checker.checkRightLetters(mapController);
+        this.checker.checkMisplacedLetters(mapController);
+        this.checker.checkWrongLetters(mapController);      
         this.resetElementsOfLine();
 
     }
