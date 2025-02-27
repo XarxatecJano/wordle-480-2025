@@ -6,18 +6,25 @@ var EnterPressed = /** @class */ (function () {
         this._game = game;
     }
     EnterPressed.prototype.execute = function () {
-        if (this._game.actualWord.length == MAX_WORD_SIZE) {
-            this._game.checkWordIsRight();
-            this._game.checkGameIsOver();
+        if (this.wordHasCorrectLength()) {
+            this.verifyGameState();
             this.updateKeyColors(this._game.actualWord, this._game.pickedWord);
             this.updateAfterANewWord();
         }
     };
     EnterPressed.prototype.updateAfterANewWord = function () {
-        var letterCheckerFactory = LetterCheckerFactory.createCheckers(this);
+        var letterCheckerFactory = LetterCheckerFactory.createCheckers(this._game);
         var wordData = new WordState(this._game.actualWord, this._game.pickedWord, this._game.turn);
-        letterCheckerFactory.forEach(function (checker) { return checker.check(wordData); });
+        wordData.letterCountMap(this._game.pickedWord);
+        letterCheckerFactory.forEach(function (checker) { return checker.checkLetters(wordData); });
         this.resetWordState();
+    };
+    EnterPressed.prototype.wordHasCorrectLength = function () {
+        return this._game.actualWord.length === MAX_WORD_SIZE;
+    };
+    EnterPressed.prototype.verifyGameState = function () {
+        this._game.checkWordIsRight();
+        this._game.checkGameIsOver();
     };
     EnterPressed.prototype.resetWordState = function () {
         this._game.turn = this._game.turn + 1;

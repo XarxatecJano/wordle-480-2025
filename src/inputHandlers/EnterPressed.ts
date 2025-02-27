@@ -10,25 +10,35 @@ export class EnterPressed implements IKeyPressed{
     private _game: Game;
 
     constructor(game: Game){
-        this._game = game;
+        this._game = game
     }
 
     execute():void{
 
-        if (this._game.actualWord.length == MAX_WORD_SIZE){
-                    this._game.checkWordIsRight();
-                    this._game.checkGameIsOver();
-                    this.updateKeyColors(this._game.actualWord, this._game.pickedWord)
-                    this.updateAfterANewWord();
+        if (this.wordHasCorrectLength()){
+            this.verifyGameState();
+            this.updateKeyColors( this._game.actualWord, this._game.pickedWord)
+            this.updateAfterANewWord();
         }
+        
     }
 
     updateAfterANewWord() {
-        let letterCheckerFactory = LetterCheckerFactory.createCheckers(this);
+        let letterCheckerFactory = LetterCheckerFactory.createCheckers(this._game);
         let wordData = new WordState(this._game.actualWord, this._game.pickedWord, this._game.turn);
-        letterCheckerFactory.forEach(checker => checker.check(wordData));
+        wordData.letterCountMap(this._game.pickedWord)
+        letterCheckerFactory.forEach(checker => checker.checkLetters(wordData));
         this.resetWordState();
         
+    }
+
+    private wordHasCorrectLength(): boolean {
+        return this._game.actualWord.length === MAX_WORD_SIZE;
+    }
+
+    private verifyGameState(): void {
+        this._game.checkWordIsRight();
+        this._game.checkGameIsOver();
     }
 
     private resetWordState(): void{

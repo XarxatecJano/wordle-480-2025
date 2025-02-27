@@ -6,7 +6,6 @@ const STATE_CLASSES: Record<string, string> = {
 
 export class Interface {
 
-
     setNewLetter(turn: number,position: number, letter: string) {
         const cell = this.getCell(turn, position);
         if (cell) cell.textContent = letter;

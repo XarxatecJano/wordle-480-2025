@@ -10,5 +10,6 @@ Array.from(document.getElementsByClassName("key")).forEach(function (element) { 
     keyPressed.newKeyPressed(e.target.value);
 }); });
 document.addEventListener("keydown", function (e) {
+    console.log(e.code);
     keyPressed.newKeyPressed(e.code);
 });

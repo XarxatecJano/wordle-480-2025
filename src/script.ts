@@ -8,7 +8,7 @@ const pickedWord: string = wordsCollection.getRandomWord();
 console.log(pickedWord);
 
 const game: Game = Game.getInstance(pickedWord);
-const keyPressed = new LetterKeyPressed(game)
+const keyPressed:LetterKeyPressed = new LetterKeyPressed(game)
 
 
 Array.from(document.getElementsByClassName("key")).forEach(element => element.addEventListener("click", (e)=>{
@@ -16,5 +16,6 @@ Array.from(document.getElementsByClassName("key")).forEach(element => element.ad
 }));
 
 document.addEventListener("keydown", (e)=>{
+    console.log(e.code);
     keyPressed.newKeyPressed(e.code);
 });

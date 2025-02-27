@@ -14,11 +14,19 @@ export class CheckWrongLetters implements ICheck{
         return "wrong";
     }
 
-    check(wordData: WordState) {
-        for (let i = 0; i < wordData.pickedWord.length; i++) {
-            if (!(wordData.actualWord[i] in wordData.letterCount) || (wordData.letterCount[wordData.actualWord[i]] == 0 && !wordData.markedPositions[i])){
-                this.interface.changeBackgroundPosition(wordData.turn, i, "wrongLetter");
+    checkLetters(wordData: WordState) {
+        var { actualWord, letterCount, markedPositions, turn } = wordData;
+
+        for (let i = 0; i < actualWord.length; i++) {
+            const letter = actualWord[i];
+            if (this.isWrongLetter(letter, letterCount, markedPositions.get(i))) {
+                this.interface.changeBackgroundPosition(turn, i, "wrongLetter");
             }
         }
+    }
+
+    private isWrongLetter(letter: string, letterCount: Map<string, number>, isMarked?: boolean): boolean {
+        const count = letterCount.get(letter) ?? 0;
+        return !letterCount.has(letter) || (count === 0 && !isMarked);
     }
 }

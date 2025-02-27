@@ -1,7 +1,7 @@
 
 export class WordState{
-    letterCount: Record<string, number>;
-    markedPositions: Record<number, boolean>;
+    letterCount: Map<string, number>;
+    markedPositions: Map<number, boolean>;
     actualWord: string;
     pickedWord: string;
     turn: number;
@@ -11,11 +11,17 @@ export class WordState{
         this.actualWord = actualWord;
         this.pickedWord = pickedWord;
         this.turn = turn;
-        this.letterCount = {};
-        this.markedPositions = {};
+        this.letterCount = new Map<string, number>();
+        this.markedPositions = new Map<number, boolean>();
 
+    }
+
+    letterCountMap (pickedWord:string){
         for (let letter of pickedWord) {
-            this.letterCount[letter] = (this.letterCount[letter] || 0) + 1;
+            let count = this.letterCount.get(letter) ?? 0
+            this.letterCount.set(letter, count + 1);
         }
     }
+
+
 }

@@ -14,14 +14,24 @@ export class CheckMisplacedLetters implements ICheck{
         return "misplaced";
     }
 
-    check(wordData: WordState) {
-        for (let i = 0; i < wordData.pickedWord.length; i++) {
-            if (wordData.pickedWord[i] !== wordData.actualWord[i] && wordData.letterCount[wordData.actualWord[i]] > 0) {
-                wordData.letterCount[wordData.actualWord[i]]--;
-                this.interface.changeBackgroundPosition(wordData.turn, i, "misplacedLetter");
-                wordData.markedPositions[i] = true;
+    checkLetters(wordData: WordState) {
+        var { pickedWord, actualWord, letterCount, markedPositions, turn } = wordData;
+
+        for (let i = 0; i < pickedWord.length; i++) {
+            const letter = actualWord[i];
+            const count = letterCount.get(letter) ?? 0; 
+
+            if (this.isMisplacedLetter(letter, pickedWord[i], letterCount)) {
+                
+                letterCount.set(letter, count - 1);
+                this.interface.changeBackgroundPosition(turn, i, "misplacedLetter");
+                markedPositions.set(i, true);
             }
         }
+    }
+
+    private isMisplacedLetter(letter: string, correctLetter: string, letterCount: Map<string, number>): boolean {
+        return letter !== correctLetter && (letterCount.get(letter) ?? 0) > 0;
     }
     
 }

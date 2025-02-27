@@ -8,7 +8,7 @@ export class Game extends Interface {
     private _actualWord: string
     private _turn: number
     private _actualPosition: number
-    private constructor(pickedWord: string){
+    constructor(pickedWord: string){
         super()
         this._pickedWord = pickedWord;
         this._actualWord = "";
@@ -48,6 +48,7 @@ export class Game extends Interface {
             location.assign("/loser");
         }
     }
+
 
     
 }

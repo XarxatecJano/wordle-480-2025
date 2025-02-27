@@ -8,7 +8,7 @@ export class LetterKeyPressed {
     private _game: Game;
 
     constructor(game: Game){
-        this._game = game; 
+        this._game = game;
     }
 
     newKeyPressed(code: string):void{ 
