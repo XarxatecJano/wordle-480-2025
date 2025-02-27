@@ -68,6 +68,7 @@ export class Game {
             this._turno.nextTurn();
             this._teclado.agregarClavesUsadas(this._actualWord.toString());
             this._teclado.agregarLetrasAcertadas(this._actualWord,this._pickedWord);
+            console.log(this._teclado.letrasAcertadas);
             this._teclado.acertadasEnVerde();
             this._interface.changeBackgroundKeyAfter(this._actualWord, this._teclado);
             this._actualWord = new Palabra(""); 

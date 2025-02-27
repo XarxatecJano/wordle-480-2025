@@ -32,7 +32,8 @@ export class Teclado {
         for (let letra of this.letrasAcertadas) {
             for (let key of keys) {
                 if (key.value === "Key" + letra) {
-                    key.classList.add("keyPressedCorrect");
+                    key.classList.add("cell-green");
+                    console.log("cambiada");
                 }
             }
         }

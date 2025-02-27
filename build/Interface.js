@@ -55,10 +55,10 @@ var Interface = /** @class */ (function () {
             for (var _i = 0, keys_3 = keys; _i < keys_3.length; _i++) {
                 var key = keys_3[_i];
                 if (key.value === "Key" + letra.valor) {
-                    key.classList.remove("keyPressed", "keyPressedOnBadPosition");
+                    key.classList.remove("keyPressed", "cell-orange");
                     if (!teclado.letrasAcertadas.includes(letra.valor)) {
                         if (estado === "mal_colocada") {
-                            key.classList.add("keyPressedOnBadPosition");
+                            key.classList.add("cell-orange");
                         }
                         else {
                             key.classList.add("keyPressed");

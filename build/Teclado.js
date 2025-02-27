@@ -25,7 +25,8 @@ var Teclado = /** @class */ (function () {
             for (var _b = 0, keys_1 = keys; _b < keys_1.length; _b++) {
                 var key = keys_1[_b];
                 if (key.value === "Key" + letra) {
-                    key.classList.add("keyPressedCorrect");
+                    key.classList.add("cell-green");
+                    console.log("cambiada");
                 }
             }
         }

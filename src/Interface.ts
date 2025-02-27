@@ -73,11 +73,11 @@ export class Interface {
             
             for (let key of keys) {
                 if (key.value === "Key" + letra.valor) {  
-                key.classList.remove("keyPressed","keyPressedOnBadPosition");
+                key.classList.remove("keyPressed","cell-orange");
     
                 if(!teclado.letrasAcertadas.includes(letra.valor)) {
                     if (estado === "mal_colocada") {
-                        key.classList.add("keyPressedOnBadPosition");
+                        key.classList.add("cell-orange");
                     } else {
                         key.classList.add("keyPressed");
                     }
