@@ -1,5 +1,5 @@
-import { Game } from "../core/Game";
-import { IKeyPressed } from "./IKeyPressed";
+import { Game } from "../core/Game.js";
+import { IKeyPressed } from "./IKeyPressed.js";
 
 export class BackspacePressed implements IKeyPressed{
     private _game: Game;

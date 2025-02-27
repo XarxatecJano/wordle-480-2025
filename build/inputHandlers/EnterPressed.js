@@ -1,4 +1,6 @@
 import { MAX_WORD_SIZE } from "../config/env.js";
+import { LetterCheckerFactory } from "../checkers/LetterCheckerFactory.js";
+import { WordState } from "../core/WordCheckerData.js";
 var EnterPressed = /** @class */ (function () {
     function EnterPressed(game) {
         this._game = game;
@@ -8,8 +10,19 @@ var EnterPressed = /** @class */ (function () {
             this._game.checkWordIsRight();
             this._game.checkGameIsOver();
             this.updateKeyColors(this._game.actualWord, this._game.pickedWord);
-            this._game.updateAfterANewWord();
+            this.updateAfterANewWord();
         }
+    };
+    EnterPressed.prototype.updateAfterANewWord = function () {
+        var letterCheckerFactory = LetterCheckerFactory.createCheckers(this);
+        var wordData = new WordState(this._game.actualWord, this._game.pickedWord, this._game.turn);
+        letterCheckerFactory.forEach(function (checker) { return checker.check(wordData); });
+        this.resetWordState();
+    };
+    EnterPressed.prototype.resetWordState = function () {
+        this._game.turn = this._game.turn + 1;
+        this._game.actualPosition = 0;
+        this._game.actualWord = "";
     };
     EnterPressed.prototype.updateKeyColors = function (word, correctWord) {
         for (var i = 0; i < word.length; i++) {

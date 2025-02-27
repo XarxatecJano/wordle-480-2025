@@ -1,6 +1,10 @@
-import { Game } from "../core/Game";
-import { IKeyPressed } from "./IKeyPressed";
+import { Game } from "../core/Game.js";
+import { IKeyPressed } from "./IKeyPressed.js";
 import { MAX_WORD_SIZE } from "../config/env.js";
+import { LetterCheckerFactory } from "../checkers/LetterCheckerFactory.js";
+import { WordState } from "../core/WordCheckerData.js";
+
+
 
 export class EnterPressed implements IKeyPressed{
     private _game: Game;
@@ -15,8 +19,23 @@ export class EnterPressed implements IKeyPressed{
                     this._game.checkWordIsRight();
                     this._game.checkGameIsOver();
                     this.updateKeyColors(this._game.actualWord, this._game.pickedWord)
-                    this._game.updateAfterANewWord();
+                    this.updateAfterANewWord();
         }
+    }
+
+    updateAfterANewWord() {
+        let letterCheckerFactory = LetterCheckerFactory.createCheckers(this);
+        let wordData = new WordState(this._game.actualWord, this._game.pickedWord, this._game.turn);
+        letterCheckerFactory.forEach(checker => checker.check(wordData));
+        this.resetWordState();
+        
+    }
+
+    private resetWordState(): void{
+        this._game.turn = this._game.turn + 1;
+        this._game.actualPosition = 0;
+        this._game.actualWord = "";
+
     }
 
     private updateKeyColors(word: string, correctWord: string) {

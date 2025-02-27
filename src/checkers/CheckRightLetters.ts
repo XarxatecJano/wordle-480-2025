@@ -1,6 +1,6 @@
-import { ICheck } from "./ICheck";
-import { Interface } from "../core/Interface";
-import { WordState } from "../core/WordCheckerData";
+import { ICheck } from "./ICheck.js";
+import { Interface } from "../core/Interface.js";
+import { WordState } from "../core/WordCheckerData.js";
 
 
 export class CheckRightLetters implements ICheck{

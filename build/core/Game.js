@@ -14,11 +14,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { Interface } from "./Interface.js";
-import { LetterCheckerFactory } from "../checkers/LetterCheckerFactory.js";
-import { LetterValidatorFactory } from "../validators/LetterValidatorFactory.js";
-import { EnterPressed } from "../inputHandlers/EnterPressed.js";
-import { BackspacePressed } from "../inputHandlers/BackspacePressed.js";
-import { WordState } from "./WordCheckerData.js";
 var MAX_ATTEMPTS = 6;
 var Game = /** @class */ (function (_super) {
     __extends(Game, _super);
@@ -60,24 +55,6 @@ var Game = /** @class */ (function (_super) {
         }
         return Game.instance;
     };
-    Game.prototype.resetWordState = function () {
-        this.turn = this.turn + 1;
-        this.actualPosition = 0;
-        this.actualWord = "";
-    };
-    Game.prototype.newLetter = function (code) {
-        var letterValidator = LetterValidatorFactory.createValidator();
-        var letter = letterValidator.transformCodeToLetter(code);
-        this.setNewLetter(this.turn, this.actualPosition, letter);
-        this._actualPosition += 1;
-        this._actualWord += letter;
-    };
-    Game.prototype.updateAfterANewWord = function () {
-        var letterCheckerFactory = LetterCheckerFactory.createCheckers(this);
-        var wordData = new WordState(this._actualWord, this._pickedWord, this.turn);
-        letterCheckerFactory.forEach(function (checker) { return checker.check(wordData); });
-        this.resetWordState();
-    };
     Game.prototype.checkWordIsRight = function () {
         if (this._actualWord == this._pickedWord) {
             location.assign("/winner");
@@ -86,21 +63,6 @@ var Game = /** @class */ (function (_super) {
     Game.prototype.checkGameIsOver = function () {
         if (this._actualWord != this._pickedWord && this.turn == MAX_ATTEMPTS) {
             location.assign("/loser");
-        }
-    };
-    Game.prototype.newKeyPressed = function (code) {
-        var specialKeyPressed;
-        var letterValidator = LetterValidatorFactory.createValidator();
-        if (letterValidator.isValidLetter(code, this.actualPosition)) {
-            this.newLetter(code);
-        }
-        if (letterValidator.isEnterKey(code)) {
-            specialKeyPressed = new EnterPressed(this);
-            specialKeyPressed.execute();
-        }
-        if (letterValidator.isBackspaceKey(code)) {
-            specialKeyPressed = new BackspacePressed(this);
-            specialKeyPressed.execute();
         }
     };
     return Game;

@@ -1,10 +1,4 @@
 import { Interface } from "./Interface.js";
-import { LetterCheckerFactory } from "../checkers/LetterCheckerFactory.js";
-import { LetterValidatorFactory } from "../validators/LetterValidatorFactory.js";
-import { IKeyPressed } from "../inputHandlers/IKeyPressed.js";
-import { EnterPressed } from "../inputHandlers/EnterPressed.js";
-import { BackspacePressed } from "../inputHandlers/BackspacePressed.js";
-import { WordState } from "./WordCheckerData.js";
 
 const MAX_ATTEMPTS:number = 6;
 
@@ -43,30 +37,6 @@ export class Game extends Interface {
         return Game.instance;
     }
     
-    private resetWordState(): void{
-        this.turn = this.turn + 1;
-        this.actualPosition = 0;
-        this.actualWord = "";
-
-    }
-
-    newLetter(code: string):void{
-        let letterValidator = LetterValidatorFactory.createValidator();
-        let letter: string = letterValidator.transformCodeToLetter(code);
-        this.setNewLetter(this.turn, this.actualPosition, letter);
-        this._actualPosition += 1;
-        this._actualWord += letter;
-    }
-
-    updateAfterANewWord() {
-        let letterCheckerFactory = LetterCheckerFactory.createCheckers(this);
-        let wordData = new WordState(this._actualWord, this._pickedWord, this.turn);
-        letterCheckerFactory.forEach(checker => checker.check(wordData));
-        this.resetWordState();
-        
-    }
-    
-
     checkWordIsRight():void{
         if (this._actualWord == this._pickedWord){
             location.assign("/winner");
@@ -77,22 +47,6 @@ export class Game extends Interface {
         if (this._actualWord != this._pickedWord && this.turn == MAX_ATTEMPTS){
             location.assign("/loser");
         }
-    }
-
-    newKeyPressed(code: string):void{ 
-        var specialKeyPressed!: IKeyPressed;
-        let letterValidator = LetterValidatorFactory.createValidator();
-            if (letterValidator.isValidLetter(code, this.actualPosition)) {
-                    this.newLetter(code);
-            }
-            if (letterValidator.isEnterKey(code)) {
-                specialKeyPressed = new EnterPressed(this);
-                specialKeyPressed.execute();
-            }
-            if (letterValidator.isBackspaceKey(code)) {
-                specialKeyPressed = new BackspacePressed(this);
-                specialKeyPressed.execute();
-            }   
     }
 
     
