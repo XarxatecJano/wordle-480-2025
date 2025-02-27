@@ -1,19 +1,15 @@
 import { CreateChecks } from "../Check/CreateChecks.js";
+import { UpadateGame } from "../Game/UpdateGame.js";
 import { MAX_WORD_SIZE } from "../env.js";
 var EnterPressed = /** @class */ (function () {
     function EnterPressed(game) {
         var _this = this;
         this.updateAfterANewWord = function () {
             var checks = CreateChecks.getInstance();
-            var strategies = checks.check(_this._game.gameLogic);
-            strategies.forEach(function (strategy) { return strategy.check(_this._game); });
+            _this._gameUpdater = UpadateGame.getInstance(_this._game);
+            _this._gameUpdater.updateAfterANewWordLogic(checks);
             _this.paintBakcgroundCells();
-            _this._game.gameLogic.rightPositionLetters.clear();
-            _this._game.gameLogic.misplacedPositionLetters.clear();
-            _this._game.gameLogic.typeCell.clear();
-            _this._game.gameLogic.turn += 1;
-            _this._game.gameLogic.actualPosition = 0;
-            _this._game.gameLogic.actualWord = "";
+            _this._gameUpdater.clearAfterANewWord();
         };
         this._game = game;
     }

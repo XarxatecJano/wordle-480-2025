@@ -1,11 +1,13 @@
 import { CreateChecks } from "../Check/CreateChecks.js";
 import { Game } from "../Game/Game.js";
+import { UpadateGame } from "../Game/UpdateGame.js";
 import { IKeyPressed } from "../Keyboard/IKeyPressed";
 import {MAX_WORD_SIZE} from "../env.js";
 
 
 export class EnterPressed implements IKeyPressed{
     _game: Game
+    _gameUpdater!: UpadateGame
 
     constructor(game :Game){
         this._game = game;
@@ -20,15 +22,11 @@ export class EnterPressed implements IKeyPressed{
 
     updateAfterANewWord = ():void=>{
         let checks = CreateChecks.getInstance();
-        let strategies = checks.check(this._game.gameLogic);
-        strategies.forEach(strategy => strategy.check(this._game));
+        this._gameUpdater = UpadateGame.getInstance(this._game);
+        this._gameUpdater.updateAfterANewWordLogic(checks);
         this.paintBakcgroundCells();
-        this._game.gameLogic.rightPositionLetters.clear();
-        this._game.gameLogic.misplacedPositionLetters.clear();
-        this._game.gameLogic.typeCell.clear();
-        this._game.gameLogic.turn += 1;
-        this._game.gameLogic.actualPosition = 0;
-        this._game.gameLogic.actualWord = "";
+        this._gameUpdater.clearAfterANewWord();
+
     }
 
     private paintBakcgroundCells():void{

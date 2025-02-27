@@ -25,12 +25,12 @@ export class Game {
     }
 
     checkWordIsRight():void{
-        if (this._gameLogic.checkWordIsRight()) this._navigation.navigateTo("/winner");
+        if (this._gameLogic.checkWordIsRightLogic()) this._navigation.navigateTo("/winner");
         
     }
 
     checkGameIsOver():void{
-        if(this._gameLogic.checkGameIsOver()) this._navigation.navigateTo("/loser");
+        if(this._gameLogic.checkGameIsOverlogic()) this._navigation.navigateTo("/loser");
     }
 
 

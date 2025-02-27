@@ -24,11 +24,11 @@ var Game = /** @class */ (function () {
         return Game.instance;
     };
     Game.prototype.checkWordIsRight = function () {
-        if (this._gameLogic.checkWordIsRight())
+        if (this._gameLogic.checkWordIsRightLogic())
             this._navigation.navigateTo("/winner");
     };
     Game.prototype.checkGameIsOver = function () {
-        if (this._gameLogic.checkGameIsOver())
+        if (this._gameLogic.checkGameIsOverlogic())
             this._navigation.navigateTo("/loser");
     };
     return Game;

@@ -93,11 +93,11 @@ var GameLogic = /** @class */ (function (_super) {
         }
         return GameLogic.instance;
     };
-    GameLogic.prototype.checkWordIsRight = function () {
+    GameLogic.prototype.checkWordIsRightLogic = function () {
         this._checkFinal = new CheckWordIsRight(this.pickedWord);
         return this._checkFinal.check();
     };
-    GameLogic.prototype.checkGameIsOver = function () {
+    GameLogic.prototype.checkGameIsOverlogic = function () {
         this._checkFinal = new CheckLoser(this.pickedWord);
         return this._checkFinal.check();
     };

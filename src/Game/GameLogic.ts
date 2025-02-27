@@ -68,12 +68,12 @@ export class GameLogic extends Interface{
         return GameLogic.instance;
     }
     
-    checkWordIsRight(): boolean {
+    checkWordIsRightLogic(): boolean {
         this._checkFinal = new CheckWordIsRight(this.pickedWord);
         return this._checkFinal.check();
     }
 
-    checkGameIsOver(): boolean {
+    checkGameIsOverlogic(): boolean {
         this._checkFinal = new CheckLoser(this.pickedWord);
         return this._checkFinal.check();
     }
