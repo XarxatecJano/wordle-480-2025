@@ -3,17 +3,29 @@ var Letter = /** @class */ (function () {
     function Letter(code) {
         this.code = "";
         this.code = code;
+        if (!(this.isEnterKey() || this.isBackspaceKey() || this.isCode(code))) {
+            this.code = this.charToCode(code);
+            if (!this.isValidLetter()) {
+                throw new Error("Codigo desconocido: " + code);
+            }
+        }
     }
-    Letter.prototype.transformCodeToLetter = function (code) {
-        var letter = "";
+    Letter.prototype.isCode = function (code) {
+        return code.startsWith("Key");
+    };
+    Letter.prototype.charToCode = function (char) {
+        return "Key" + char;
+    };
+    Letter.prototype.codeToChar = function (code) {
+        var char = "";
         if (code == "Semicolon")
-            letter = "Ñ";
+            char = "Ñ";
         else
-            letter = code.split("y")[1];
-        return letter;
+            char = code.split("y")[1];
+        return char;
     };
     Letter.prototype.getChar = function () {
-        return this.transformCodeToLetter(this.code);
+        return this.codeToChar(this.code);
     };
     Letter.prototype.getCode = function () {
         return this.code;

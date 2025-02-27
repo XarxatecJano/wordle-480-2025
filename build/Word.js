@@ -65,7 +65,7 @@ var Word = /** @class */ (function () {
                 return KeyState.MISPLACED;
             }
         }
-        return KeyState.USED;
+        return KeyState.WRONG;
     };
     return Word;
 }());

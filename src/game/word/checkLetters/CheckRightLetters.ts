@@ -1,23 +1,22 @@
 import { CheckLetters } from "./CheckLetters.js";
-import { GameGrid } from "../../../interface/GameGrid.js";
-import { GameKeyboard } from "../../../interface/GameKeyboard.js";
-import { UserInterfaceController } from "../../../interface/UserInterfaceController.js";
-import { KeyType } from "../../../interface/keyboard/KeyType.js";
+import { KeyState } from "../../../interface/keyboard/KeyState.js";
 import { MAX_WORD_SIZE } from "../../../env.js";
 import { GameState } from "../../GameState.js";
 
-export class checkRightLetters implements CheckLetters {
-    interfaceController = new UserInterfaceController();
-    grid = new GameGrid(this.interfaceController);
-    keyboard = GameKeyboard.getGameKeyboard(this.interfaceController);
+export class checkRightLetters extends CheckLetters {
 
-    check(gameState: GameState): void {
+    check(gameState: GameState, charCounter: { [key: string]: number }): { [key: string]: number } {
+        let charCount = { ...charCounter };
+
         for (let i = 0; i < MAX_WORD_SIZE; i++) {
-            const state = gameState.pickedWord.checkLetter(gameState.actualWord.getLetterAtIndex(i), i);
-            if (state == KeyType.RIGHT) {
-                this.grid.setLetterState(gameState.turn, i, KeyType.RIGHT);
-                this.keyboard.setKeyState(gameState.pickedWord.getLetterAtIndex(i).getCode(), KeyType.RIGHT);
+            const actualLetter = gameState.actualWord.getLetterAtIndex(i);
+            const pickedLetter = gameState.pickedWord.getLetterAtIndex(i);
+            if (actualLetter.equals(pickedLetter)) {
+                charCount[pickedLetter.getChar()]--;
+                this.grid.setLetterState(gameState.turn, i, KeyState.RIGHT);
+                this.keyboard.setKeyState(gameState.pickedWord.getLetterAtIndex(i).getCode(), KeyState.RIGHT);
             }
         }
+        return charCount;
     }
 }

@@ -5,23 +5,7 @@ export class WordGenerator {
     private _words: Word[];
 
     constructor(wordsArray: string[]) {
-        this._words = this.generateWords(wordsArray);
-    }
-
-    charToCode(char:string):string{
-        return "Key"+char;
-    }
-
-    generateWords(array: string[]): Word[] {
-        let words:Word[] = [];
-        for (let string of array) {
-            let letters:Letter[] = [];
-            for (let char of string) {
-                letters.push(new Letter(this.charToCode(char)))
-            }
-            words.push(new Word(letters));
-        }
-        return words;
+        this._words = this.generateWordsFromStrings(wordsArray);
     }
 
     get Words() {
@@ -29,6 +13,18 @@ export class WordGenerator {
     }
     set Words(wordsArray: Word[]) {
         this._words = wordsArray;
+    }
+
+    generateWordsFromStrings(array: string[]): Word[] {
+        let words: Word[] = [];
+        for (let string of array) {
+            let letters: Letter[] = [];
+            for (let char of string) {
+                letters.push(new Letter(char));
+            }
+            words.push(new Word(letters));
+        }
+        return words;
     }
 
     getRandomWord(): Word {

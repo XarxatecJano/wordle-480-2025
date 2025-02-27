@@ -4,20 +4,35 @@ export class Letter {
     private code: string = "";
     constructor(code: string) {
         this.code = code;
+        if (!(this.isEnterKey() || this.isBackspaceKey() || this.isCode(code))) {
+            this.code = this.charToCode(code);
+
+            if (!this.isValidLetter()) {
+                throw new Error("Codigo desconocido: " + code);
+            }
+        }
     }
 
-    private transformCodeToLetter(code: string): string {
-        let letter: string = "";
-        if (code == "Semicolon") letter = "Ñ";
-        else letter = code.split("y")[1];
-        return letter;
+    isCode(code: string): boolean {
+        return code.startsWith("Key");
     }
 
-    public getChar(): string {
-        return this.transformCodeToLetter(this.code);
+    charToCode(char: string): string {
+        return "Key" + char;
     }
 
-    public getCode(): string {
+    codeToChar(code: string): string {
+        let char: string = "";
+        if (code == "Semicolon") char = "Ñ";
+        else char = code.split("y")[1];
+        return char;
+    }
+
+    getChar(): string {
+        return this.codeToChar(this.code);
+    }
+
+    getCode(): string {
         return this.code;
     }
 

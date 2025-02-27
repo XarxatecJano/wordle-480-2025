@@ -27,24 +27,30 @@ var __assign = (this && this.__assign) || function () {
 import { CheckLetters } from "./CheckLetters.js";
 import { KeyState } from "../../../interface/keyboard/KeyState.js";
 import { MAX_WORD_SIZE } from "../../../env.js";
-var checkRightLetters = /** @class */ (function (_super) {
-    __extends(checkRightLetters, _super);
-    function checkRightLetters() {
+var checkMisplacedAndWrongLetters = /** @class */ (function (_super) {
+    __extends(checkMisplacedAndWrongLetters, _super);
+    function checkMisplacedAndWrongLetters() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    checkRightLetters.prototype.check = function (gameState, charCounter) {
+    checkMisplacedAndWrongLetters.prototype.check = function (gameState, charCounter) {
         var charCount = __assign({}, charCounter);
         for (var i = 0; i < MAX_WORD_SIZE; i++) {
             var actualLetter = gameState.actualWord.getLetterAtIndex(i);
             var pickedLetter = gameState.pickedWord.getLetterAtIndex(i);
-            if (actualLetter.equals(pickedLetter)) {
-                charCount[pickedLetter.getChar()]--;
-                this.grid.setLetterState(gameState.turn, i, KeyState.RIGHT);
-                this.keyboard.setKeyState(gameState.pickedWord.getLetterAtIndex(i).getCode(), KeyState.RIGHT);
+            if (!pickedLetter.equals(actualLetter)) {
+                if (charCount[actualLetter.getChar()] > 0) {
+                    charCount[actualLetter.getChar()]--;
+                    this.grid.setLetterState(gameState.turn, i, KeyState.MISPLACED);
+                    this.keyboard.setKeyState(actualLetter.getCode(), KeyState.MISPLACED);
+                }
+                else {
+                    this.grid.setLetterState(gameState.turn, i, KeyState.WRONG);
+                    this.keyboard.setKeyState(actualLetter.getCode(), KeyState.WRONG);
+                }
             }
         }
         return charCount;
     };
-    return checkRightLetters;
+    return checkMisplacedAndWrongLetters;
 }(CheckLetters));
-export { checkRightLetters };
+export { checkMisplacedAndWrongLetters };

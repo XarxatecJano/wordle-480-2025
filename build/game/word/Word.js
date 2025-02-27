@@ -1,5 +1,4 @@
 import { MAX_WORD_SIZE } from "../../env.js";
-import { KeyType } from "../../interface/keyboard/KeyType.js";
 var Word = /** @class */ (function () {
     function Word(word) {
         this.word = word;
@@ -48,21 +47,6 @@ var Word = /** @class */ (function () {
             }
         }
         return true;
-    };
-    Word.prototype.checkLetter = function (letter, position) {
-        if (position < 0 || position >= this.getSize()) {
-            return KeyType.UNUSED;
-        }
-        if (this.getLetterAtIndex(position).equals(letter)) {
-            return KeyType.RIGHT;
-        }
-        for (var _i = 0, _a = this.word; _i < _a.length; _i++) {
-            var wordLetter = _a[_i];
-            if (wordLetter.equals(letter)) {
-                return KeyType.MISPLACED;
-            }
-        }
-        return KeyType.USED;
     };
     return Word;
 }());

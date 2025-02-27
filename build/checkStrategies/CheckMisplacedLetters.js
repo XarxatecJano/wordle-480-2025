@@ -75,8 +75,8 @@ var checkMisplacedLetters = /** @class */ (function () {
                 }
                 else {
                     isMisplacedLetter = false;
-                    this.grid.setLetterState(gameState.turn, i, KeyType.USED);
-                    this.keyboard.setKeyState(actualLetter.getCode(), KeyType.USED);
+                    this.grid.setLetterState(gameState.turn, i, KeyType.WRONG);
+                    this.keyboard.setKeyState(actualLetter.getCode(), KeyType.WRONG);
                 }
             }
         }

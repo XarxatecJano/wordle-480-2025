@@ -1,6 +1,5 @@
 import { UserInterfaceController } from "./UserInterfaceController.js";
-import { KeyType } from "./keyboard/KeyType.js";
-import { Word } from "../game/word/Word.js";
+import { KeyState } from "./keyboard/KeyState.js";
 
 export class GameGrid {
     private interface: UserInterfaceController;
@@ -8,7 +7,7 @@ export class GameGrid {
         this.interface = interfaceController;
     }
 
-    setLetterState(turn:number, position: number, state: KeyType) {
+    setLetterState(turn:number, position: number, state: KeyState) {
         this.interface.changeGridCellLetter(turn, position, state);
     }
 

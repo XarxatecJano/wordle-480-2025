@@ -1,31 +1,31 @@
-import { KeyType } from "./KeyType.js";
+import { KeyState } from "./KeyState.js";
 var Key = /** @class */ (function () {
     function Key(code) {
-        this.state = KeyType.UNUSED;
+        this.state = KeyState.UNUSED;
         this.code = code;
     }
-    Key.prototype.setUsed = function () {
-        if (this.state == KeyType.UNUSED) {
-            this.state = KeyType.USED;
+    Key.prototype.setWrong = function () {
+        if (this.state == KeyState.UNUSED) {
+            this.state = KeyState.WRONG;
         }
     };
     Key.prototype.setMisplaced = function () {
-        if (this.state == KeyType.UNUSED || this.state == KeyType.USED) {
-            this.state = KeyType.MISPLACED;
+        if (this.state == KeyState.UNUSED || this.state == KeyState.WRONG) {
+            this.state = KeyState.MISPLACED;
         }
     };
     Key.prototype.setRight = function () {
-        this.state = KeyType.RIGHT;
+        this.state = KeyState.RIGHT;
     };
     Key.prototype.setState = function (state) {
         switch (state) {
-            case KeyType.USED:
-                this.setUsed();
+            case KeyState.WRONG:
+                this.setWrong();
                 break;
-            case KeyType.MISPLACED:
+            case KeyState.MISPLACED:
                 this.setMisplaced();
                 break;
-            case KeyType.RIGHT:
+            case KeyState.RIGHT:
                 this.setRight();
                 break;
         }

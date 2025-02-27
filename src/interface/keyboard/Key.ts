@@ -1,43 +1,43 @@
-import { KeyType } from "./KeyType.js";
+import { KeyState } from "./KeyState.js";
 
 export class Key {
     private code: string;
-    private state: KeyType = KeyType.UNUSED;
+    private state: KeyState = KeyState.UNUSED;
     constructor(code: string) {
         this.code = code
     }
 
-    private setUsed() {
-        if (this.state == KeyType.UNUSED) {
-            this.state = KeyType.USED;
+    private setWrong() {
+        if (this.state == KeyState.UNUSED) {
+            this.state = KeyState.WRONG;
         }
     }
 
     private setMisplaced() {
-        if (this.state == KeyType.UNUSED || this.state == KeyType.USED) {
-            this.state = KeyType.MISPLACED;
+        if (this.state == KeyState.UNUSED || this.state == KeyState.WRONG) {
+            this.state = KeyState.MISPLACED;
         }
     }
 
     private setRight() {
-        this.state = KeyType.RIGHT;
+        this.state = KeyState.RIGHT;
     }
 
-    setState(state: KeyType) {
+    setState(state: KeyState) {
         switch (state) {
-            case KeyType.USED:
-                this.setUsed();
+            case KeyState.WRONG:
+                this.setWrong();
                 break;
-            case KeyType.MISPLACED:
+            case KeyState.MISPLACED:
                 this.setMisplaced();
                 break;
-            case KeyType.RIGHT:
+            case KeyState.RIGHT:
                 this.setRight();
                 break;
         }
     }
 
-    getState(): KeyType {
+    getState(): KeyState {
         return this.state;
     }
 

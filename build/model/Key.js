@@ -4,13 +4,13 @@ var Key = /** @class */ (function () {
         this.state = KeyType.UNUSED;
         this.code = code;
     }
-    Key.prototype.setUsed = function () {
+    Key.prototype.setWRONG = function () {
         if (this.state == KeyType.UNUSED) {
-            this.state = KeyType.USED;
+            this.state = KeyType.WRONG;
         }
     };
     Key.prototype.setMisplaced = function () {
-        if (this.state == KeyType.UNUSED || this.state == KeyType.USED) {
+        if (this.state == KeyType.UNUSED || this.state == KeyType.WRONG) {
             this.state = KeyType.MISPLACED;
         }
     };
@@ -19,8 +19,8 @@ var Key = /** @class */ (function () {
     };
     Key.prototype.setState = function (state) {
         switch (state) {
-            case KeyType.USED:
-                this.setUsed();
+            case KeyType.WRONG:
+                this.setWRONG();
                 break;
             case KeyType.MISPLACED:
                 this.setMisplaced();

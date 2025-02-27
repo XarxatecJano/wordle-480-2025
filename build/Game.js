@@ -10,7 +10,7 @@ var Game = /** @class */ (function () {
         this.updateAfterANewWord = function () {
             CheckLettersFactory.check(_this.gameState, KeyType.RIGHT);
             CheckLettersFactory.check(_this.gameState, KeyType.MISPLACED);
-            CheckLettersFactory.check(_this.gameState, KeyType.USED);
+            CheckLettersFactory.check(_this.gameState, KeyType.WRONG);
             _this.wordSubmittedChecks();
             _this.gameState.nextTurn();
             _this.gameState.actualWord = new Word([]);

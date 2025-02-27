@@ -14,7 +14,7 @@ var CheckLettersFactory = /** @class */ (function () {
             case KeyType.MISPLACED:
                 checkLetters = new checkMisplacedLetters();
                 break;
-            case KeyType.USED:
+            case KeyType.WRONG:
                 checkLetters = new checkWrongLetters();
                 break;
             default:

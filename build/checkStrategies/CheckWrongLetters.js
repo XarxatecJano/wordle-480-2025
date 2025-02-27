@@ -18,8 +18,8 @@ var checkWrongLetters = /** @class */ (function () {
             pattern = new RegExp(actualLetter.getChar(), "g");
             numberOfCoincidencesPickedWord = gameState.pickedWord.numberOfCoincidences(pattern);
             if (numberOfCoincidencesPickedWord == 0) {
-                this.grid.setLetterState(gameState.turn, i, KeyType.USED);
-                this.keyboard.setKeyState(actualLetter.getCode(), KeyType.USED);
+                this.grid.setLetterState(gameState.turn, i, KeyType.WRONG);
+                this.keyboard.setKeyState(actualLetter.getCode(), KeyType.WRONG);
             }
         }
     };

@@ -1,4 +1,4 @@
-import { KeyType } from "./keyboard/KeyType.js";
+import { KeyState } from "./keyboard/KeyState.js";
 
 export class UserInterfaceController {
     keys: any = document.getElementsByClassName("key");
@@ -9,16 +9,16 @@ export class UserInterfaceController {
     deleteLetter(turn: number, position: number) {
         Array.from(document.getElementById(`row_${turn}`)!.children)[position].textContent = "";
     }
-    changeGridCellLetter(turn: number, position: number, state: KeyType) {
+    changeGridCellLetter(turn: number, position: number, state: KeyState) {
         let positionClass = "cell-grey";
-        if (state == KeyType.RIGHT) positionClass = "cell-green";
-        if (state == KeyType.MISPLACED) positionClass = "cell-orange";
+        if (state == KeyState.RIGHT) positionClass = "cell-green";
+        if (state == KeyState.MISPLACED) positionClass = "cell-orange";
         Array.from(document.getElementById(`row_${turn}`)!.children)[position].classList.add(positionClass);
     }
-    changeKeyboardElementBackground(code: string, state: KeyType) {
+    changeKeyboardElementBackground(code: string, state: KeyState) {
         let positionClass = "cell-grey";
-        if (state == KeyType.RIGHT) positionClass = "cell-green";
-        if (state == KeyType.MISPLACED) positionClass = "cell-orange";
+        if (state == KeyState.RIGHT) positionClass = "cell-green";
+        if (state == KeyState.MISPLACED) positionClass = "cell-orange";
         for (let key of this.keys) {
             if (key.value == code && code !== "Enter" && code !== "Backspace") {
                 key.classList.remove("cell-grey", "cell-green", "cell-orange");

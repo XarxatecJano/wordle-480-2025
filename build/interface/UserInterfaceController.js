@@ -1,4 +1,4 @@
-import { KeyType } from "./keyboard/KeyType.js";
+import { KeyState } from "./keyboard/KeyState.js";
 var UserInterfaceController = /** @class */ (function () {
     function UserInterfaceController() {
         this.keys = document.getElementsByClassName("key");
@@ -11,17 +11,17 @@ var UserInterfaceController = /** @class */ (function () {
     };
     UserInterfaceController.prototype.changeGridCellLetter = function (turn, position, state) {
         var positionClass = "cell-grey";
-        if (state == KeyType.RIGHT)
+        if (state == KeyState.RIGHT)
             positionClass = "cell-green";
-        if (state == KeyType.MISPLACED)
+        if (state == KeyState.MISPLACED)
             positionClass = "cell-orange";
         Array.from(document.getElementById("row_".concat(turn)).children)[position].classList.add(positionClass);
     };
     UserInterfaceController.prototype.changeKeyboardElementBackground = function (code, state) {
         var positionClass = "cell-grey";
-        if (state == KeyType.RIGHT)
+        if (state == KeyState.RIGHT)
             positionClass = "cell-green";
-        if (state == KeyType.MISPLACED)
+        if (state == KeyState.MISPLACED)
             positionClass = "cell-orange";
         for (var _i = 0, _a = this.keys; _i < _a.length; _i++) {
             var key = _a[_i];

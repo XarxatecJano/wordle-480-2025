@@ -4,9 +4,10 @@ import { Letter } from "./word/Letter.js";
 import { GameState } from "./GameState.js";
 import { GameChecker } from "./GameChecker.js";
 import { CheckLettersFactory } from "./word/checkLetters/CheckLettersFactory.js";
-import { KeyType } from "../interface/keyboard/KeyType.js";
+import { KeyState } from "../interface/keyboard/KeyState.js";
 import { UserInterfaceController } from "../interface/UserInterfaceController.js";
 import { GameGrid } from "../interface/GameGrid.js";
+import { CheckLetters } from "./word/checkLetters/CheckLetters.js";
 
 export class Game {
     private gameChecker: GameChecker;
@@ -40,9 +41,9 @@ export class Game {
     }
 
     private updateAfterANewWord(): void {
-        CheckLettersFactory.check(this.gameState, KeyType.RIGHT);
-        CheckLettersFactory.check(this.gameState, KeyType.MISPLACED);
-        CheckLettersFactory.check(this.gameState, KeyType.USED);
+        const checkLettersFactory = new CheckLettersFactory(this.gameState);
+        checkLettersFactory.check(KeyState.RIGHT);
+        checkLettersFactory.check(KeyState.MISPLACED);
         this.gameState.nextTurn();
         this.gameState.actualWord = new Word([]);
     }

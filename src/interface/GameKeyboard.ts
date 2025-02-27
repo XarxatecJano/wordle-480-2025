@@ -1,5 +1,5 @@
 import { UserInterfaceController } from "./UserInterfaceController.js";
-import { KeyType } from "./keyboard/KeyType.js";
+import { KeyState } from "./keyboard/KeyState.js";
 import { Key } from "./keyboard/Key.js";
 import { VALID_LETTERS } from "../env.js";
 
@@ -25,7 +25,7 @@ export class GameKeyboard {
         }
         this.keys = newKeys;
     }
-    setKeyState(code: string, state: KeyType):void {
+    setKeyState(code: string, state: KeyState):void {
         const key = this.getKeyFromCode(code);
 
         if (key!=null){

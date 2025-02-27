@@ -3,7 +3,7 @@ import { Word } from "./word/Word.js";
 import { GameState } from "./GameState.js";
 import { GameChecker } from "./GameChecker.js";
 import { CheckLettersFactory } from "./word/checkLetters/CheckLettersFactory.js";
-import { KeyType } from "../interface/keyboard/KeyType.js";
+import { KeyState } from "../interface/keyboard/KeyState.js";
 import { UserInterfaceController } from "../interface/UserInterfaceController.js";
 import { GameGrid } from "../interface/GameGrid.js";
 var Game = /** @class */ (function () {
@@ -29,9 +29,9 @@ var Game = /** @class */ (function () {
         this.updateAfterANewWord();
     };
     Game.prototype.updateAfterANewWord = function () {
-        CheckLettersFactory.check(this.gameState, KeyType.RIGHT);
-        CheckLettersFactory.check(this.gameState, KeyType.MISPLACED);
-        CheckLettersFactory.check(this.gameState, KeyType.USED);
+        var checkLettersFactory = new CheckLettersFactory(this.gameState);
+        checkLettersFactory.check(KeyState.RIGHT);
+        checkLettersFactory.check(KeyState.MISPLACED);
         this.gameState.nextTurn();
         this.gameState.actualWord = new Word([]);
     };

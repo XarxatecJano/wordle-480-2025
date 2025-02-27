@@ -27,7 +27,7 @@ var GameChecker = /** @class */ (function () {
     GameChecker.prototype.highlightLetters = function () {
         for (var _i = 0, _a = this.gameState.actualWord.getLetters(); _i < _a.length; _i++) {
             var letter = _a[_i];
-            this.keyboard.setKeyState(letter.getCode(), KeyType.USED);
+            this.keyboard.setKeyState(letter.getCode(), KeyType.WRONG);
         }
     };
     GameChecker.prototype.checkWordIsRight = function () {

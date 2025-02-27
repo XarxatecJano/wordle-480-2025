@@ -1,6 +1,5 @@
 import { Letter } from "./Letter.js";
 import { MAX_WORD_SIZE } from "../../env.js";
-import { KeyType } from "../../interface/keyboard/KeyType.js";
 
 export class Word {
     private word: Letter[];
@@ -9,13 +8,13 @@ export class Word {
         this.word = word;
     }
 
-    public addLetter(letter: Letter) {
+    addLetter(letter: Letter) {
         if (this.getSize() < MAX_WORD_SIZE) {
             this.word.push(letter);
         }
     }
 
-    public removeLastLetter(): Letter | null {
+    removeLastLetter(): Letter | null {
         let letter: Letter | null = null;
         if (this.getSize() != 0) {
             letter = this.word.pop()!;
@@ -23,11 +22,11 @@ export class Word {
         return letter;
     }
 
-    public getLetterAtIndex(index: number): Letter {
+    getLetterAtIndex(index: number): Letter {
         return this.word[index];
     }
 
-    public getWordString(): string {
+    getWordString(): string {
         let wordString = "";
         for (let letter of this.word) {
             wordString += (letter.getChar());
@@ -39,15 +38,15 @@ export class Word {
         return this.word;
     }
 
-    public numberOfCoincidences(pattern: RegExp): number {
+    numberOfCoincidences(pattern: RegExp): number {
         return (this.getWordString().match(pattern) || []).length;
     }
 
-    public getSize(): number {
+    getSize(): number {
         return this.word.length;
     }
 
-    public equals(otherWord: Word): boolean {
+    equals(otherWord: Word): boolean {
         if (this.getSize() != otherWord.getSize()) {
             return false;
         }
@@ -59,20 +58,5 @@ export class Word {
             }
         }
         return true;
-    }
-
-    public checkLetter(letter: Letter, position: number): KeyType {
-        if (position < 0 || position >= this.getSize()) {
-            return KeyType.UNUSED;
-        }
-        if (this.getLetterAtIndex(position).equals(letter)) {
-            return KeyType.RIGHT;
-        }
-        for (let wordLetter of this.word) {
-            if (wordLetter.equals(letter)) {
-                return KeyType.MISPLACED;
-            }
-        }
-        return KeyType.USED;
     }
 }
