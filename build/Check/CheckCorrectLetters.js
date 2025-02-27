@@ -5,11 +5,11 @@ var CheckCorrectLetters = /** @class */ (function () {
         this.check = function (game) {
             var _a;
             for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                if (game.pickedWord[i] == game.actualWord[i]) {
-                    _this._interface.changeBackgroundPosition(game.turn, i, "rightLetter");
-                    _this._interface.changeBackgroundKey(game.pickedWord[i], "rightLetter");
-                    game.rightPositionLetters.set(game.actualWord[i], ((_a = game.rightPositionLetters.get(game.actualWord[i])) !== null && _a !== void 0 ? _a : 1) + 1);
-                    game.typeCell.set(i, "rightLetter");
+                if (game.gameLogic.pickedWord[i] == game.gameLogic.actualWord[i]) {
+                    _this._interface.changeBackgroundPosition(game.gameLogic.turn, i, "rightLetter");
+                    _this._interface.changeBackgroundKey(game.gameLogic.pickedWord[i], "rightLetter");
+                    game.gameLogic.rightPositionLetters.set(game.gameLogic.actualWord[i], ((_a = game.gameLogic.rightPositionLetters.get(game.gameLogic.actualWord[i])) !== null && _a !== void 0 ? _a : 0) + 1);
+                    game.gameLogic.typeCell.set(i, "rightLetter");
                 }
             }
         };

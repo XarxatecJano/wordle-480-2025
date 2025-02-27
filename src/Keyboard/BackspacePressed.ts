@@ -1,4 +1,4 @@
-import { Game } from "../Game";
+import { Game} from "../Game/Game";
 import { IKeyPressed } from "../Keyboard/IKeyPressed";
 
 export class BackspacePressed  implements IKeyPressed{
@@ -8,10 +8,10 @@ export class BackspacePressed  implements IKeyPressed{
     }
 
     execute(): void {
-        if (this._game.actualPosition > 0) {
-            this._game.actualPosition -= 1;
-            this._game.actualWord = this._game.actualWord.slice(0,-1);
-            this._game.deleteLetter(this._game.turn, this._game.actualPosition);
+        if (this._game.gameLogic.actualPosition > 0) {
+            this._game.gameLogic.actualPosition -= 1;
+            this._game.gameLogic.actualWord = this._game.gameLogic.actualWord.slice(0,-1);
+            this._game.gameLogic.deleteLetter(this._game.gameLogic.turn, this._game.gameLogic.actualPosition);
         }
     }
 }

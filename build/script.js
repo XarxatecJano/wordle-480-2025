@@ -1,10 +1,12 @@
-import { Game } from "./Game.js";
+import { Game } from "./Game/Game.js";
 import { NewKeyPressed } from "./Keyboard/NewKeyPressed.js";
+import { NavigationSerivce } from "./Navigation/WinnerNavigation.js";
 import { Words } from "./Words.js";
 var wordsCollection = new Words(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
 var pickedWord = wordsCollection.getRandomWord();
+var navigation = new NavigationSerivce;
 console.log(pickedWord);
-var game = Game.getInstance(pickedWord);
+var game = Game.getInstance(pickedWord, navigation);
 var newKeys = new NewKeyPressed(game);
 Array.from(document.getElementsByClassName("key")).forEach(function (element) { return element.addEventListener("click", function (e) {
     newKeys.newKeyPressed(e.target.value);

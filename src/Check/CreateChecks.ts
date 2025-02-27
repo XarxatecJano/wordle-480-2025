@@ -1,7 +1,6 @@
-import { Game } from "../Game";
+import { GameLogic } from "../Game/GameLogic";
 import { CheckCorrectLetters } from "./CheckCorrectLetters.js";
 import { CheckMisplacedLetters } from "./CheckMisplacedLetters.js";
-import { CheckWrongLetters } from "./CheckWrongLetters.js";
 import { ICheck } from "./ICheck";
 
 export class CreateChecks{
@@ -13,10 +12,9 @@ export class CreateChecks{
         return CreateChecks.instance;
     }
 
-    check(game: Game): ICheck[]{
+    check(game: GameLogic): ICheck[]{
         let strategies: ICheck[] = [new CheckCorrectLetters(game),
             new CheckMisplacedLetters(game),
-            new CheckWrongLetters(game)
         ];
         return strategies;
     }

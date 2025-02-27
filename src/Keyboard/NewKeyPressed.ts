@@ -1,4 +1,4 @@
-import { Game } from "../Game.js";
+import { Game } from "../Game/Game.js";
 import { ValidateLetter } from "../ValidateLetter.js";
 import { BackspacePressed } from "./BackspacePressed.js";
 import { EnterPressed } from "./EnterPressed.js";
@@ -15,13 +15,13 @@ export class NewKeyPressed{
 
     newLetter(letter:ValidateLetter):void{
         let letterValue: string = letter.transformCodeToLetter();
-        this._game.setNewLetter(this._game.turn, this._game.actualPosition, letterValue);
-        this._game.actualPosition = this._game.actualPosition + 1;
-        this._game.actualWord += letterValue;
+        this._game.gameLogic.setNewLetter(this._game.gameLogic.turn, this._game.gameLogic.actualPosition, letterValue);
+        this._game.gameLogic.actualPosition = this._game.gameLogic.actualPosition + 1;
+        this._game.gameLogic.actualWord += letterValue;
     }
     
     newKeyPressed(code: string):void{ 
-        let letter:ValidateLetter = ValidateLetter.getInstance(code, this._game.actualPosition)
+        let letter:ValidateLetter = ValidateLetter.getInstance(code, this._game.gameLogic.actualPosition)
         if (letter.isValidLetter()){
             this.newLetter(letter);
         } 

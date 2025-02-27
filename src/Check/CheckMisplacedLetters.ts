@@ -1,7 +1,7 @@
-import { Game } from "../Game";
 import { ICheck } from "./ICheck";
 import { Interface } from "../Interface";
 import { MAX_WORD_SIZE } from "../env.js";
+import { Game} from "../Game/Game.js";
 
 
 export class CheckMisplacedLetters implements ICheck{
@@ -11,29 +11,27 @@ export class CheckMisplacedLetters implements ICheck{
         this._interface = interf;
     }
 
-    check = (game:Game ):void=> {
+    check = (game: Game):void=> {
         let actualLetter: string = "";
         let isMisplacedLetter: boolean;
         for (let i=0; i<MAX_WORD_SIZE; i++){
             isMisplacedLetter = true;
-            actualLetter = game.actualWord[i];
-            this.changeColorDependingOnCoincidences(i, actualLetter, game); 
+            actualLetter = game.gameLogic.actualWord[i];
+            if(!game.gameLogic.typeCell.get(i)){
+                this.changeColorDependingOnCoincidences(i, actualLetter, game); 
+            }
         }
     }
 
-
     changeColorDependingOnCoincidences(actualPosition:number,actualLetter:string, game: Game):void{
-        let numberOfCoincidences = this.getNumberOfCoincidences(game.pickedWord,actualLetter);
-        if((game.rightPositionLetters.get(actualLetter) ?? 0)  + (game.misplacedPositionLetters.get(actualLetter) ?? 0) <= numberOfCoincidences ){
-            for(let i = 0; i < numberOfCoincidences;i++){
-                this._interface.changeBackgroundKey(actualLetter, "misplacedLetter");
-                game.misplacedPositionLetters.set(game.actualWord[i], (game.misplacedPositionLetters.get(actualLetter)?? 0) + 1);
-                game.typeCell.set(actualPosition, "misplacedLetter");
-            }
+        let numberOfCoincidences = this.getNumberOfCoincidences(game.gameLogic.pickedWord,actualLetter);
+        let numberOfApparitions = (game.gameLogic.rightPositionLetters.get(actualLetter) ?? 0)  + (game.gameLogic.misplacedPositionLetters.get(actualLetter) ?? 0)
+        if(numberOfApparitions < numberOfCoincidences ){
+            this._interface.changeBackgroundKey(actualLetter, "misplacedLetter");
+            game.gameLogic.misplacedPositionLetters.set(actualLetter, (game.gameLogic.misplacedPositionLetters.get(actualLetter)?? 0) + 1);
+            game.gameLogic.typeCell.set(actualPosition, "misplacedLetter");
         }else{
-            if(!game.typeCell.get(actualPosition)){
-                game.typeCell.set(actualPosition, "wrongLetter");
-            }
+            game.gameLogic.typeCell.set(actualPosition, "wrongLetter");
         }
     }
 

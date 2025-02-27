@@ -7,12 +7,12 @@ var NewKeyPressed = /** @class */ (function () {
     }
     NewKeyPressed.prototype.newLetter = function (letter) {
         var letterValue = letter.transformCodeToLetter();
-        this._game.setNewLetter(this._game.turn, this._game.actualPosition, letterValue);
-        this._game.actualPosition = this._game.actualPosition + 1;
-        this._game.actualWord += letterValue;
+        this._game.gameLogic.setNewLetter(this._game.gameLogic.turn, this._game.gameLogic.actualPosition, letterValue);
+        this._game.gameLogic.actualPosition = this._game.gameLogic.actualPosition + 1;
+        this._game.gameLogic.actualWord += letterValue;
     };
     NewKeyPressed.prototype.newKeyPressed = function (code) {
-        var letter = ValidateLetter.getInstance(code, this._game.actualPosition);
+        var letter = ValidateLetter.getInstance(code, this._game.gameLogic.actualPosition);
         if (letter.isValidLetter()) {
             this.newLetter(letter);
         }

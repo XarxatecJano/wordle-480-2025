@@ -7,12 +7,12 @@ var CheckWrongLetters = /** @class */ (function () {
             var pattern;
             var numberOfCoincidences = 0;
             for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                actualLetter = game.actualWord[i];
+                actualLetter = game.gameLogic.actualWord[i];
                 pattern = new RegExp(actualLetter, "g");
-                numberOfCoincidences = (game.pickedWord.match(pattern) || []).length;
+                numberOfCoincidences = (game.gameLogic.pickedWord.match(pattern) || []).length;
                 if (numberOfCoincidences == 0) {
                     _this._interface.changeBackgroundKey(actualLetter, "wrongLetter");
-                    game.typeCell.set(i, "wrongLetter");
+                    game.gameLogic.typeCell.set(i, "wrongLetter");
                 }
             }
         };
