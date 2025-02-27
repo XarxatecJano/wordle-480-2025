@@ -4,7 +4,6 @@ import { MAX_WORD_SIZE } from "../../../env.js";
 import { GameState } from "../../GameState.js";
 
 export class checkRightLetters extends CheckLetters {
-
     check(gameState: GameState, charCounter: { [key: string]: number }): { [key: string]: number } {
         let charCount = { ...charCounter };
 

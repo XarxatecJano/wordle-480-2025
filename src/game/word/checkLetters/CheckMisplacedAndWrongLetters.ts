@@ -5,7 +5,6 @@ import { GameState } from "../../GameState.js";
 
 
 export class checkMisplacedAndWrongLetters extends CheckLetters {
-
     check(gameState: GameState, charCounter: { [key: string]: number }): { [key: string]: number } {
         let charCount = { ...charCounter };
 
@@ -14,9 +13,9 @@ export class checkMisplacedAndWrongLetters extends CheckLetters {
             const pickedLetter = gameState.pickedWord.getLetterAtIndex(i);
 
             if (!pickedLetter.equals(actualLetter)) {
-                if (charCount[actualLetter.getChar()] > 0){
+                if (charCount[actualLetter.getChar()] > 0) {
                     charCount[actualLetter.getChar()]--;
-    
+
                     this.grid.setLetterState(gameState.turn, i, KeyState.MISPLACED);
                     this.keyboard.setKeyState(actualLetter.getCode(), KeyState.MISPLACED);
                 } else {

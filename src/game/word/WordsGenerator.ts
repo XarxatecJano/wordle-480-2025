@@ -1,7 +1,7 @@
 import { Word } from "./Word.js";
 import { Letter } from "./Letter.js";
 
-export class WordGenerator {
+export class WordsGenerator {
     private _words: Word[];
 
     constructor(wordsArray: string[]) {

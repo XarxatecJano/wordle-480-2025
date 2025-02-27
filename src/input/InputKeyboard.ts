@@ -1,10 +1,10 @@
-import { Game } from "../game/Game.js";
+import { GameFlowManager } from "../game/GameFlowManager.js";
 import { Letter } from "../game/word/Letter.js";
 
 export class InputKeyboard {
-    game: Game;
+    game: GameFlowManager;
 
-    constructor(game: Game) {
+    constructor(game: GameFlowManager) {
         this.game = game;
     };
 

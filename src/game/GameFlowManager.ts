@@ -6,20 +6,19 @@ import { GameChecker } from "./GameChecker.js";
 import { CheckLettersFactory } from "./word/checkLetters/CheckLettersFactory.js";
 import { KeyState } from "../interface/keyboard/KeyState.js";
 import { UserInterfaceController } from "../interface/UserInterfaceController.js";
-import { GameGrid } from "../interface/GameGrid.js";
-import { CheckLetters } from "./word/checkLetters/CheckLetters.js";
+import { InterfaceGrid } from "../interface/InterfaceGrid.js";
 
-export class Game {
+export class GameFlowManager {
     private gameChecker: GameChecker;
     private gameState: GameState;
-    private interface: UserInterfaceController;
-    private grid: GameGrid;
+    private userInterfaceController: UserInterfaceController;
+    private grid: InterfaceGrid;
 
     constructor(pickedWord: Word) {
         this.gameState = new GameState(pickedWord);
         this.gameChecker = new GameChecker(this.gameState);
-        this.interface = new UserInterfaceController();
-        this.grid = new GameGrid(this.interface);
+        this.userInterfaceController = new UserInterfaceController();
+        this.grid = new InterfaceGrid(this.userInterfaceController);
     }
 
     setNewLetter(letter: Letter): void {

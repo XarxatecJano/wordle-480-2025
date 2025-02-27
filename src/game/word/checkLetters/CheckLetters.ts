@@ -1,12 +1,12 @@
-import { GameGrid } from "../../../interface/GameGrid.js";
-import { GameKeyboard } from "../../../interface/GameKeyboard.js";
+import { InterfaceGrid } from "../../../interface/InterfaceGrid.js";
+import { InterfaceKeyboard } from "../../../interface/InterfaceKeyboard.js";
 import { UserInterfaceController } from "../../../interface/UserInterfaceController.js";
 import { GameState } from "../../GameState.js";
 
 export abstract class CheckLetters {
-    interfaceController = new UserInterfaceController();
-    grid = new GameGrid(this.interfaceController);
-    keyboard = GameKeyboard.getGameKeyboard(this.interfaceController);
+    userInterfaceController = new UserInterfaceController();
+    grid = new InterfaceGrid(this.userInterfaceController);
+    keyboard = InterfaceKeyboard.getGameKeyboard(this.userInterfaceController);
 
     abstract check(gameState: GameState, charCounter: { [key: string]: number } ): { [key: string]: number };
 }

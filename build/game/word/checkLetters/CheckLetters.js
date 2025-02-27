@@ -1,11 +1,11 @@
-import { GameGrid } from "../../../interface/GameGrid.js";
-import { GameKeyboard } from "../../../interface/GameKeyboard.js";
+import { InterfaceGrid } from "../../../interface/InterfaceGrid.js";
+import { InterfaceKeyboard } from "../../../interface/InterfaceKeyboard.js";
 import { UserInterfaceController } from "../../../interface/UserInterfaceController.js";
 var CheckLetters = /** @class */ (function () {
     function CheckLetters() {
-        this.interfaceController = new UserInterfaceController();
-        this.grid = new GameGrid(this.interfaceController);
-        this.keyboard = GameKeyboard.getGameKeyboard(this.interfaceController);
+        this.userInterfaceController = new UserInterfaceController();
+        this.grid = new InterfaceGrid(this.userInterfaceController);
+        this.keyboard = InterfaceKeyboard.getGameKeyboard(this.userInterfaceController);
     }
     return CheckLetters;
 }());

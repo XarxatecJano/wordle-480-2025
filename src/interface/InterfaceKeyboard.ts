@@ -3,21 +3,21 @@ import { KeyState } from "./keyboard/KeyState.js";
 import { Key } from "./keyboard/Key.js";
 import { VALID_LETTERS } from "../env.js";
 
-export class GameKeyboard {
-    private interface: UserInterfaceController;
+export class InterfaceKeyboard {
+    private userInterfaceController: UserInterfaceController;
     private keys: Key[] = [];
 
-    static gameKeyboard: GameKeyboard;
+    static gameKeyboard: InterfaceKeyboard;
 
-    static getGameKeyboard(interfaceController: UserInterfaceController): GameKeyboard {
+    static getGameKeyboard(interfaceController: UserInterfaceController): InterfaceKeyboard {
         if (this.gameKeyboard == null) {
-            this.gameKeyboard = new GameKeyboard(interfaceController);
+            this.gameKeyboard = new InterfaceKeyboard(interfaceController);
         }
         return this.gameKeyboard;
     }
 
     constructor(interfaceController: UserInterfaceController){
-        this.interface = interfaceController;
+        this.userInterfaceController = interfaceController;
         let newKeys = [];
         for (let code of VALID_LETTERS){
             const newKey = new Key(code);
@@ -30,7 +30,7 @@ export class GameKeyboard {
 
         if (key!=null){
             key.setState(state);
-            this.interface.changeKeyboardElementBackground(key.getCode(), key.getState());
+            this.userInterfaceController.changeKeyboardElementBackground(key.getCode(), key.getState());
         }
     }
 
