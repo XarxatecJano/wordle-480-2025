@@ -49,7 +49,6 @@ export class WordTry {
         return this._turn;
     }
 
-
     addLetterIfPossible(code: string):void {
         const actualPosition = this._wordTry.length;
         if (actualPosition < MAX_WORD_SIZE) {
