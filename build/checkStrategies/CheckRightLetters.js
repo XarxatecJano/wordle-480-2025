@@ -13,7 +13,6 @@ var checkRightLetters = /** @class */ (function () {
         for (var i = 0; i < MAX_WORD_SIZE; i++) {
             var state = gameState.pickedWord.checkLetter(gameState.actualWord.getLetterAtIndex(i), i);
             if (state == KeyType.RIGHT) {
-                console.log('Right %s', gameState.pickedWord.getLetterAtIndex(i).getChar());
                 this.grid.setLetterState(gameState.turn, i, KeyType.RIGHT);
                 this.keyboard.setKeyState(gameState.pickedWord.getLetterAtIndex(i).getCode(), KeyType.RIGHT);
             }

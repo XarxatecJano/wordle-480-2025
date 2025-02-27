@@ -1,4 +1,4 @@
-import { KeyType } from "../enum/KeyType.js";
+import { KeyType } from "./KeyType.js";
 
 export class Key {
     private code: string;
@@ -24,7 +24,6 @@ export class Key {
     }
 
     setState(state: KeyType) {
-        console.log('KEY | setState code: %s | %s to: %s', this.getCode(), this.getState(), state);
         switch (state) {
             case KeyType.USED:
                 this.setUsed();

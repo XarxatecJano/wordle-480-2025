@@ -20,10 +20,8 @@ var GameKeyboard = /** @class */ (function () {
     };
     GameKeyboard.prototype.setKeyState = function (code, state) {
         var key = this.getKeyFromCode(code);
-        console.log(key);
         if (key != null) {
             key.setState(state);
-            console.log('setkeyboardkeystate code: %s to: %s', key.getCode(), key.getState());
             this.interface.changeKeyboardElementBackground(key.getCode(), key.getState());
         }
     };

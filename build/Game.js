@@ -1,7 +1,7 @@
 import { MAX_WORD_SIZE } from "./env.js";
 import { Word } from "./model/Word.js";
 import { GameState } from "./model/GameState.js";
-import { GameChecker } from "./utils/WordChecker.js";
+import { GameChecker } from "./utils/GameChecker.js";
 import { CheckLettersFactory } from "./CheckLettersFactory.js";
 import { KeyType } from "./enum/KeyType.js";
 var Game = /** @class */ (function () {
@@ -11,6 +11,7 @@ var Game = /** @class */ (function () {
             CheckLettersFactory.check(_this.gameState, KeyType.RIGHT);
             CheckLettersFactory.check(_this.gameState, KeyType.MISPLACED);
             CheckLettersFactory.check(_this.gameState, KeyType.USED);
+            _this.wordSubmittedChecks();
             _this.gameState.nextTurn();
             _this.gameState.actualWord = new Word([]);
         };
@@ -21,7 +22,13 @@ var Game = /** @class */ (function () {
         return this.gameChecker;
     };
     Game.prototype.setNewLetter = function (letter) {
-        this.gameChecker.setNewLetter(letter);
+        if (this.gameState.actualWord.getSize() < 5) {
+            this.gameChecker.setNewLetter(letter);
+        }
+    };
+    Game.prototype.wordSubmittedChecks = function () {
+        this.gameChecker.checkWordIsRight();
+        this.gameChecker.checkGameIsOver();
     };
     Game.prototype.wordIsMaxLength = function () {
         if (this.gameState.actualWord.getSize() == MAX_WORD_SIZE)

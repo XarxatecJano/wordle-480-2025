@@ -1,6 +1,6 @@
 import { UserInterfaceController } from "./UserInterfaceController.js";
-import { KeyType } from "../enum/KeyType.js";
-import { Word } from "../model/Word.js";
+import { KeyType } from "./keyboard/KeyType.js";
+import { Word } from "../word/Word.js";
 
 export class GameGrid {
     private interface: UserInterfaceController;

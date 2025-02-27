@@ -5,9 +5,6 @@ var InputKeyboard = /** @class */ (function () {
         this.gameChecker = game.getGameChecker();
     }
     ;
-    InputKeyboard.prototype.addNewLetter = function (letter) {
-        this.game.setNewLetter(letter);
-    };
     InputKeyboard.prototype.enterPressed = function () {
         if (this.game.wordIsMaxLength()) {
             this.game.updateAfterANewWord();
@@ -21,7 +18,7 @@ var InputKeyboard = /** @class */ (function () {
     InputKeyboard.prototype.newKeyPressed = function (code) {
         var letter = new Letter(code);
         if (letter.isValidLetter()) {
-            this.addNewLetter(letter);
+            this.game.setNewLetter(letter);
         }
         else if (letter.isEnterKey()) {
             this.enterPressed();

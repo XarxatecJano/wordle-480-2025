@@ -1,9 +1,9 @@
-import { KeyType } from "./enum/KeyType.js";
-import { CheckLetters } from "./checkStrategies/CheckLetters.js";
-import { checkMisplacedLetters } from "./checkStrategies/CheckMisplacedLetters.js";
-import { checkRightLetters } from "./checkStrategies/CheckRightLetters.js";
-import { GameState } from "./model/GameState.js";
-import { checkWrongLetters } from "./checkStrategies/CheckWrongLetters.js";
+import { KeyType } from "../interface/keyboard/KeyType.js";
+import { CheckLetters } from "./CheckLetters.js";
+import { checkMisplacedLetters } from "./CheckMisplacedLetters.js";
+import { checkRightLetters } from "./CheckRightLetters.js";
+import { GameState } from "../game/GameState.js";
+import { checkWrongLetters } from "./CheckWrongLetters.js";
 
 export class CheckLettersFactory {
     static check(state: GameState, type: KeyType){

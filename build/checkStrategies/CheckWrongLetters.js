@@ -18,7 +18,6 @@ var checkWrongLetters = /** @class */ (function () {
             pattern = new RegExp(actualLetter.getChar(), "g");
             numberOfCoincidencesPickedWord = gameState.pickedWord.numberOfCoincidences(pattern);
             if (numberOfCoincidencesPickedWord == 0) {
-                console.log('Wrong %s', actualLetter.getChar());
                 this.grid.setLetterState(gameState.turn, i, KeyType.USED);
                 this.keyboard.setKeyState(actualLetter.getCode(), KeyType.USED);
             }

@@ -5,20 +5,14 @@ import { GameKeyboard } from "../controller/GameKeyboard.js";
 import { GameGrid } from "../controller/GameGrid.js";
 var GameChecker = /** @class */ (function () {
     function GameChecker(gameState) {
-        this.checkMisplacedLetters = function () {
-        };
-        this.checkWrongLetters = function () {
-        };
         this.gameState = gameState;
         this.interface = new UserInterfaceController();
         this.keyboard = new GameKeyboard(this.interface);
         this.grid = new GameGrid(this.interface);
     }
     GameChecker.prototype.isValidLetter = function (letter) {
-        if (letter.isValidLetter()) {
-            if (this.gameState.actualWord.getSize() < MAX_WORD_SIZE) {
-                return true;
-            }
+        if (letter.isValidLetter() && this.gameState.actualWord.getSize() < MAX_WORD_SIZE) {
+            return true;
         }
         return false;
     };

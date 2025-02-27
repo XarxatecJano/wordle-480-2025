@@ -1,10 +1,10 @@
-import { MAX_WORD_SIZE, MAX_ATTEMPTS } from "./env.js";
-import { Word } from "./model/Word.js";
-import { Letter } from "./model/Letter.js";
-import { GameState } from "./model/GameState.js";
-import { GameChecker } from "./utils/WordChecker.js";
-import { CheckLettersFactory } from "./CheckLettersFactory.js";
-import { KeyType } from "./enum/KeyType.js";
+import { MAX_WORD_SIZE, MAX_ATTEMPTS } from "../env.js";
+import { Word } from "../word/Word.js";
+import { Letter } from "../word/Letter.js";
+import { GameState } from "./GameState.js";
+import { GameChecker } from "./GameChecker.js";
+import { CheckLettersFactory } from "../checkLetters/CheckLettersFactory.js";
+import { KeyType } from "../interface/keyboard/KeyType.js";
 
 export class Game {
     
@@ -21,13 +21,21 @@ export class Game {
     }
 
     setNewLetter(letter: Letter): void {
-        this.gameChecker.setNewLetter(letter);
+        if(this.gameState.actualWord.getSize() < 5){
+            this.gameChecker.setNewLetter(letter);
+        }
+    }
+
+    wordSubmittedChecks(){
+        this.gameChecker.checkWordIsRight();
+        this.gameChecker.checkGameIsOver();
     }
 
     updateAfterANewWord = (): void => {
         CheckLettersFactory.check(this.gameState, KeyType.RIGHT);
         CheckLettersFactory.check(this.gameState, KeyType.MISPLACED);
         CheckLettersFactory.check(this.gameState, KeyType.USED);
+        this.wordSubmittedChecks();
 
         this.gameState.nextTurn();
         this.gameState.actualWord = new Word([]);

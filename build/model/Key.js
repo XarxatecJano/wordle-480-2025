@@ -18,7 +18,6 @@ var Key = /** @class */ (function () {
         this.state = KeyType.RIGHT;
     };
     Key.prototype.setState = function (state) {
-        console.log('KEY | setState code: %s | %s to: %s', this.getCode(), this.getState(), state);
         switch (state) {
             case KeyType.USED:
                 this.setUsed();

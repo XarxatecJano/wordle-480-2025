@@ -1,4 +1,4 @@
-import { KeyType } from "../enum/KeyType.js";
+import { KeyType } from "./keyboard/KeyType.js";
 
 export class UserInterfaceController {
     keys: any = document.getElementsByClassName("key");

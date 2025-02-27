@@ -1,4 +1,4 @@
-import { Word } from "./Word.js"
+import { Word } from "../word/Word.js"
 import { MAX_ATTEMPTS } from "../env.js"
 
 export class GameState {

@@ -1,11 +1,11 @@
 import { CheckLetters } from "./CheckLetters.js";
-import { GameGrid } from "../controller/GameGrid.js";
-import { GameKeyboard } from "../controller/GameKeyboard.js";
-import { UserInterfaceController } from "../controller/UserInterfaceController.js";
-import { KeyType } from "../enum/KeyType.js";
+import { GameGrid } from "../interface/GameGrid.js";
+import { GameKeyboard } from "../interface/GameKeyboard.js";
+import { UserInterfaceController } from "../interface/UserInterfaceController.js";
+import { KeyType } from "../interface/keyboard/KeyType.js";
 import { MAX_WORD_SIZE } from "../env.js";
-import { GameState } from "../model/GameState.js";
-import { Letter } from "../model/Letter.js";
+import { GameState } from "../game/GameState.js";
+import { Letter } from "../word/Letter.js";
 
 export class checkWrongLetters implements CheckLetters {
     interfaceController = new UserInterfaceController();
@@ -22,8 +22,6 @@ export class checkWrongLetters implements CheckLetters {
             pattern = new RegExp(actualLetter.getChar(), "g");
             numberOfCoincidencesPickedWord = gameState.pickedWord.numberOfCoincidences(pattern);
             if (numberOfCoincidencesPickedWord == 0) {
-                console.log('Wrong %s', actualLetter.getChar());
-
                 this.grid.setLetterState(gameState.turn, i, KeyType.USED);
                 this.keyboard.setKeyState(actualLetter.getCode(), KeyType.USED);
             }

@@ -4,7 +4,7 @@ import { InputKeyboard } from "./input/InputKeyboard.js";
 import { WORDS_COLLECTION } from "./env.js";
 var wordsCollection = new WordGenerator(WORDS_COLLECTION);
 var pickedWord = wordsCollection.getRandomWord();
-console.log(pickedWord);
+console.log(pickedWord.getWordString());
 var game = new Game(pickedWord);
 var inputKeyboard = new InputKeyboard(game);
 Array.from(document.getElementsByClassName("key")).forEach(function (element) { return element.addEventListener("click", function (e) {
