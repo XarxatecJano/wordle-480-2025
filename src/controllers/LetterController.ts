@@ -1,8 +1,12 @@
+import { PositionManager } from "./PositionController";
+
 export class Letter{
     private static _instance: Letter
     private _validLetterCodes: string[]
+    private _positionManager:PositionManager
         constructor(){
             this._validLetterCodes=["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
+            this._positionManager=PositionManager.getInstance();
         }
         public static getInstance(): Letter {
             if (!Letter._instance) {
@@ -33,6 +37,11 @@ export class Letter{
         isBackspaceKey(code: string): boolean {
             return code == "Backspace";
         }
+
+        isValidLetter(code: string): boolean {
+            return this.includes(code) && this._positionManager.isValidPosition();
+        }
+    
 
 
 }

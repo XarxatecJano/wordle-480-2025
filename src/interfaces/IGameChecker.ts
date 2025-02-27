@@ -5,9 +5,7 @@ export interface IGameChecker {
     pickedWord: string
     actualWord: string
     turn: number
-    currentPosition: number
     interface: Interface
-    isValidLetter(code: string): boolean;
     checkRightLetters(dictOfWordLetters: ColourSetMaps): void;
     checkMisplacedLetters(dictOfWordLetters: ColourSetMaps): void;
     checkWrongLetters(dictOfWordLetters: ColourSetMaps): void;

@@ -1,14 +1,10 @@
 import { MAX_WORD_SIZE, MAX_ATTEMPTS, } from "../core/env.js";
-import { Letter } from "../controllers/Letter.js";
 import { Interface } from "../core/Interface.js";
 var Checker = /** @class */ (function () {
     function Checker(pickedWord) {
         this._INITIAL_TURN = 1;
-        this._INITIAL_POSITION = 0;
         this._actualWord = "";
         this._turn = this._INITIAL_TURN;
-        this._currentPosition = this._INITIAL_POSITION;
-        this._letterManager = Letter.getInstance();
         this._pickedWord = pickedWord;
         this._interface = new Interface();
     }
@@ -42,16 +38,6 @@ var Checker = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Checker.prototype, "currentPosition", {
-        get: function () {
-            return this._currentPosition;
-        },
-        set: function (num) {
-            this._currentPosition = num;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Checker.prototype, "interface", {
         get: function () {
             return this._interface;
@@ -67,9 +53,6 @@ var Checker = /** @class */ (function () {
             Checker._instance = new Checker(pickedWord);
         }
         return Checker._instance;
-    };
-    Checker.prototype.isValidLetter = function (code) {
-        return this._letterManager.includes(code) && this.currentPosition < MAX_WORD_SIZE;
     };
     Checker.prototype.checkWordIsRight = function () {
         if (this._actualWord == this._pickedWord) {

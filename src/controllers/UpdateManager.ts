@@ -1,10 +1,13 @@
 import { IGameChecker } from "../interfaces/IGameChecker.js";
 import {ColourSetMaps} from "../controllers/ColourSetMaps.js";
+import {PositionManager} from "./PositionController.js";
 export class UpdateManager {
     private static _instance: UpdateManager;
+    private _positionManager:PositionManager;
     private checker: IGameChecker;
     constructor(checker: IGameChecker) {
         this.checker = checker;
+        this._positionManager=PositionManager.getInstance();
     }
     public static getInstance(checker: IGameChecker): UpdateManager {
         if (!UpdateManager._instance) {
@@ -24,13 +27,8 @@ export class UpdateManager {
     }
     resetElementsOfLine(): void {
         this.checker.turn++;
-        this.checker.currentPosition = 0;
+        this._positionManager.resetCurrentPosition();
         this.checker.actualWord = "";
-    }
-
-
-    nextPosition(): void {
-        this.checker.currentPosition++;
     }
 
 }

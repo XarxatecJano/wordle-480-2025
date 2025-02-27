@@ -1,6 +1,8 @@
+import { PositionManager } from "./PositionManager";
 var Letter = /** @class */ (function () {
     function Letter() {
         this._validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
+        this._positionManager = PositionManager.getInstance();
     }
     Letter.getInstance = function () {
         if (!Letter._instance) {
@@ -34,6 +36,9 @@ var Letter = /** @class */ (function () {
     };
     Letter.prototype.isBackspaceKey = function (code) {
         return code == "Backspace";
+    };
+    Letter.prototype.isValidLetter = function (code) {
+        return this.includes(code) && this._positionManager.isValidPosition();
     };
     return Letter;
 }());

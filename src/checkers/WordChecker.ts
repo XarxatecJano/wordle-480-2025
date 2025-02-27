@@ -1,5 +1,4 @@
 import { MAX_WORD_SIZE, MAX_ATTEMPTS, } from "../core/env.js";
-import { Letter } from "../controllers/Letter.js";
 import { Interface } from "../core/Interface.js";
 import { IGameChecker } from "../interfaces/IGameChecker.js";
 import { ColourSetMaps } from "../controllers/ColourSetMaps.js";
@@ -7,16 +6,11 @@ import { ColourSetMaps } from "../controllers/ColourSetMaps.js";
 export class Checker implements IGameChecker {
     private static _instance: Checker;
     _INITIAL_TURN = 1;
-    _INITIAL_POSITION = 0;
     private _pickedWord: string
-    private _letterManager: Letter
     private _actualWord = "";
     private _turn = this._INITIAL_TURN;
-    private _currentPosition = this._INITIAL_POSITION;
     private _interface: Interface
     constructor(pickedWord: string) {
-
-        this._letterManager = Letter.getInstance();
         this._pickedWord = pickedWord;
         this._interface = new Interface();
     }
@@ -41,13 +35,6 @@ export class Checker implements IGameChecker {
         this._turn = num;
     }
 
-    get currentPosition() {
-        return this._currentPosition;
-    }
-    set currentPosition(num) {
-        this._currentPosition = num;
-    }
-
     get interface() {
         return this._interface;
     }
@@ -61,12 +48,6 @@ export class Checker implements IGameChecker {
         }
         return Checker._instance;
     }
-
-    isValidLetter(code: string): boolean {
-        return this._letterManager.includes(code) && this.currentPosition < MAX_WORD_SIZE;
-    }
-
-
 
     checkWordIsRight(): void {
         if (this._actualWord == this._pickedWord) {

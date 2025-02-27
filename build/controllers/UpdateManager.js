@@ -1,7 +1,9 @@
 import { ColourSetMaps } from "../controllers/ColourSetMaps.js";
+import { PositionManager } from "./PositionManager.js";
 var UpdateManager = /** @class */ (function () {
     function UpdateManager(checker) {
         this.checker = checker;
+        this._positionManager = PositionManager.getInstance();
     }
     UpdateManager.getInstance = function (checker) {
         if (!UpdateManager._instance) {
@@ -19,11 +21,8 @@ var UpdateManager = /** @class */ (function () {
     };
     UpdateManager.prototype.resetElementsOfLine = function () {
         this.checker.turn++;
-        this.checker.currentPosition = 0;
+        this._positionManager.resetCurrentPosition();
         this.checker.actualWord = "";
-    };
-    UpdateManager.prototype.nextPosition = function () {
-        this.checker.currentPosition++;
     };
     return UpdateManager;
 }());
