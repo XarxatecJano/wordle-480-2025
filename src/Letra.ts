@@ -11,9 +11,9 @@ export class Letra {
         return this._valor;
     }
 
-    get estado(): string {
+    get estado(): "correcta" | "mal_colocada" | "incorrecta" | "pendiente" {
         return this._estado;
-    }
+    }    
 
     setEstadoCorrecta(): void {
         this._estado = "correcta";
