@@ -1,4 +1,4 @@
-import { VALID_LETTERS } from "../env.js";
+import { VALID_LETTERS } from "../../env.js";
 
 export class Letter {
     private code: string = "";

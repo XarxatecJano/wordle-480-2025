@@ -1,13 +1,12 @@
-import { Letter } from "../model/Letter.js";
+import { Letter } from "../game/word/Letter.js";
 var InputKeyboard = /** @class */ (function () {
     function InputKeyboard(game) {
         this.game = game;
-        this.gameChecker = game.getGameChecker();
     }
     ;
     InputKeyboard.prototype.enterPressed = function () {
         if (this.game.wordIsMaxLength()) {
-            this.game.updateAfterANewWord();
+            this.game.submitWord();
         }
     };
     InputKeyboard.prototype.backspacePressed = function () {

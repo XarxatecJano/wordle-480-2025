@@ -1,6 +1,6 @@
 import { Letter } from "./Letter.js";
-import { MAX_WORD_SIZE } from "../env.js";
-import { KeyType } from "../interface/keyboard/KeyType.js";
+import { MAX_WORD_SIZE } from "../../env.js";
+import { KeyType } from "../../interface/keyboard/KeyType.js";
 
 export class Word {
     private word: Letter[];

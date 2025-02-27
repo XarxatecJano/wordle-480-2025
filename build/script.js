@@ -1,5 +1,5 @@
-import { WordGenerator } from "./utils/WordGenerator.js";
-import { Game } from "./Game.js";
+import { WordGenerator } from "./game/word/WordGenerator.js";
+import { Game } from "./game/Game.js";
 import { InputKeyboard } from "./input/InputKeyboard.js";
 import { WORDS_COLLECTION } from "./env.js";
 var wordsCollection = new WordGenerator(WORDS_COLLECTION);

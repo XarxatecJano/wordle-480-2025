@@ -1,11 +1,11 @@
 import { CheckLetters } from "./CheckLetters.js";
-import { GameGrid } from "../interface/GameGrid.js";
-import { GameKeyboard } from "../interface/GameKeyboard.js";
-import { UserInterfaceController } from "../interface/UserInterfaceController.js";
-import { KeyType } from "../interface/keyboard/KeyType.js";
-import { MAX_WORD_SIZE } from "../env.js";
-import { GameState } from "../game/GameState.js";
-import { Letter } from "../word/Letter.js";
+import { GameGrid } from "../../../interface/GameGrid.js";
+import { GameKeyboard } from "../../../interface/GameKeyboard.js";
+import { UserInterfaceController } from "../../../interface/UserInterfaceController.js";
+import { KeyType } from "../../../interface/keyboard/KeyType.js";
+import { MAX_WORD_SIZE } from "../../../env.js";
+import { GameState } from "../../GameState.js";
+import { Letter } from "../Letter.js";
 
 export class checkWrongLetters implements CheckLetters {
     interfaceController = new UserInterfaceController();

@@ -1,8 +1,8 @@
-import { KeyType } from "../interface/keyboard/KeyType.js";
+import { KeyType } from "../../../interface/keyboard/KeyType.js";
 import { CheckLetters } from "./CheckLetters.js";
 import { checkMisplacedLetters } from "./CheckMisplacedLetters.js";
 import { checkRightLetters } from "./CheckRightLetters.js";
-import { GameState } from "../game/GameState.js";
+import { GameState } from "../../GameState.js";
 import { checkWrongLetters } from "./CheckWrongLetters.js";
 
 export class CheckLettersFactory {

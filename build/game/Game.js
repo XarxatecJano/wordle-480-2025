@@ -1,57 +1,46 @@
 import { MAX_WORD_SIZE } from "../env.js";
 import { Word } from "./word/Word.js";
-import { Letter } from "./word/Letter.js";
 import { GameState } from "./GameState.js";
 import { GameChecker } from "./GameChecker.js";
 import { CheckLettersFactory } from "./word/checkLetters/CheckLettersFactory.js";
 import { KeyType } from "../interface/keyboard/KeyType.js";
 import { UserInterfaceController } from "../interface/UserInterfaceController.js";
 import { GameGrid } from "../interface/GameGrid.js";
-
-export class Game {
-    private gameChecker: GameChecker;
-    private gameState: GameState;
-    private interface: UserInterfaceController;
-    private grid: GameGrid;
-
-    constructor(pickedWord: Word) {
+var Game = /** @class */ (function () {
+    function Game(pickedWord) {
         this.gameState = new GameState(pickedWord);
         this.gameChecker = new GameChecker(this.gameState);
         this.interface = new UserInterfaceController();
         this.grid = new GameGrid(this.interface);
     }
-
-    setNewLetter(letter: Letter): void {
-        if (this.gameChecker.checkNewLetter(letter)){
+    Game.prototype.setNewLetter = function (letter) {
+        if (this.gameChecker.checkNewLetter(letter)) {
             this.grid.setNewLetter(this.gameState.turn, this.gameState.actualWord.getSize(), letter.getChar());
             this.gameState.actualWord.addLetter(letter);
         }
-    }
-
-    removeLastLetter(): void {
+    };
+    Game.prototype.removeLastLetter = function () {
         this.gameState.actualWord.removeLastLetter();
         this.grid.deleteLetter(this.gameState.turn, this.gameState.actualWord.getSize());
-    }
-
-    submitWord(): void {
+    };
+    Game.prototype.submitWord = function () {
         this.gameChecker.checkWordIsRight();
         this.gameChecker.checkGameIsOver();
         this.updateAfterANewWord();
-    }
-
-    private updateAfterANewWord(): void {
+    };
+    Game.prototype.updateAfterANewWord = function () {
         CheckLettersFactory.check(this.gameState, KeyType.RIGHT);
         CheckLettersFactory.check(this.gameState, KeyType.MISPLACED);
         CheckLettersFactory.check(this.gameState, KeyType.USED);
         this.gameState.nextTurn();
         this.gameState.actualWord = new Word([]);
-    }
-
-    wordIsMaxLength(): boolean {
+    };
+    Game.prototype.wordIsMaxLength = function () {
         return this.gameState.actualWord.getSize() === MAX_WORD_SIZE;
-    }
-
-    getWordSize(): number {
+    };
+    Game.prototype.getWordSize = function () {
         return this.gameState.actualWord.getSize();
-    }
-}
+    };
+    return Game;
+}());
+export { Game };

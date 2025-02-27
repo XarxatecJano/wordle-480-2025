@@ -1,20 +1,16 @@
 import { Game } from "../game/Game.js";
-import { Letter } from "../word/Letter.js";
-import { GameChecker } from "../game/GameChecker.js";
-import { MAX_WORD_SIZE } from "../env.js";
+import { Letter } from "../game/word/Letter.js";
 
 export class InputKeyboard {
     game: Game;
-    gameChecker: GameChecker;
 
     constructor(game: Game) {
         this.game = game;
-        this.gameChecker = game.getGameChecker();
     };
 
     enterPressed(): void {
         if (this.game.wordIsMaxLength()) {
-            this.game.updateAfterANewWord();
+            this.game.submitWord();
         }
     }
 
