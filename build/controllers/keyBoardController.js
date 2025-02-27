@@ -1,9 +1,9 @@
-import { Checker } from "./Checker";
+import { Checker } from "../checkers/WordChecker.js";
 import { MAX_WORD_SIZE } from "../core/env";
 import { Interface } from "../core/Interface";
 import { UpdateManager } from "./UpdateManager.js";
-import { Letter } from "./Letter.js";
-import { PositionManager } from "./PositionManager.js";
+import { Letter } from "./LetterController.js";
+import { PositionManager } from "./PositionController.js";
 var KeyBoardController = /** @class */ (function () {
     function KeyBoardController(pickedWord) {
         this._checker = Checker.getInstance(pickedWord);

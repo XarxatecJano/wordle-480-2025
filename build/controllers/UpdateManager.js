@@ -1,5 +1,5 @@
 import { ColourSetMaps } from "../controllers/ColourSetMaps.js";
-import { PositionManager } from "./PositionManager.js";
+import { PositionManager } from "./PositionController.js";
 var UpdateManager = /** @class */ (function () {
     function UpdateManager(checker) {
         this.checker = checker;
