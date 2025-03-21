@@ -62,7 +62,7 @@ export class Game {
     isValidLetter(code: string):boolean {
         
         return  this._validLetterCodes.includes(code) && this._actualPosition < MAX_WORD_SIZE;
-     }
+    }
 
     isEnterKey(code: string):boolean {
         return code=="Enter";
