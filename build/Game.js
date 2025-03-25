@@ -1,172 +1,84 @@
-import { MAX_WORD_SIZE, MAX_ATTEMPTS } from "./env.js";
-import { Interface } from "./Interface.js";
+import { MAX_ATTEMPTS } from "./env.js";
 var Game = /** @class */ (function () {
-    function Game(pickedWord) {
-        var _this = this;
-        this.checkRightLetters = function () {
-            for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                if (_this._pickedWord[i] == _this._actualWord[i]) {
-                    _this._interface.changeBackgroundPosition(_this._turn, i, "rightLetter");
-                }
-            }
-        };
-        this.checkMisplacedLetters = function () {
-            var actualLetter = "";
-            var pattern;
-            var numberOfCoincidences = 0;
-            var isMisplacedLetter;
-            for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                isMisplacedLetter = true;
-                actualLetter = _this._actualWord[i];
-                pattern = new RegExp(actualLetter, "g");
-                numberOfCoincidences = (_this._pickedWord.match(pattern) || []).length;
-                if (_this._pickedWord[i] == _this._actualWord[i])
-                    isMisplacedLetter = false;
-                if (numberOfCoincidences > 0 && isMisplacedLetter)
-                    _this._interface.changeBackgroundPosition(_this._turn, i, "misplacedLetter");
-            }
-        };
-        this.checkWrongLetters = function () {
-            var actualLetter = "";
-            var pattern;
-            var numberOfCoincidences = 0;
-            for (var i = 0; i < MAX_WORD_SIZE; i++) {
-                actualLetter = _this._actualWord[i];
-                pattern = new RegExp(actualLetter, "g");
-                numberOfCoincidences = (_this._pickedWord.match(pattern) || []).length;
-                if (numberOfCoincidences == 0)
-                    _this._interface.changeBackgroundPosition(_this._turn, i, "wrongLetter");
-            }
-        };
-        this.updateAfterANewWord = function () {
-            _this.checkRightLetters();
-            _this.checkMisplacedLetters();
-            _this.checkWrongLetters();
-            _this._turn = _this._turn + 1;
-            _this._actualPosition = 0;
-            _this._actualWord = "";
-        };
-        this._pickedWord = pickedWord;
-        this._actualWord = "";
-        this._turn = 1;
-        this._actualPosition = 0;
-        this._validLetterCodes = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"];
-        this._interface = new Interface();
+    function Game(targetWord, letterDisplay, cellStyler, keyboardStyler, wordValidator, inputHandler, gameState, wordEvaluator) {
+        this.targetWord = targetWord,
+            this.letterDisplay = letterDisplay,
+            this.cellStyler = cellStyler,
+            this.keyboardStyler = keyboardStyler;
+        this.wordValidator = wordValidator,
+            this.inputHandler = inputHandler,
+            this.gameState = gameState,
+            this.wordEvaluator = wordEvaluator;
     }
-    Object.defineProperty(Game.prototype, "pickedWord", {
-        get: function () {
-            return this._pickedWord;
-        },
-        set: function (word) {
-            this._pickedWord = word;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Game.prototype, "actualWord", {
-        get: function () {
-            return this._actualWord;
-        },
-        set: function (word) {
-            this._actualWord = word;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Game.prototype, "turn", {
-        get: function () {
-            return this._turn;
-        },
-        set: function (num) {
-            this._turn = num;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Game.prototype, "actualPosition", {
-        get: function () {
-            return this._actualPosition;
-        },
-        set: function (num) {
-            this._actualPosition = num;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Game.prototype, "validLetterCodes", {
-        get: function () {
-            return this._validLetterCodes;
-        },
-        set: function (letters) {
-            this._validLetterCodes = letters;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Game.prototype, "interface", {
-        get: function () {
-            return this._interface;
-        },
-        set: function (i) {
-            this._interface = i;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Game.prototype.isValidLetter = function (code) {
-        return this._validLetterCodes.includes(code) && this._actualPosition < MAX_WORD_SIZE;
-    };
-    Game.prototype.isEnterKey = function (code) {
-        return code == "Enter";
-    };
-    Game.prototype.isBackspaceKey = function (code) {
-        return code == "Backspace";
-    };
-    Game.prototype.transformCodeToLetter = function (code) {
-        var letter = "";
-        if (code == "Semicolon")
-            letter = "Ñ";
-        else
-            letter = code.split("y")[1];
-        return letter;
-    };
-    Game.prototype.newLetter = function (code) {
-        var letter = this.transformCodeToLetter(code);
-        this._interface.setNewLetter(this.turn, this.actualPosition, letter);
-        this._actualPosition = this._actualPosition + 1;
-        this._actualWord += letter;
-    };
-    Game.prototype.checkWordIsRight = function () {
-        if (this._actualWord == this._pickedWord) {
-            location.assign("/winner");
-        }
-    };
-    Game.prototype.checkGameIsOver = function () {
-        if (this.turn == MAX_ATTEMPTS) {
-            location.assign("/loser");
-        }
-    };
-    Game.prototype.enterPressed = function () {
-        if (this._actualWord.length == MAX_WORD_SIZE) {
-            this.checkWordIsRight();
-            this.checkGameIsOver();
-            this.updateAfterANewWord();
-        }
-    };
-    Game.prototype.backspacePressed = function () {
-        if (this._actualPosition > 0) {
-            this._actualPosition -= 1;
-            this._interface.deleteLetter(this._turn, this._actualPosition);
-        }
-    };
     Game.prototype.newKeyPressed = function (code) {
-        if (this.isValidLetter(code))
-            this.newLetter(code);
-        if (this.isEnterKey(code))
-            this.enterPressed();
-        if (this.isBackspaceKey(code))
-            this.backspacePressed();
-        this._interface.changeBackgroundKey(code);
+        this.inputHandler.setCurrentPosition(this.gameState.getPosition());
+        if (this.inputHandler.isValidLetter(code)) {
+            this.handleLetter(code);
+        }
+        else if (this.inputHandler.isEnterKey(code)) {
+            this.handleEnter();
+        }
+        else if (this.inputHandler.isBackspaceKey(code)) {
+            this.handleBackSpace();
+        }
+        this.keyboardStyler.highlightKey(code);
+    };
+    Game.prototype.handleLetter = function (code) {
+        var letter = this.inputHandler.transformCodeToLetter(code);
+        var turn = this.gameState.getTurn();
+        var position = this.gameState.getPosition();
+        this.letterDisplay.setLetter(turn, position, letter);
+        this.gameState.setPosition(position + 1);
+        this.gameState.setCurrentWord(this.gameState.getCurrentWord() + letter);
+    };
+    Game.prototype.handleEnter = function () {
+        var currentWord = this.gameState.getCurrentWord();
+        if (this.wordValidator.isComplete(currentWord)) {
+            this.checkWordStatus();
+            this.updateGameState();
+        }
+    };
+    Game.prototype.checkWordStatus = function () {
+        var currentWord = this.gameState.getCurrentWord();
+        if (this.wordValidator.isCorrect(currentWord, this.targetWord)) {
+            location.assign("/winner");
+            return;
+        }
+        if (this.gameState.isGameOver(MAX_ATTEMPTS)) {
+            location.assign("/loser");
+            return;
+        }
+    };
+    Game.prototype.updateGameState = function () {
+        var _this = this;
+        var turn = this.gameState.getTurn();
+        var currentWord = this.gameState.getCurrentWord();
+        var rightPositions = this.wordEvaluator.checkRightLetters(currentWord, this.targetWord);
+        var misplacedPositions = this.wordEvaluator.checkMisplacedLetters(currentWord, this.targetWord);
+        var wrongPositions = this.wordEvaluator.checkWrongLetters(currentWord, this.targetWord);
+        rightPositions.forEach(function (position) {
+            _this.cellStyler.applyCellStyle(turn, position, "rightLetter");
+        });
+        misplacedPositions.forEach(function (position) {
+            _this.cellStyler.applyCellStyle(turn, position, "misplacedLetter");
+        });
+        wrongPositions.forEach(function (position) {
+            _this.cellStyler.applyCellStyle(turn, position, "wrongLetter");
+        });
+        this.gameState.incrementTurn();
+        this.gameState.setPosition(0);
+        this.gameState.setCurrentWord("");
+    };
+    Game.prototype.handleBackSpace = function () {
+        var position = this.gameState.getPosition();
+        if (position > 0) {
+            var newPosition = position - 1;
+            this.gameState.setPosition(newPosition);
+            var turn = this.gameState.getTurn();
+            this.letterDisplay.clearLetter(turn, newPosition);
+            var currentWord = this.gameState.getCurrentWord();
+            this.gameState.setCurrentWord(currentWord.slice(0, -1));
+        }
     };
     return Game;
 }());
