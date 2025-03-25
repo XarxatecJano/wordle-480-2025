@@ -1,4 +1,4 @@
-import { IWordProvider } from "./IWordProvider";
+import { IWordProvider } from "./IWordProvider.js";
 
 export class Word implements IWordProvider {
     private words: string[];

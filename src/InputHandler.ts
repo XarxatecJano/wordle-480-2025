@@ -1,7 +1,7 @@
-import { IInputHandler } from "./IINputHandler";
-import { MAX_WORD_SIZE } from "./env";
+import { KeyboardInputHandler } from "./KeyboardInputHandler.js";
+import { MAX_WORD_SIZE } from "./env.js";
 
-export class InputHandler implements IInputHandler {
+export class InputHandler implements KeyboardInputHandler {
     private validLetterCodes: string[];
     private currentPosition: number;
 
@@ -15,12 +15,16 @@ export class InputHandler implements IInputHandler {
     }
 
     isValidLetter(code: string): boolean {
+
+        if (code === "Enter" || code === "backspace") {
+            return false;
+        }
         return this.validLetterCodes.includes(code) && this.currentPosition < MAX_WORD_SIZE
     }
-    isEnterKey(code: String): boolean {
+    isEnterKey(code: string): boolean {
         return code === "Enter"
     }
-    isBackspaceKey(code: String): boolean {
+    isBackspaceKey(code: string): boolean {
         return code === "Backspace"
     }
     transformCodeToLetter(code: string): string {

@@ -1,12 +1,13 @@
-import { IWordValidator } from "./IWordValidator";
-import { MAX_WORD_SIZE } from "./env";
+import { IWordValidator } from "./IWordValidator.js";
+import { MAX_WORD_SIZE } from "./env.js";
 
 export class WordValidator implements IWordValidator {
     isComplete(word: string): boolean {
-        return word.length === MAX_WORD_SIZE
+        console.log(`Verificando completitud: palabra="${word}", longitud=${word.length}, MAX_WORD_SIZE=${MAX_WORD_SIZE}`);
+        return word.length === MAX_WORD_SIZE;
     }
-    isCorrect(userWord: string, targetWorld: string): boolean {
-        return userWord === targetWorld;
+    isCorrect(userWord: string, targetWord: string): boolean {
+        return userWord === targetWord;
     }
 
 }

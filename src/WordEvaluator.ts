@@ -1,5 +1,5 @@
-import { IWordEvaluator } from "./IWordEvaluator";
-import { MAX_WORD_SIZE } from "./env";
+import { IWordEvaluator } from "./IWordEvaluator.js";
+import { MAX_WORD_SIZE } from "./env.js";
 
 export class WordEvaluator implements IWordEvaluator {
 
@@ -7,7 +7,7 @@ export class WordEvaluator implements IWordEvaluator {
         const positions: number[] = [];
 
         for (let i = 0; i < MAX_WORD_SIZE; i++) {
-            if (targetWord[i] === userWord) {
+            if (targetWord[i] === userWord[i]) {
                 positions.push(i);
             }
         }

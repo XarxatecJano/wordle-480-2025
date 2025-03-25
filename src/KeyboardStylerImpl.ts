@@ -1,5 +1,5 @@
-import { IKeyboardStyler } from "./IKeyboardStyler";
-import { IDOMAccess } from "./IDOMAccess";
+import { IKeyboardStyler } from "./IKeyboardStyler.js";
+import { IDOMAccess } from "./IDOMAccess.js";
 
 export class KeyboardStylerImpl implements IKeyboardStyler {
     private static readonly CLASS_KEY_PRESSED = "keyPressed";

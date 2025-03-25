@@ -1,18 +1,18 @@
-import { Game } from "./Game";
-import { ILetterDisplay } from "./ILetterDisplay";
-import { ICellStyler } from "./ICellStyler";
-import { IKeyboardStyler } from "./IKeyboardStyler";
-import { IWordValidator } from "./IWordValidator";
-import { IInputHandler } from "./IINputHandler";
-import { IGameState } from "./IGameState";
-import { IWordEvaluator } from "./IWordEvaluator";
-import { IWordProvider } from "./IWordProvider";
-import { WordValidator } from "./WordValidator";
-import { InputHandler } from "./InputHandler";
-import { GameState } from "./GameState";
-import { WordEvaluator } from "./WordEvaluator";
-import { UIComponentsFactory } from "./UIComponentsFactory";
-import { Word } from "./Word";
+import { Game } from "./Game.js";
+import { ILetterDisplay } from "./ILetterDisplay.js";
+import { ICellStyler } from "./ICellStyler.js";
+import { IKeyboardStyler } from "./IKeyboardStyler.js";
+import { IWordValidator } from "./IWordValidator.js";
+import { KeyboardInputHandler } from "./KeyboardInputHandler.js";
+import { IGameState } from "./IGameState.js";
+import { IWordEvaluator } from "./IWordEvaluator.js";
+import { IWordProvider } from "./IWordProvider.js";
+import { WordValidator } from "./WordValidator.js";
+import { InputHandler } from "./InputHandler.js";
+import { GameState } from "./GameState.js";
+import { WordEvaluator } from "./WordEvaluator.js";
+import { UIComponentsFactory } from "./UIComponentsFactory.js";
+import { Word } from "./Word.js";
 
 export class GameFactory {
     static createGame(words: string[]): Game {
@@ -32,10 +32,11 @@ export class GameFactory {
             "KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", 
             "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", 
             "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", 
-            "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon"
+            "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Semicolon",
+            
         ];
 
-        const inputHandler: IInputHandler = new InputHandler(validLetterCodes, 0);
+        const inputHandler: KeyboardInputHandler = new InputHandler(validLetterCodes, 0);
 
         const wordEvaluator: IWordEvaluator = new WordEvaluator();
 

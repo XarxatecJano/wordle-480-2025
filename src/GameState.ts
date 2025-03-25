@@ -1,4 +1,4 @@
-import { IGameState } from "./IGameState";
+import { IGameState } from "./IGameState.js";
 
 export class GameState implements IGameState {
     private turn: number;
@@ -8,7 +8,7 @@ export class GameState implements IGameState {
     constructor() {
         this.turn = 1,
         this.position = 0,
-        this.currentWord = "string";
+        this.currentWord = "";
     }
 
     getTurn(): number {

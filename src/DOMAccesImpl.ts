@@ -1,4 +1,4 @@
-import { IDOMAccess } from "./IDOMAccess";
+import { IDOMAccess } from "./IDOMAccess.js";
 
 export class DOMAccessImpl implements IDOMAccess {
     getELementById(id: string): HTMLElement | null {

@@ -3,7 +3,7 @@ import { ILetterDisplay } from "./ILetterDisplay.js";
 import { ICellStyler } from "./ICellStyler.js";
 import { IKeyboardStyler } from "./IKeyboardStyler.js";
 import { IWordValidator } from "./IWordValidator.js";
-import { IInputHandler } from "./IINputHandler.js";
+import { KeyboardInputHandler } from "./KeyboardInputHandler.js";
 import { IGameState } from "./IGameState.js";
 import { IWordEvaluator  } from "./IWordEvaluator.js";
 
@@ -13,7 +13,7 @@ export class Game {
     private cellStyler: ICellStyler;
     private keyboardStyler: IKeyboardStyler;
     private wordValidator: IWordValidator;
-    private inputHandler: IInputHandler;
+    private inputHandler: KeyboardInputHandler;
     private gameState: IGameState;
     private wordEvaluator: IWordEvaluator;
 
@@ -23,7 +23,7 @@ export class Game {
         cellStyler: ICellStyler,
         keyboardStyler: IKeyboardStyler,
         wordValidator: IWordValidator,
-        inputHandler: IInputHandler,
+        inputHandler: KeyboardInputHandler,
         gameState: IGameState,
         wordEvaluator: IWordEvaluator
     ) {
@@ -48,6 +48,7 @@ export class Game {
         } else if (this.inputHandler.isBackspaceKey(code)) {
             this.handleBackSpace();
         }
+        this.keyboardStyler.highlightKey(code)
     }
 
     private handleLetter(code: string): void {
@@ -95,8 +96,8 @@ export class Game {
             this.cellStyler.applyCellStyle(turn, position, "rightLetter");
         });
 
-        misplacedPositions.forEach(postion => {
-            this.cellStyler.applyCellStyle(turn, postion, "misplacedLetter");
+        misplacedPositions.forEach(position => {
+            this.cellStyler.applyCellStyle(turn, position, "misplacedLetter");
         });
 
         wrongPositions.forEach(position => {

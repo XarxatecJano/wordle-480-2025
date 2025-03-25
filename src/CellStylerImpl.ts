@@ -1,5 +1,5 @@
-import { ICellStyler } from "./ICellStyler";
-import { IDOMAccess } from "./IDOMAccess";
+import { ICellStyler } from "./ICellStyler.js";
+import { IDOMAccess } from "./IDOMAccess.js";
 
 export class CellStylerImpl implements ICellStyler {
     private static readonly STATE_RIGHT_LETTER = "rightLetter";
@@ -15,7 +15,7 @@ export class CellStylerImpl implements ICellStyler {
     }
 
     private getCellElement(turn: number, position: number): HTMLElement | null {
-        const row = this.domAccess.getELementById(`row${turn}`);
+        const row = this.domAccess.getELementById(`row_${turn}`);
         if (row) {
             const cells = Array.from(row.children);
             return cells[position] as HTMLElement || null;

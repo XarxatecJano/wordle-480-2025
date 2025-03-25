@@ -1,5 +1,5 @@
-import { ILetterDisplay } from "./ILetterDisplay";
-import { IDOMAccess } from "./IDOMAccess";
+import { ILetterDisplay } from "./ILetterDisplay.js";
+import { IDOMAccess } from "./IDOMAccess.js";
 
 export class LetterDisplayImpl implements ILetterDisplay {
     private domAccess: IDOMAccess;

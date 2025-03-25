@@ -1,11 +1,11 @@
-import { IDOMAccess } from "./IDOMAccess";
-import { ILetterDisplay } from "./ILetterDisplay";
-import { ICellStyler } from "./ICellStyler";
-import { IKeyboardStyler } from "./IKeyboardStyler";
-import { DOMAccessImpl } from "./DOMAccesImpl";
-import { LetterDisplayImpl } from "./LetterDisplayImpl";
-import { CellStylerImpl } from "./CellStylerImpl";
-import { KeyboardStylerImpl } from "./KeyboardStylerImpl";
+import { IDOMAccess } from "./IDOMAccess.js";
+import { ILetterDisplay } from "./ILetterDisplay.js";
+import { ICellStyler } from "./ICellStyler.js";
+import { IKeyboardStyler } from "./IKeyboardStyler.js";
+import { DOMAccessImpl } from "./DOMAccesImpl.js";
+import { LetterDisplayImpl } from "./LetterDisplayImpl.js";
+import { CellStylerImpl } from "./CellStylerImpl.js";
+import { KeyboardStylerImpl } from "./KeyboardStylerImpl.js";
 
 export class UIComponentsFactory {
     static createDOMAccess(): IDOMAccess {
