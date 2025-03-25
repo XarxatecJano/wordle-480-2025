@@ -24,7 +24,7 @@ export class InputHandle implements IInputHandler {
         return code === "Backspace"
     }
     transformCodeToLetter(code: string): string {
-        if (code === ";") return "Ñ";
+        if (code === "Semicolon") return "Ñ";
         return code.split("y")[1];
     }
 
