@@ -1,7 +1,7 @@
 import { IInputHandler } from "./IINputHandler";
 import { MAX_WORD_SIZE } from "./env";
 
-export class InputHandle implements IInputHandler {
+export class InputHandler implements IInputHandler {
     private validLetterCodes: string[];
     private currentPosition: number;
 

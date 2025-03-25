@@ -1,20 +1,18 @@
-export class Word {
+import { IWordProvider } from "./IWordProvider";
 
-    private _words: string[];
-    constructor(wordsArray: string[]){
-        this._words = wordsArray;
-    }
+export class Word implements IWordProvider {
+    private words: string[];
 
-    get Words(){
-        return this._words;
-    }
-    set Words(wordsArray: string[]){
-        this._words = wordsArray;
+    constructor(wordsArray: string[]) {
+        this.words = wordsArray
     }
 
-    getRandomWord():string {
-        const min = 0;
-        const max = this._words.length-1;
-        return this._words[Math.floor(Math.random() * (max - min + 1))]
+    getWords(): string[] {
+        return this.words;
     }
+    getRandomWord(): string {
+        return this.words[Math.floor(Math.random() * this.words.length)];
+    }
+        
+
 }

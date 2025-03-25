@@ -5,14 +5,10 @@ export class GameState implements IGameState {
     private position: number;
     private currentWord: string;
 
-    constructor(
-        turn: number,
-        position: number,
-        currentWord: string
-    ) {
-        this.turn = turn,
-        this.position = position,
-        this.currentWord = currentWord
+    constructor() {
+        this.turn = 1,
+        this.position = 0,
+        this.currentWord = "string";
     }
 
     getTurn(): number {
