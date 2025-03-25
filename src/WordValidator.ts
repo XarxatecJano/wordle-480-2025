@@ -1,7 +1,7 @@
 import { IWordValidator } from "./IWordValidator";
 import { MAX_WORD_SIZE } from "./env";
 
-export class WordEvaluator implements IWordValidator {
+export class WordValidator implements IWordValidator {
     isComplete(word: string): boolean {
         return word.length === MAX_WORD_SIZE
     }
