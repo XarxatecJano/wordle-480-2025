@@ -76,6 +76,11 @@ export class Game {
             location.assign("/winner")
             return;
         }
+
+        if (this.gameState.isGameOver(MAX_ATTEMPTS)) {
+            location.assign("/loser");
+            return;
+        }
     }
 
     private updateGameState(): void  {
