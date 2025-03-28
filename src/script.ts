@@ -1,11 +1,10 @@
 import { InputHandlerFactory } from "./Elements/Input/InputHandlerFactory.js";
+import { ClickListener } from "./Elements/Listeners/ClickListener.js";
+import { KeyDownListener } from "./Elements/Listeners/KeyDownListener.js";
 
 let inputHandler = InputHandlerFactory.getInstance().create();
+let clickListener = new ClickListener(inputHandler);
+let keyListener = new KeyDownListener(inputHandler);
 
-Array.from(document.getElementsByClassName("key")).forEach(element => element.addEventListener("click", (e)=>{
-    inputHandler.newKeyPressed((<HTMLButtonElement>e.target).value);
-}));
-
-document.addEventListener("keydown", (e)=>{
-    inputHandler.newKeyPressed(e.code);
-});
+clickListener.listen(ClickListener.CALLBACK);
+keyListener.listen();
