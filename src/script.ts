@@ -1,18 +1,10 @@
-import {Word} from "./Word.js";
-import {Game} from "./Game.js";
+import { InputHandlerFactory } from "./Elements/Input/InputHandlerFactory.js";
+import { ClickListener } from "./Elements/Listeners/ClickListener.js";
+import { KeyDownListener } from "./Elements/Listeners/KeyDownListener.js";
 
+let inputHandler = InputHandlerFactory.getInstance().create();
+let clickListener = new ClickListener(inputHandler);
+let keyListener = new KeyDownListener(inputHandler);
 
-const wordsCollection: Word = new Word(["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"]);
-const pickedWord: string = wordsCollection.getRandomWord();
-console.log(pickedWord);
-
-const game: Game = new Game(pickedWord);
-
-
-Array.from(document.getElementsByClassName("key")).forEach(element => element.addEventListener("click", (e)=>{
-    game.newKeyPressed((<HTMLButtonElement>e.target).value);
-}));
-
-document.addEventListener("keydown", (e)=>{
-    game.newKeyPressed(e.code);
-});
+clickListener.listen(ClickListener.CALLBACK);
+keyListener.listen();
