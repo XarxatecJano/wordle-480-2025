@@ -1,5 +1,4 @@
-import { MAX_WORD_SIZE } from "./env.js";
-import { KeyState } from "./KeyState.js";
+import { MAX_WORD_SIZE } from "../../env.js";
 var Word = /** @class */ (function () {
     function Word(word) {
         this.word = word;
@@ -48,24 +47,6 @@ var Word = /** @class */ (function () {
             }
         }
         return true;
-    };
-    Word.prototype.checkLetter = function (letter, position) {
-        if (position < 0 || position >= this.getSize()) {
-            console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyState.UNUSED);
-            return KeyState.UNUSED;
-        }
-        if (this.getLetterAtIndex(position).equals(letter)) {
-            console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyState.RIGHT);
-            return KeyState.RIGHT;
-        }
-        for (var _i = 0, _a = this.word; _i < _a.length; _i++) {
-            var wordLetter = _a[_i];
-            if (wordLetter.equals(letter)) {
-                console.log('letter: %s position: %d state: %s', letter.getCode, position, KeyState.MISPLACED);
-                return KeyState.MISPLACED;
-            }
-        }
-        return KeyState.WRONG;
     };
     return Word;
 }());

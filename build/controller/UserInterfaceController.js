@@ -1,34 +1,36 @@
-var Interface = /** @class */ (function () {
-    function Interface() {
+import { KeyType } from "../enum/KeyType.js";
+var UserInterfaceController = /** @class */ (function () {
+    function UserInterfaceController() {
         this.keys = document.getElementsByClassName("key");
     }
-    Interface.prototype.setNewLetter = function (turn, position, letter) {
+    UserInterfaceController.prototype.setNewLetter = function (turn, position, letter) {
         Array.from(document.getElementById("row_".concat(turn)).children)[position].textContent = letter;
     };
-    Interface.prototype.deleteLetter = function (turn, position) {
+    UserInterfaceController.prototype.deleteLetter = function (turn, position) {
         Array.from(document.getElementById("row_".concat(turn)).children)[position].textContent = "";
     };
-    Interface.prototype.changeGridCellLetter = function (turn, position, state) {
+    UserInterfaceController.prototype.changeGridCellLetter = function (turn, position, state) {
         var positionClass = "cell-grey";
-        if (state == "rightLetter")
+        if (state == KeyType.RIGHT)
             positionClass = "cell-green";
-        if (state == "misplacedLetter")
+        if (state == KeyType.MISPLACED)
             positionClass = "cell-orange";
         Array.from(document.getElementById("row_".concat(turn)).children)[position].classList.add(positionClass);
     };
-    Interface.prototype.changeKeyboardElementBackground = function (code, state) {
+    UserInterfaceController.prototype.changeKeyboardElementBackground = function (code, state) {
         var positionClass = "cell-grey";
-        if (state == "rightLetter")
+        if (state == KeyType.RIGHT)
             positionClass = "cell-green";
-        if (state == "misplacedLetter")
+        if (state == KeyType.MISPLACED)
             positionClass = "cell-orange";
         for (var _i = 0, _a = this.keys; _i < _a.length; _i++) {
             var key = _a[_i];
             if (key.value == code && code !== "Enter" && code !== "Backspace") {
+                key.classList.remove("cell-grey", "cell-green", "cell-orange");
                 key.classList.add(positionClass);
             }
         }
     };
-    return Interface;
+    return UserInterfaceController;
 }());
-export { Interface };
+export { UserInterfaceController };
