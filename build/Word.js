@@ -1,21 +1,18 @@
+import { Palabra } from "./Palabra.js";
 var Word = /** @class */ (function () {
     function Word(wordsArray) {
-        this._words = wordsArray;
+        this._words = wordsArray.map(function (word) { return new Palabra(word); });
     }
-    Object.defineProperty(Word.prototype, "Words", {
+    Object.defineProperty(Word.prototype, "palabras", {
         get: function () {
             return this._words;
-        },
-        set: function (wordsArray) {
-            this._words = wordsArray;
         },
         enumerable: false,
         configurable: true
     });
     Word.prototype.getRandomWord = function () {
-        var min = 0;
-        var max = this._words.length - 1;
-        return this._words[Math.trunc(Math.random() * (max - min + 1))];
+        var index = Math.floor(Math.random() * this._words.length);
+        return this._words[index];
     };
     return Word;
 }());

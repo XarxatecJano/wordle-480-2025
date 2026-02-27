@@ -1,20 +1,18 @@
-export class Word {
+import { Palabra } from "./Palabra.js";
 
-    private _words: string[];
-    constructor(wordsArray: string[]){
-        this._words = wordsArray;
+export class Word {
+    private _words: Palabra[];
+
+    constructor(wordsArray: string[]) {
+        this._words = wordsArray.map(word => new Palabra(word));
     }
 
-    get Words(){
+    get palabras(): Palabra[] {
         return this._words;
     }
-    set Words(wordsArray: string[]){
-        this._words = wordsArray;
-    }
 
-    getRandomWord():string {
-        const min = 0;
-        const max = this._words.length-1;
-        return this._words[Math.floor(Math.random() * (max - min + 1))]
+    getRandomWord(): Palabra {
+        const index = Math.floor(Math.random() * this._words.length);
+        return this._words[index];
     }
 }
