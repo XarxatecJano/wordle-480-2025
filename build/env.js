@@ -1,2 +1,10 @@
-export var MAX_WORD_SIZE = 5;
-export var MAX_ATTEMPTS = 6;
+export var MAX_WORD_SIZE = 5, MAX_ATTEMPTS = 6;
+export var WORDS = ["JUEGO", "TALAR", "BAILE", "ANDAR", "MONTE", "PLAYA", "PLATA", "ARBOL", "QUESO"];
+export var SEMICOLON = "Semicolon";
+export var CODE_LETTERS = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", SEMICOLON];
+export var RIGHT = 0, MISPLACE = 1, WRONG = 2;
+export var RIGHT_LETTER = "rightLetter", MISPLACE_LETTER = "misplacedLetter", WRONG_LETTER = "falseLetter";
+export var WORD_STATES = [RIGHT_LETTER, WRONG_LETTER, MISPLACE_LETTER];
+export var LOCATION_WIN = "/winner", LOCATION_GAME_OVER = "/loser";
+export var BACKESPACE = "Backspace", ENTER = "Enter";
+export var WRONG_CELL_CSS = "cell-grey", MISPLACE_CELL_CSS = "cell-orange", RIGHT_CELL_CSS = "cell-green";
