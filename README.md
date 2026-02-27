@@ -1,3 +1,5 @@
+**Este es un repo del código de un clon del juego Wordle desarrollado en TypeScript. Es un código que tiene algún bug que hay que detectar y solucionar y está pensado para utilizarlo como práctica de refactorización para una formación en Clean code y principios SOLID.**
+
 **1. Para poder trabajar con el proyecto necesitas tener instalado NodeJs.**
 
 Para comprobar si tienes instalado NodeJs en tu equipo abre una terminal y escribe este comando: `node -v`. Si receibes una respuesta como esta `v22.8.0`, ya lo tienes. Si no, puedes instalarlo desde [aquí](https://nodejs.org/en/download).
